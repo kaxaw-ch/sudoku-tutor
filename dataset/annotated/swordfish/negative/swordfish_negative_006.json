@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "swordfish_negative_006",
+  "techniqueId": "swordfish",
+  "label": "negative",
+  "puzzle81": "..1..34...54.....6...7...5.1.6..9..8....7....7..8......473....5...92...3..3.85..7",
+  "solution81": "871653492954218736362794851136549278485172369729836514247361985518927643693485127",
+  "seed": null,
+  "source": "ch2_l04",
+  "note": "负例：t2 全量规则集下逐级求解 61 步，难度 hard，最高技巧 finnedXWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing}。来源：level 档 ch2_l04。 该题全程未触发 剑鱼（标准），用作误报回归盘面。"
+}

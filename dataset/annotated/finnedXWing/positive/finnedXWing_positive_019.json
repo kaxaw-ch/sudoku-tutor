@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "finnedXWing_positive_019",
+  "techniqueId": "finnedXWing",
+  "label": "positive",
+  "puzzle81": "4.8..3.....3..6..2.91..48..7...5...3.8.........43..68..351......1....32.......96.",
+  "solution81": "428713596573986142691524837769458213382691754154372689235169478916847325847235961",
+  "seed": null,
+  "source": "ch2_l06",
+  "note": "正例：t2 全量规则集下逐级求解 61 步，难度 hard，最高技巧 swordfish，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,finnedXWing,swordfish}。来源：level 档 ch2_l06。 目标技巧 鳍形 X 翼（含 Sashimi） 在第 26 步触发（共 61 步）。",
+  "expected": {
+    "stepOrder": 26,
+    "techniqueId": "finnedXWing",
+    "eliminations": [
+      {
+        "cellIndex": 40,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

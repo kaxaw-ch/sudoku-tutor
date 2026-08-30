@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedSingle_negative_306",
+  "techniqueId": "nakedSingle",
+  "label": "negative",
+  "puzzle81": "3......5...572...........4...765..8..8.9....7.51..3.6...4.3.97.6.....3...7..9.6..",
+  "solution81": "342189756865724193719365842937652481286941537451873269124536978698417325573298614",
+  "seed": null,
+  "source": "ch0_l09",
+  "note": "负例：t2 全量规则集下逐级求解 55 步，难度 beginner，最高技巧 hiddenSingle，使用技巧 {nakedSingle,hiddenSingle}。来源：level 档 ch0_l09。 该题初始盘面无单候选格，唯一余数 识别器在初始状态不命中（checkMode=initial）。注：数学上任何完整求解的收尾步必然出现唯一余数，故「不含裸单」只能在初始盘面状态定义。",
+  "checkMode": "initial"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xWing_negative_020",
+  "techniqueId": "xWing",
+  "label": "negative",
+  "puzzle81": ".68...9...4.3.....3..9..67.82...........1...54.52.713.13...5.2..............4.5.9",
+  "solution81": "568724913749361852312958674821536497673419285495287136134695728956872341287143569",
+  "seed": null,
+  "source": "ch2_l09",
+  "note": "负例：t2 全量规则集下逐级求解 58 步，难度 hard，最高技巧 finnedXWing，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates,finnedXWing}。来源：level 档 ch2_l09。 该题全程未触发 X 翼，用作误报回归盘面。",
+  "checkMode": "solve"
+}

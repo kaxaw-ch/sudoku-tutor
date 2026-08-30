@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_006",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": ".......498..15..2.....8..5.5.4..31..92..61.............5.61........49..72.9....8.",
+  "solution81": "165372849893154726742986351574893162928761435631425978457618293386249517219537684",
+  "seed": 1518146255,
+  "source": "app\\assets\\puzzles\\master.json.gz#127",
+  "note": "正例：t2 全量规则集下逐级求解 62 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,lockedCandidates,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#127。 目标技巧 简单涂色 在第 23 步触发（共 62 步）。",
+  "expected": {
+    "stepOrder": 23,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 38,
+        "digit": 3
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xWing_positive_018",
+  "techniqueId": "xWing",
+  "label": "positive",
+  "puzzle81": "..895.2.....3.1.4.63.......1.9.......4..8..9...34....5.527..3.........2.9....645.",
+  "solution81": "718954263295361748634827519129675834547183692863492175452719386376548921981236457",
+  "seed": null,
+  "source": "ch2_l11",
+  "note": "正例：t2 全量规则集下逐级求解 62 步，难度 hard，最高技巧 swordfish，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates,xWing,finnedXWing,swordfish}。来源：level 档 ch2_l11。 目标技巧 X 翼 在第 18 步触发（共 62 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 18,
+    "techniqueId": "xWing",
+    "eliminations": [
+      {
+        "cellIndex": 46,
+        "digit": 8
+      },
+      {
+        "cellIndex": 51,
+        "digit": 8
+      },
+      {
+        "cellIndex": 59,
+        "digit": 8
+      }
+    ],
+    "placements": []
+  }
+}

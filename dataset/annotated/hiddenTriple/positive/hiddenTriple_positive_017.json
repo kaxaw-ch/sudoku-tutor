@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenTriple_positive_017",
+  "techniqueId": "hiddenTriple",
+  "label": "positive",
+  "puzzle81": "5.......4.3.9.4.6.6..7.....3...8..72..1...85...26........4.7..8....3..2.7.62...3.",
+  "solution81": "527863194138924567649715283364581972971342856852679341293457618485136729716298435",
+  "seed": null,
+  "source": "ch3_l08",
+  "note": "正例：t2 全量规则集下逐级求解 64 步，难度 hard，最高技巧 xyWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,hiddenTriple,finnedXWing,xyWing}。来源：level 档 ch3_l08。 目标技巧 隐三 在第 29 步触发（共 64 步）。",
+  "expected": {
+    "stepOrder": 29,
+    "techniqueId": "hiddenTriple",
+    "eliminations": [
+      {
+        "cellIndex": 15,
+        "digit": 1
+      },
+      {
+        "cellIndex": 15,
+        "digit": 2
+      },
+      {
+        "cellIndex": 69,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

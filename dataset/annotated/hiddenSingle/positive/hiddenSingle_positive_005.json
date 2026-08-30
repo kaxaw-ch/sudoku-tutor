@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenSingle_positive_005",
+  "techniqueId": "hiddenSingle",
+  "label": "positive",
+  "puzzle81": ".2.5.1.8.3.4.8.......6...2.....5...6...21.59..59.6....9...2....8.7..3...2..9....3",
+  "solution81": "726531489394782615518694327482359176673218594159467238935826741867143952241975863",
+  "seed": null,
+  "source": "ch0_l05",
+  "note": "正例：t2 全量规则集下逐级求解 55 步，难度 beginner，最高技巧 hiddenSingle，使用技巧 {nakedSingle,hiddenSingle}。来源：level 档 ch0_l05。 目标技巧 隐性唯一数 在第 10 步触发（共 55 步）。",
+  "expected": {
+    "stepOrder": 10,
+    "techniqueId": "hiddenSingle",
+    "eliminations": [],
+    "placements": [
+      {
+        "cellIndex": 14,
+        "digit": 2
+      }
+    ]
+  }
+}

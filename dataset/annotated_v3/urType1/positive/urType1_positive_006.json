@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_positive_006",
+  "techniqueId": "urType1",
+  "label": "positive",
+  "puzzle81": "3......616.2.1........5.....2.8.3.....4....15..8.4..........95...9.8...314...7...",
+  "solution81": "395728461682314597417659328521873649734962815968145732876231954259486173143597286",
+  "seed": 1518144986,
+  "source": "app\\assets\\puzzles\\master.json.gz#104",
+  "note": "正例：t2 全量规则集下逐级求解 61 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#104。 目标技巧 唯一矩形 型一 在第 36 步触发（共 61 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 36,
+    "techniqueId": "urType1",
+    "eliminations": [
+      {
+        "cellIndex": 14,
+        "digit": 8
+      },
+      {
+        "cellIndex": 14,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

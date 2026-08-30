@@ -1,0 +1,18 @@
+# T1 出题 profile（doc 07 T-CLI-01 / doc 06 §6.2 rank 表）。
+#
+# ruleSet.mode:
+#   t1     → RuleSet.t1() 基础档 13 项（不含 T2 新增三项）
+#   t2     → RuleSet.t2() 全量 16 项
+#   custom → 按下方 ids 显式声明技巧清单（必须与 TechniqueId.id 完全一致）
+name: t1
+description: 基础档规则集：13 项（不含鳍形 X 翼 / W 翼 / 简单涂色）。
+ruleSet:
+  mode: t1
+  ids: []
+
+# 生成命令未显式传参时的默认值。
+defaults:
+  difficulty: medium
+  targetGivens: 30
+  symmetry: none        # none | central
+  maxAttempts: 500      # 单道题尝试预算上限（命中率极低档会放大）

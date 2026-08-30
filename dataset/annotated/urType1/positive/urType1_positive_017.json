@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_positive_017",
+  "techniqueId": "urType1",
+  "label": "positive",
+  "puzzle81": ".81.9..2.........53.....1..5..8.9.7..3..........72...465...3..8..8.64....7..1....",
+  "solution81": "781395426462187395395642187546839271237451869819726534654273918128964753973518642",
+  "seed": 1518145544,
+  "source": "app\\assets\\puzzles\\master.json.gz#115",
+  "note": "正例：t2 全量规则集下逐级求解 67 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,lockedCandidates,nakedTriple,finnedXWing,xyWing,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#115。 目标技巧 唯一矩形 型一 在第 24 步触发（共 67 步）。",
+  "expected": {
+    "stepOrder": 24,
+    "techniqueId": "urType1",
+    "eliminations": [
+      {
+        "cellIndex": 16,
+        "digit": 4
+      },
+      {
+        "cellIndex": 16,
+        "digit": 8
+      }
+    ],
+    "placements": []
+  }
+}

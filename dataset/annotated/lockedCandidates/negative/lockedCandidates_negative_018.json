@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "lockedCandidates_negative_018",
+  "techniqueId": "lockedCandidates",
+  "label": "negative",
+  "puzzle81": "....8.1...9.2..3..4.7..3.6.7.....2..82.....471.......59..32......2.6.7.9.....4..6",
+  "solution81": "253986174691247358487513962769458213825139647134672895976325481542861739318794526",
+  "seed": 130661,
+  "source": "app\\assets\\pools\\ch1.json.gz#1",
+  "note": "负例：t2 全量规则集下逐级求解 57 步，难度 medium，最高技巧 nakedTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,nakedTriple}。来源：pool 档 app\\assets\\pools\\ch1.json.gz#1。 该题全程未触发 区块排除，用作误报回归盘面。"
+}

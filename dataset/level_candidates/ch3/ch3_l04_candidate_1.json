@@ -1,0 +1,2414 @@
+{
+  "schemaVersion": 1,
+  "id": "ch3_l04",
+  "chapter": 3,
+  "order": 4,
+  "kind": "guidedPractice",
+  "title": "XY 翼 教学关候选（T-CNT-03 供人工精选）",
+  "intro": "本关练习技巧：唯一余数、隐性唯一数、裸对、XY 翼（候选题，供人工精选）。",
+  "techniqueTags": [
+    "nakedSingle",
+    "hiddenSingle",
+    "nakedPair",
+    "xyWing"
+  ],
+  "puzzle81": ".7.1...............4....52.4.35....1.....1.57.....9.6...7.3.2.412.4.6.3..847.....",
+  "solution81": "276195843538264179941873526463527981892641357715389462657938214129456738384712695",
+  "poolRef": null,
+  "script": {
+    "steps": [
+      {
+        "order": 1,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 20,
+            "digit": 1
+          }
+        ],
+        "narration": "第 3 行 中数字 1 只能落在 r3c3 这一格，因此这格填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 20,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 20,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 2,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 46,
+            "digit": 1
+          }
+        ],
+        "narration": "第 6 行 中数字 1 只能落在 r6c2 这一格，因此这格填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 46,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 46,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 3,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 61,
+            "digit": 1
+          }
+        ],
+        "narration": "第 7 行 中数字 1 只能落在 r7c8 这一格，因此这格填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 61,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 61,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 4,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          79
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 79,
+            "digit": 9
+          }
+        ],
+        "narration": "r9c8 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 79,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 79,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 5,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          34
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 34,
+            "digit": 8
+          }
+        ],
+        "narration": "r4c8 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 34,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 34,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 6,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          7
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 7,
+            "digit": 4
+          }
+        ],
+        "narration": "r1c8 的候选只剩下 4 一个，因此这格只能填 4。",
+        "visual": {
+          "cells": [
+            {
+              "index": 7,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 7,
+              "digit": 4,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 7,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          16
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 16,
+            "digit": 7
+          }
+        ],
+        "narration": "r2c8 的候选只剩下 7 一个，因此这格只能填 7。",
+        "visual": {
+          "cells": [
+            {
+              "index": 16,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 16,
+              "digit": 7,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 8,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          33
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 33,
+            "digit": 9
+          }
+        ],
+        "narration": "r4c7 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 33,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 33,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 9,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          28
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 28,
+            "digit": 6
+          }
+        ],
+        "narration": "r4c2 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 28,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 28,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 10,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          37
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 37,
+            "digit": 9
+          }
+        ],
+        "narration": "r5c2 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 37,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 37,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 11,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          55
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 55,
+            "digit": 5
+          }
+        ],
+        "narration": "r7c2 的候选只剩下 5 一个，因此这格只能填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 55,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 55,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 12,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          10
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 10,
+            "digit": 3
+          }
+        ],
+        "narration": "r2c2 的候选只剩下 3 一个，因此这格只能填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 10,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 10,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 13,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          59
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 59,
+            "digit": 8
+          }
+        ],
+        "narration": "r7c6 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 59,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 59,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 14,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          57
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 57,
+            "digit": 9
+          }
+        ],
+        "narration": "r7c4 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 57,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 57,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 15,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          54
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 54,
+            "digit": 6
+          }
+        ],
+        "narration": "r7c1 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 54,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 54,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 16,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          65
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 65,
+            "digit": 9
+          }
+        ],
+        "narration": "r8c3 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 65,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 65,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 17,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          67
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 67,
+            "digit": 5
+          }
+        ],
+        "narration": "r8c5 的候选只剩下 5 一个，因此这格只能填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 67,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 67,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 18,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          71
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 71,
+            "digit": 8
+          }
+        ],
+        "narration": "r8c9 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 71,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 71,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 19,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          69
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 69,
+            "digit": 7
+          }
+        ],
+        "narration": "r8c7 的候选只剩下 7 一个，因此这格只能填 7。",
+        "visual": {
+          "cells": [
+            {
+              "index": 69,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 69,
+              "digit": 7,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 20,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          72
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 72,
+            "digit": 3
+          }
+        ],
+        "narration": "r9c1 的候选只剩下 3 一个，因此这格只能填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 72,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 72,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 21,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          77
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 77,
+            "digit": 2
+          }
+        ],
+        "narration": "r9c6 的候选只剩下 2 一个，因此这格只能填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 77,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 77,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 22,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          32
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 32,
+            "digit": 7
+          }
+        ],
+        "narration": "r4c6 的候选只剩下 7 一个，因此这格只能填 7。",
+        "visual": {
+          "cells": [
+            {
+              "index": 32,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 32,
+              "digit": 7,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 23,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          23
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 23,
+            "digit": 3
+          }
+        ],
+        "narration": "r3c6 的候选只剩下 3 一个，因此这格只能填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 23,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 23,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 24,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          5
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 5,
+            "digit": 5
+          }
+        ],
+        "narration": "r1c6 的候选只剩下 5 一个，因此这格只能填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 5,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 5,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 25,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          14
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 14,
+            "digit": 4
+          }
+        ],
+        "narration": "r2c6 的候选只剩下 4 一个，因此这格只能填 4。",
+        "visual": {
+          "cells": [
+            {
+              "index": 14,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 14,
+              "digit": 4,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 26,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          31
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 31,
+            "digit": 2
+          }
+        ],
+        "narration": "r4c5 的候选只剩下 2 一个，因此这格只能填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 31,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 31,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 27,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          76
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 76,
+            "digit": 1
+          }
+        ],
+        "narration": "r9c5 的候选只剩下 1 一个，因此这格只能填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 76,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 76,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 28,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          78
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 78,
+            "digit": 6
+          }
+        ],
+        "narration": "r9c7 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 78,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 78,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 29,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          80
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 80,
+            "digit": 5
+          }
+        ],
+        "narration": "r9c9 的候选只剩下 5 一个，因此这格只能填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 80,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 80,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 30,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 15,
+            "digit": 1
+          }
+        ],
+        "narration": "第 2 行 中数字 1 只能落在 r2c7 这一格，因此这格填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 15,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 15,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 31,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 22,
+            "digit": 7
+          }
+        ],
+        "narration": "第 3 行 中数字 7 只能落在 r3c5 这一格，因此这格填 7。",
+        "visual": {
+          "cells": [
+            {
+              "index": 22,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 22,
+              "digit": 7,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 32,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 45,
+            "digit": 7
+          }
+        ],
+        "narration": "第 6 行 中数字 7 只能落在 r6c1 这一格，因此这格填 7。",
+        "visual": {
+          "cells": [
+            {
+              "index": 45,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 45,
+              "digit": 7,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 33,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 47,
+            "digit": 5
+          }
+        ],
+        "narration": "第 6 行 中数字 5 只能落在 r6c3 这一格，因此这格填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 47,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 47,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 34,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 9,
+            "digit": 5
+          }
+        ],
+        "narration": "第 2 行 中数字 5 只能落在 r2c1 这一格，因此这格填 5。",
+        "visual": {
+          "cells": [
+            {
+              "index": 9,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 9,
+              "digit": 5,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 35,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 53,
+            "digit": 2
+          }
+        ],
+        "narration": "第 6 行 中数字 2 只能落在 r6c9 这一格，因此这格填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 53,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 53,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 36,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          3,
+          12,
+          21,
+          30,
+          39,
+          48,
+          57,
+          66,
+          75
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 12,
+            "digit": 2
+          }
+        ],
+        "narration": "第 4 列 中数字 2 只能落在 r2c4 这一格，因此这格填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 12,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                3,
+                12,
+                21,
+                30,
+                39,
+                48,
+                57,
+                66,
+                75
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 12,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 37,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          6,
+          15,
+          24,
+          33,
+          42,
+          51,
+          60,
+          69,
+          78
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 6,
+            "digit": 8
+          }
+        ],
+        "narration": "第 7 列 中数字 8 只能落在 r1c7 这一格，因此这格填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 6,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                6,
+                15,
+                24,
+                33,
+                42,
+                51,
+                60,
+                69,
+                78
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 6,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 38,
+        "techniqueId": "hiddenSingle",
+        "involvedCells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 8,
+            "digit": 3
+          }
+        ],
+        "narration": "第 1 行 中数字 3 只能落在 r1c9 这一格，因此这格填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 8,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "role": "pattern",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 8,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 39,
+        "techniqueId": "nakedPair",
+        "involvedCells": [
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44
+        ],
+        "eliminations": [
+          {
+            "cell": 39,
+            "digit": 8
+          },
+          {
+            "cell": 40,
+            "digit": 8
+          }
+        ],
+        "placements": [],
+        "narration": "第 5 行 的 r5c1、r5c3 两格候选都恰好是 2、8，构成裸对；因此该单元其余格的 2、8 可以删除（r5c4 的 8、r5c5 的 8）。",
+        "visual": {
+          "cells": [
+            {
+              "index": 36,
+              "role": "pattern",
+              "shape": "solidThickBorder",
+              "focusDigits": [
+                2,
+                8
+              ]
+            },
+            {
+              "index": 38,
+              "role": "pattern",
+              "shape": "solidThickBorder",
+              "focusDigits": [
+                2,
+                8
+              ]
+            },
+            {
+              "index": 39,
+              "role": "elimination",
+              "shape": "strikeThrough",
+              "focusDigits": []
+            },
+            {
+              "index": 40,
+              "role": "elimination",
+              "shape": "strikeThrough",
+              "focusDigits": []
+            }
+          ],
+          "regions": [
+            {
+              "cornerCells": [
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44
+              ],
+              "role": "cover",
+              "dashed": true,
+              "animated": false
+            }
+          ],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 36,
+              "digit": 2,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 36,
+              "digit": 8,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 38,
+              "digit": 2,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 38,
+              "digit": 8,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 39,
+              "digit": 8,
+              "kind": "strike"
+            },
+            {
+              "cellIndex": 40,
+              "digit": 8,
+              "kind": "strike"
+            }
+          ]
+        }
+      },
+      {
+        "order": 40,
+        "techniqueId": "xyWing",
+        "involvedCells": [
+          11,
+          17,
+          18,
+          26
+        ],
+        "eliminations": [
+          {
+            "cell": 26,
+            "digit": 9
+          }
+        ],
+        "placements": [],
+        "narration": "枢轴格 r2c3 的候选是 6、8，与夹翼格 r2c9、r3c1 构成 XY 翼；同时看到这两个夹翼格的 r3c9 的 9 可以删去 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 11,
+              "role": "pivot",
+              "shape": "cornerDot",
+              "focusDigits": [
+                6,
+                8,
+                9
+              ]
+            },
+            {
+              "index": 17,
+              "role": "pincer",
+              "shape": "solidThinBorder",
+              "focusDigits": [
+                6,
+                8,
+                9
+              ]
+            },
+            {
+              "index": 18,
+              "role": "pincer",
+              "shape": "solidThinBorder",
+              "focusDigits": [
+                6,
+                8,
+                9
+              ]
+            },
+            {
+              "index": 26,
+              "role": "elimination",
+              "shape": "strikeThrough",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [
+            {
+              "fromCell": 11,
+              "toCell": 17,
+              "digit": 6,
+              "strong": false
+            },
+            {
+              "fromCell": 11,
+              "toCell": 18,
+              "digit": 8,
+              "strong": false
+            }
+          ],
+          "candidateMarks": [
+            {
+              "cellIndex": 11,
+              "digit": 6,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 11,
+              "digit": 8,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 17,
+              "digit": 6,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 17,
+              "digit": 9,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 18,
+              "digit": 8,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 18,
+              "digit": 9,
+              "kind": "emphasize"
+            },
+            {
+              "cellIndex": 26,
+              "digit": 9,
+              "kind": "strike"
+            }
+          ]
+        }
+      },
+      {
+        "order": 41,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          26
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 26,
+            "digit": 6
+          }
+        ],
+        "narration": "r3c9 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 26,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 26,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 42,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          17
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 17,
+            "digit": 9
+          }
+        ],
+        "narration": "r2c9 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 17,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 17,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 43,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          21
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 21,
+            "digit": 8
+          }
+        ],
+        "narration": "r3c4 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 21,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 21,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 44,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          13
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 13,
+            "digit": 6
+          }
+        ],
+        "narration": "r2c5 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 13,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 13,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 45,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          4
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 4,
+            "digit": 9
+          }
+        ],
+        "narration": "r1c5 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 4,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 4,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 46,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          0
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 0,
+            "digit": 2
+          }
+        ],
+        "narration": "r1c1 的候选只剩下 2 一个，因此这格只能填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 0,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 0,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 47,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          2
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 2,
+            "digit": 6
+          }
+        ],
+        "narration": "r1c3 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 2,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 2,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 48,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          11
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 11,
+            "digit": 8
+          }
+        ],
+        "narration": "r2c3 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 11,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 11,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 49,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          18
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 18,
+            "digit": 9
+          }
+        ],
+        "narration": "r3c1 的候选只剩下 9 一个，因此这格只能填 9。",
+        "visual": {
+          "cells": [
+            {
+              "index": 18,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 18,
+              "digit": 9,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 50,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          36
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 36,
+            "digit": 8
+          }
+        ],
+        "narration": "r5c1 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 36,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 36,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 51,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          38
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 38,
+            "digit": 2
+          }
+        ],
+        "narration": "r5c3 的候选只剩下 2 一个，因此这格只能填 2。",
+        "visual": {
+          "cells": [
+            {
+              "index": 38,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 38,
+              "digit": 2,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 52,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          40
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 40,
+            "digit": 4
+          }
+        ],
+        "narration": "r5c5 的候选只剩下 4 一个，因此这格只能填 4。",
+        "visual": {
+          "cells": [
+            {
+              "index": 40,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 40,
+              "digit": 4,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 53,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          42
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 42,
+            "digit": 3
+          }
+        ],
+        "narration": "r5c7 的候选只剩下 3 一个，因此这格只能填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 42,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 42,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 54,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          39
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 39,
+            "digit": 6
+          }
+        ],
+        "narration": "r5c4 的候选只剩下 6 一个，因此这格只能填 6。",
+        "visual": {
+          "cells": [
+            {
+              "index": 39,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 39,
+              "digit": 6,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 55,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          48
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 48,
+            "digit": 3
+          }
+        ],
+        "narration": "r6c4 的候选只剩下 3 一个，因此这格只能填 3。",
+        "visual": {
+          "cells": [
+            {
+              "index": 48,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 48,
+              "digit": 3,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 56,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          49
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 49,
+            "digit": 8
+          }
+        ],
+        "narration": "r6c5 的候选只剩下 8 一个，因此这格只能填 8。",
+        "visual": {
+          "cells": [
+            {
+              "index": 49,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 49,
+              "digit": 8,
+              "kind": "target"
+            }
+          ]
+        }
+      },
+      {
+        "order": 57,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [
+          51
+        ],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 51,
+            "digit": 4
+          }
+        ],
+        "narration": "r6c7 的候选只剩下 4 一个，因此这格只能填 4。",
+        "visual": {
+          "cells": [
+            {
+              "index": 51,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 51,
+              "digit": 4,
+              "kind": "target"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

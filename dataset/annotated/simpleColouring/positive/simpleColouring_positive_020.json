@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_020",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": "41.7.6.5.7..........85....6....2...8..79.8.........1.5.......3..6...24...3.64....",
+  "solution81": "413786952756239814928514376695123748147958263382467195274895631561372489839641527",
+  "seed": 1518244780,
+  "source": "app\\assets\\puzzles\\master.json.gz#168",
+  "note": "正例：t2 全量规则集下逐级求解 66 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#168。 目标技巧 简单涂色 在第 34 步触发（共 66 步）。",
+  "expected": {
+    "stepOrder": 34,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 45,
+        "digit": 2
+      }
+    ],
+    "placements": []
+  }
+}

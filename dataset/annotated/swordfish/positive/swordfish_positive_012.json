@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "swordfish_positive_012",
+  "techniqueId": "swordfish",
+  "label": "positive",
+  "puzzle81": "69..1.8..31.8....2....9.....5.24.9..7...........9..315.....1.874.1.7..6..6.......",
+  "solution81": "692714853314865792578392146153246978789153624246987315925631487431578269867429531",
+  "seed": null,
+  "source": "ch2_l07",
+  "note": "正例：t2 全量规则集下逐级求解 66 步，难度 hard，最高技巧 swordfish，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing,swordfish}。来源：level 档 ch2_l07。 目标技巧 剑鱼（标准） 在第 23 步触发（共 66 步）。",
+  "expected": {
+    "stepOrder": 23,
+    "techniqueId": "swordfish",
+    "eliminations": [
+      {
+        "cellIndex": 2,
+        "digit": 5
+      },
+      {
+        "cellIndex": 5,
+        "digit": 5
+      },
+      {
+        "cellIndex": 20,
+        "digit": 5
+      },
+      {
+        "cellIndex": 23,
+        "digit": 5
+      },
+      {
+        "cellIndex": 68,
+        "digit": 5
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "lockedCandidates_positive_015",
+  "techniqueId": "lockedCandidates",
+  "label": "positive",
+  "puzzle81": ".6..34.........9434..7...85.8...1..6.3...6...5..49.....1.....7.3.....29...21....4",
+  "solution81": "865934712271865943493712685987321456134576829526498137619243578348657291752189364",
+  "seed": null,
+  "source": "ch1_l02",
+  "note": "正例：t2 全量规则集下逐级求解 63 步，难度 medium，最高技巧 nakedTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple}。来源：level 档 ch1_l02。 目标技巧 区块排除 在第 14 步触发（共 63 步）。",
+  "expected": {
+    "stepOrder": 14,
+    "techniqueId": "lockedCandidates",
+    "eliminations": [
+      {
+        "cellIndex": 0,
+        "digit": 1
+      },
+      {
+        "cellIndex": 2,
+        "digit": 1
+      }
+    ],
+    "placements": []
+  }
+}

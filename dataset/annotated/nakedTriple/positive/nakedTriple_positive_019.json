@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedTriple_positive_019",
+  "techniqueId": "nakedTriple",
+  "label": "positive",
+  "puzzle81": ".......3..7.3.82.146..1......84......19.........6..38.18.97.4.......2.57..7...9..",
+  "solution81": "821596734975348261463217598638429175519783642742651389186975423394162857257834916",
+  "seed": null,
+  "source": "ch3_l10",
+  "note": "正例：t2 全量规则集下逐级求解 71 步，难度 hard，最高技巧 xyWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,nakedTriple,xWing,finnedXWing,xyWing}。来源：level 档 ch3_l10。 目标技巧 裸三 在第 27 步触发（共 71 步）。",
+  "expected": {
+    "stepOrder": 27,
+    "techniqueId": "nakedTriple",
+    "eliminations": [
+      {
+        "cellIndex": 33,
+        "digit": 5
+      },
+      {
+        "cellIndex": 33,
+        "digit": 6
+      },
+      {
+        "cellIndex": 34,
+        "digit": 2
+      },
+      {
+        "cellIndex": 34,
+        "digit": 6
+      }
+    ],
+    "placements": []
+  }
+}

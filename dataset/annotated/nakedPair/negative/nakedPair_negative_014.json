@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedPair_negative_014",
+  "techniqueId": "nakedPair",
+  "label": "negative",
+  "puzzle81": "...9.7......3.267.....852.3..6.5.34.3..6.9..254.7.3....69...8.5..3.9.4..8..2....1",
+  "solution81": "132967584485312679697485213926851347378649152541723968269174835713598426854236791",
+  "seed": 1429246653,
+  "source": "app\\assets\\puzzles\\easy.json.gz#21",
+  "note": "负例：t2 全量规则集下逐级求解 50 步，难度 easy，最高技巧 hiddenPair，使用技巧 {nakedSingle,hiddenSingle,hiddenPair}。来源：puzzle 档 app\\assets\\puzzles\\easy.json.gz#21。 该题全程未触发 裸对，用作误报回归盘面。"
+}

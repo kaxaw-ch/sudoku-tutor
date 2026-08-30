@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenPair_positive_006",
+  "techniqueId": "hiddenPair",
+  "label": "positive",
+  "puzzle81": ".7..2...5..9.8.7.6......1....72....8..1.5..4.9..4...5.8...7.51.2.6..4....9.....6.",
+  "solution81": "178623495349185726562749183457291638621358947983467251834976512216534879795812364",
+  "seed": null,
+  "source": "ch0_l10",
+  "note": "正例：t2 全量规则集下逐级求解 58 步，难度 easy，最高技巧 lockedCandidates，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,lockedCandidates}。来源：level 档 ch0_l10。 目标技巧 隐对 在第 16 步触发（共 58 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 16,
+    "techniqueId": "hiddenPair",
+    "eliminations": [
+      {
+        "cellIndex": 27,
+        "digit": 3
+      },
+      {
+        "cellIndex": 27,
+        "digit": 6
+      },
+      {
+        "cellIndex": 28,
+        "digit": 6
+      }
+    ],
+    "placements": []
+  }
+}

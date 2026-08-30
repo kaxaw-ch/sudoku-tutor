@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xyWing_positive_006",
+  "techniqueId": "xyWing",
+  "label": "positive",
+  "puzzle81": ".....2....95.31...6.1598.3...8...6.7.........45...6..8.1....9........3..7364...2.",
+  "solution81": "873642159295731486641598732328915647167284593459376218512863974984127365736459821",
+  "seed": null,
+  "source": "ch3_l03",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 hard，最高技巧 xyWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,xyWing}。来源：level 档 ch3_l03。 目标技巧 XY 翼 在第 36 步触发（共 60 步）。",
+  "expected": {
+    "stepOrder": 36,
+    "techniqueId": "xyWing",
+    "eliminations": [
+      {
+        "cellIndex": 41,
+        "digit": 7
+      },
+      {
+        "cellIndex": 47,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

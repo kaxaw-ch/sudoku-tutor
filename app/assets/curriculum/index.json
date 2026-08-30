@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "chapters": [
+    {
+      "chapter": 0,
+      "title": "第 0 章 · 规则与基础",
+      "techniqueTags": [
+        "nakedSingle",
+        "hiddenSingle",
+        "nakedPair",
+        "hiddenPair",
+        "lockedCandidates"
+      ],
+      "levels": [
+        {
+          "id": "ch0_l01",
+          "chapter": 0,
+          "order": 1,
+          "kind": "demo",
+          "title": "规则讲解 · 唯一余数",
+          "techniqueTags": [
+            "nakedSingle"
+          ],
+          "file": "ch0_l01.json"
+        },
+        {
+          "id": "ch0_l02",
+          "chapter": 0,
+          "order": 2,
+          "kind": "demo",
+          "title": "规则讲解 · 隐性唯一数",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle"
+          ],
+          "file": "ch0_l02.json"
+        },
+        {
+          "id": "ch0_l03",
+          "chapter": 0,
+          "order": 3,
+          "kind": "demo",
+          "title": "唯一余数（演示）",
+          "techniqueTags": [
+            "nakedSingle"
+          ],
+          "file": "ch0_l03.json"
+        },
+        {
+          "id": "ch0_l04",
+          "chapter": 0,
+          "order": 4,
+          "kind": "demo",
+          "title": "隐性唯一数（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle"
+          ],
+          "file": "ch0_l04.json"
+        },
+        {
+          "id": "ch0_l05",
+          "chapter": 0,
+          "order": 5,
+          "kind": "demo",
+          "title": "裸对（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair"
+          ],
+          "file": "ch0_l05.json"
+        },
+        {
+          "id": "ch0_l06",
+          "chapter": 0,
+          "order": 6,
+          "kind": "guidedPractice",
+          "title": "裸对（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair"
+          ],
+          "file": "ch0_l06.json"
+        },
+        {
+          "id": "ch0_l07",
+          "chapter": 0,
+          "order": 7,
+          "kind": "demo",
+          "title": "隐对（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "hiddenPair"
+          ],
+          "file": "ch0_l07.json"
+        },
+        {
+          "id": "ch0_l08",
+          "chapter": 0,
+          "order": 8,
+          "kind": "guidedPractice",
+          "title": "隐对（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "hiddenPair"
+          ],
+          "file": "ch0_l08.json"
+        },
+        {
+          "id": "ch0_l09",
+          "chapter": 0,
+          "order": 9,
+          "kind": "demo",
+          "title": "区块排除（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "hiddenPair",
+            "lockedCandidates"
+          ],
+          "file": "ch0_l09.json"
+        },
+        {
+          "id": "ch0_l10",
+          "chapter": 0,
+          "order": 10,
+          "kind": "guidedPractice",
+          "title": "区块排除（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates"
+          ],
+          "file": "ch0_l10.json"
+        }
+      ]
+    },
+    {
+      "chapter": 1,
+      "title": "第 1 章 · 三数与 X 翼",
+      "techniqueTags": [
+        "nakedTriple",
+        "hiddenTriple",
+        "xWing"
+      ],
+      "levels": [
+        {
+          "id": "ch1_l01",
+          "chapter": 1,
+          "order": 1,
+          "kind": "demo",
+          "title": "裸三（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "nakedTriple"
+          ],
+          "file": "ch1_l01.json"
+        },
+        {
+          "id": "ch1_l02",
+          "chapter": 1,
+          "order": 2,
+          "kind": "demo",
+          "title": "隐三（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "hiddenTriple"
+          ],
+          "file": "ch1_l02.json"
+        },
+        {
+          "id": "ch1_l03",
+          "chapter": 1,
+          "order": 3,
+          "kind": "guidedPractice",
+          "title": "裸三（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "nakedTriple"
+          ],
+          "file": "ch1_l03.json"
+        },
+        {
+          "id": "ch1_l04",
+          "chapter": 1,
+          "order": 4,
+          "kind": "guidedPractice",
+          "title": "隐三（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "hiddenTriple"
+          ],
+          "file": "ch1_l04.json"
+        },
+        {
+          "id": "ch1_l05",
+          "chapter": 1,
+          "order": 5,
+          "kind": "demo",
+          "title": "X 翼（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "xWing"
+          ],
+          "file": "ch1_l05.json"
+        },
+        {
+          "id": "ch1_l06",
+          "chapter": 1,
+          "order": 6,
+          "kind": "guidedPractice",
+          "title": "X 翼（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "xWing"
+          ],
+          "file": "ch1_l06.json"
+        },
+        {
+          "id": "ch1_l07",
+          "chapter": 1,
+          "order": 7,
+          "kind": "trial",
+          "title": "X 翼（试炼）",
+          "techniqueTags": [
+            "xWing"
+          ],
+          "file": "ch1_l07.json"
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "第 2 章 · 鳍形 X 翼与剑鱼",
+      "techniqueTags": [
+        "finnedXWing",
+        "swordfish"
+      ],
+      "levels": [
+        {
+          "id": "ch2_l01",
+          "chapter": 2,
+          "order": 1,
+          "kind": "demo",
+          "title": "鳍形 X 翼（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "finnedXWing"
+          ],
+          "file": "ch2_l01.json"
+        },
+        {
+          "id": "ch2_l02",
+          "chapter": 2,
+          "order": 2,
+          "kind": "demo",
+          "title": "剑鱼（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "finnedXWing",
+            "swordfish"
+          ],
+          "file": "ch2_l02.json"
+        },
+        {
+          "id": "ch2_l03",
+          "chapter": 2,
+          "order": 3,
+          "kind": "guidedPractice",
+          "title": "鳍形 X 翼（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "finnedXWing"
+          ],
+          "file": "ch2_l03.json"
+        },
+        {
+          "id": "ch2_l04",
+          "chapter": 2,
+          "order": 4,
+          "kind": "guidedPractice",
+          "title": "鳍形 X 翼（实操二）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "finnedXWing"
+          ],
+          "file": "ch2_l04.json"
+        },
+        {
+          "id": "ch2_l05",
+          "chapter": 2,
+          "order": 5,
+          "kind": "guidedPractice",
+          "title": "剑鱼（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "lockedCandidates",
+            "finnedXWing",
+            "swordfish"
+          ],
+          "file": "ch2_l05.json"
+        },
+        {
+          "id": "ch2_l06",
+          "chapter": 2,
+          "order": 6,
+          "kind": "guidedPractice",
+          "title": "剑鱼（实操二）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "finnedXWing",
+            "swordfish"
+          ],
+          "file": "ch2_l06.json"
+        },
+        {
+          "id": "ch2_l07",
+          "chapter": 2,
+          "order": 7,
+          "kind": "trial",
+          "title": "鳍形 X 翼（试炼）",
+          "techniqueTags": [
+            "finnedXWing"
+          ],
+          "file": "ch2_l07.json"
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "第 3 章 · XY 翼与 XYZ 翼",
+      "techniqueTags": [
+        "xyWing",
+        "xyzWing"
+      ],
+      "levels": [
+        {
+          "id": "ch3_l01",
+          "chapter": 3,
+          "order": 1,
+          "kind": "demo",
+          "title": "XY 翼（演示一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "xyWing"
+          ],
+          "file": "ch3_l01.json"
+        },
+        {
+          "id": "ch3_l02",
+          "chapter": 3,
+          "order": 2,
+          "kind": "demo",
+          "title": "XY 翼（演示二）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "xyWing"
+          ],
+          "file": "ch3_l02.json"
+        },
+        {
+          "id": "ch3_l03",
+          "chapter": 3,
+          "order": 3,
+          "kind": "demo",
+          "title": "XYZ 翼（演示）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "xyzWing"
+          ],
+          "file": "ch3_l03.json"
+        },
+        {
+          "id": "ch3_l04",
+          "chapter": 3,
+          "order": 4,
+          "kind": "guidedPractice",
+          "title": "XY 翼（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "xyWing"
+          ],
+          "file": "ch3_l04.json"
+        },
+        {
+          "id": "ch3_l05",
+          "chapter": 3,
+          "order": 5,
+          "kind": "guidedPractice",
+          "title": "XY 翼（实操二）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "xyWing"
+          ],
+          "file": "ch3_l05.json"
+        },
+        {
+          "id": "ch3_l06",
+          "chapter": 3,
+          "order": 6,
+          "kind": "guidedPractice",
+          "title": "XY 翼（实操三）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "xyWing"
+          ],
+          "file": "ch3_l06.json"
+        },
+        {
+          "id": "ch3_l07",
+          "chapter": 3,
+          "order": 7,
+          "kind": "guidedPractice",
+          "title": "XYZ 翼（实操一）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "xyzWing"
+          ],
+          "file": "ch3_l07.json"
+        },
+        {
+          "id": "ch3_l08",
+          "chapter": 3,
+          "order": 8,
+          "kind": "guidedPractice",
+          "title": "XYZ 翼（实操二）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "lockedCandidates",
+            "xyzWing"
+          ],
+          "file": "ch3_l08.json"
+        },
+        {
+          "id": "ch3_l09",
+          "chapter": 3,
+          "order": 9,
+          "kind": "guidedPractice",
+          "title": "XYZ 翼（实操三）",
+          "techniqueTags": [
+            "nakedSingle",
+            "hiddenSingle",
+            "nakedPair",
+            "lockedCandidates",
+            "xyzWing"
+          ],
+          "file": "ch3_l09.json"
+        },
+        {
+          "id": "ch3_l10",
+          "chapter": 3,
+          "order": 10,
+          "kind": "trial",
+          "title": "XYZ 翼（试炼）",
+          "techniqueTags": [
+            "xyzWing"
+          ],
+          "file": "ch3_l10.json"
+        }
+      ]
+    }
+  ]
+}

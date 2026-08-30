@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenTriple_negative_005",
+  "techniqueId": "hiddenTriple",
+  "label": "negative",
+  "puzzle81": ".9...5...67..4..92..3.....5....1..461..4..3.....5.62..4.2...6.89.....1....8.2....",
+  "solution81": "291785463675341892843269715729813546156472389384596271412937658937658124568124937",
+  "seed": null,
+  "source": "ch1_l04",
+  "note": "负例：t2 全量规则集下逐级求解 63 步，难度 medium，最高技巧 nakedTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,nakedTriple}。来源：level 档 ch1_l04。 该题全程未触发 隐三，用作误报回归盘面。"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xyWing_negative_009",
+  "techniqueId": "xyWing",
+  "label": "negative",
+  "puzzle81": "3....75.1.672.............35..7..4..4285....7......9.56........2.4.8.1...734.....",
+  "solution81": "342897561167253894985641723519768432428539617736124985651972348294385176873416259",
+  "seed": null,
+  "source": "ch3_l10",
+  "note": "负例：t2 全量规则集下逐级求解 63 步，难度 hard，最高技巧 xyzWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,xyzWing}。来源：level 档 ch3_l10。 该题全程未触发 XY 翼，用作误报回归盘面。",
+  "checkMode": "solve"
+}

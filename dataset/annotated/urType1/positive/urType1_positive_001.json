@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_positive_001",
+  "techniqueId": "urType1",
+  "label": "positive",
+  "puzzle81": "..9........67.2....7....68.....9.56.58..47.....1..34......3..971..5.8.3........5.",
+  "solution81": "819365742456782319372419685247891563583647921961253478625134897194578236738926154",
+  "seed": 1518043226,
+  "source": "app\\assets\\puzzles\\master.json.gz#0",
+  "note": "正例：t2 全量规则集下逐级求解 59 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#0。 目标技巧 唯一矩形 型一 在第 22 步触发（共 59 步）。",
+  "expected": {
+    "stepOrder": 22,
+    "techniqueId": "urType1",
+    "eliminations": [
+      {
+        "cellIndex": 35,
+        "digit": 2
+      },
+      {
+        "cellIndex": 35,
+        "digit": 8
+      }
+    ],
+    "placements": []
+  }
+}

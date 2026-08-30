@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_002",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": ".....7.2..8.1..7....4.3...1.9.6...5...659..3...13.8....7..4.9.....7..6.3......2..",
+  "solution81": "159487326283156794764239581397614852846592137521378469672843915918725643435961278",
+  "seed": 1518145105,
+  "source": "app\\assets\\puzzles\\master.json.gz#107",
+  "note": "正例：t2 全量规则集下逐级求解 63 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,xWing,xyzWing,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#107。 目标技巧 简单涂色 在第 26 步触发（共 63 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 26,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 67,
+        "digit": 8
+      }
+    ],
+    "placements": []
+  }
+}

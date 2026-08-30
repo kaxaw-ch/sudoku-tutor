@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_negative_006",
+  "techniqueId": "urType1",
+  "label": "negative",
+  "puzzle81": ".584....97...695..63..5....4....7.......386....6...8..325............9.5.7.....4.",
+  "solution81": "158423769742869513639751428483697251517238694296145837325974186864312975971586342",
+  "seed": 1511824194,
+  "source": "app\\assets\\puzzles\\hard.json.gz#123",
+  "note": "负例：t2 全量规则集下逐级求解 68 步，难度 hard，最高技巧 wWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple,xWing,finnedXWing,xyWing,wWing}。来源：puzzle 档 app\\assets\\puzzles\\hard.json.gz#123。 该题全程未触发 唯一矩形 型一，用作误报回归盘面。"
+}

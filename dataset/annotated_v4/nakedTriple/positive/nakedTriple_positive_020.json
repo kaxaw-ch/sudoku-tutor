@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedTriple_positive_020",
+  "techniqueId": "nakedTriple",
+  "label": "positive",
+  "puzzle81": "....58.6..3..725.8...1......7.29.........4.....36..9..1...8..2...5..6..47.8...39.",
+  "solution81": "417358269936472518582169437671295843259834671843617952164983725395726184728541396",
+  "seed": 130285,
+  "source": "app\\assets\\pools\\ch1.json.gz#0",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 medium，最高技巧 nakedTriple，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,lockedCandidates,nakedTriple}。来源：pool 档 app\\assets\\pools\\ch1.json.gz#0。 目标技巧 裸三 在第 21 步触发（共 60 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 21,
+    "techniqueId": "nakedTriple",
+    "eliminations": [
+      {
+        "cellIndex": 8,
+        "digit": 1
+      },
+      {
+        "cellIndex": 25,
+        "digit": 4
+      }
+    ],
+    "placements": []
+  }
+}

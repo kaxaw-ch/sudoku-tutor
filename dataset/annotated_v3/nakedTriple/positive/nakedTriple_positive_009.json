@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedTriple_positive_009",
+  "techniqueId": "nakedTriple",
+  "label": "positive",
+  "puzzle81": "91..4......72...5..529.8..15.....4..12........46.........8...7......95.6.6...281.",
+  "solution81": "918345627437261958652978341579183462123694785846527193391856274284719536765432819",
+  "seed": null,
+  "source": "ch1_l06",
+  "note": "正例：t2 全量规则集下逐级求解 66 步，难度 medium，最高技巧 hiddenTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple,hiddenTriple}。来源：level 档 ch1_l06。 目标技巧 裸三 在第 5 步触发（共 66 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 5,
+    "techniqueId": "nakedTriple",
+    "eliminations": [
+      {
+        "cellIndex": 56,
+        "digit": 3
+      },
+      {
+        "cellIndex": 56,
+        "digit": 9
+      },
+      {
+        "cellIndex": 58,
+        "digit": 3
+      },
+      {
+        "cellIndex": 59,
+        "digit": 3
+      },
+      {
+        "cellIndex": 62,
+        "digit": 2
+      },
+      {
+        "cellIndex": 62,
+        "digit": 3
+      },
+      {
+        "cellIndex": 62,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

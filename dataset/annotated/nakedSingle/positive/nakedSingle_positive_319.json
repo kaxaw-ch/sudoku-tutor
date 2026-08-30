@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedSingle_positive_319",
+  "techniqueId": "nakedSingle",
+  "label": "positive",
+  "puzzle81": "..5..79...3.1.65..8......13...943............4.251........7.185....2...6..4.3..9.",
+  "solution81": "145387962237196548896254713758943621319762854462518379623479185971825436584631297",
+  "seed": null,
+  "source": "ch0_l06",
+  "note": "正例：t2 全量规则集下逐级求解 55 步，难度 beginner，最高技巧 nakedSingle，使用技巧 {nakedSingle}。来源：level 档 ch0_l06。 目标技巧 唯一余数 在第 1 步触发（共 55 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 1,
+    "techniqueId": "nakedSingle",
+    "eliminations": [],
+    "placements": [
+      {
+        "cellIndex": 4,
+        "digit": 8
+      }
+    ]
+  }
+}

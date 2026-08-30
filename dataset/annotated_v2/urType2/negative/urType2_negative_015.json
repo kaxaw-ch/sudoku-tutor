@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType2_negative_015",
+  "techniqueId": "urType2",
+  "label": "negative",
+  "puzzle81": "2...6..34.8......7..6..1.....1.2.......6..8.....8542.........5.178..6...3.5..7..9",
+  "solution81": "217968534984235167536471928861723495452619873793854216649382751178596342325147689",
+  "seed": 1518145411,
+  "source": "app\\assets\\puzzles\\master.json.gz#112",
+  "note": "负例：t2 全量规则集下逐级求解 66 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#112。 该题全程未触发 唯一矩形 型二，用作误报回归盘面。",
+  "checkMode": "solve"
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType2_positive_007",
+  "techniqueId": "urType2",
+  "label": "positive",
+  "puzzle81": "....16.....84..53.5.......6....9...3.....7.....3...81.18...46.....6..7...7......2",
+  "solution81": "239516478618472539547983126754891263821367954963245817182734695395628741476159382",
+  "seed": 1518243535,
+  "source": "app\\assets\\puzzles\\master.json.gz#153",
+  "note": "正例：t2 全量规则集下逐级求解 67 步，难度 master，最高技巧 urType2，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,wWing,urType2}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#153。 目标技巧 唯一矩形 型二 在第 34 步触发（共 67 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 34,
+    "techniqueId": "urType2",
+    "eliminations": [
+      {
+        "cellIndex": 68,
+        "digit": 9
+      },
+      {
+        "cellIndex": 72,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

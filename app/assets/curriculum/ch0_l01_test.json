@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "ch0_l01",
+  "chapter": 0,
+  "order": 1,
+  "kind": "demo",
+  "title": "唯一余数（测试关）",
+  "intro": "本关用于批次 F-2 验收：验证「新增一关 = 加一个 JSON + 登记一行」的课程管线与解锁链路。",
+  "narration": ["唯一余数：某格候选只剩一个数字时，该格只能填它。"],
+  "techniqueTags": ["nakedSingle"],
+  "puzzle81": "...157....2.983.....5264..82...15...183..6...5968..71...1....6..6....3....8....52",
+  "solution81": "839157246624983175715264938247315689183796524596842713351429867462578391978631452",
+  "poolRef": null,
+  "script": {
+    "steps": [
+      {
+        "order": 1,
+        "techniqueId": "nakedSingle",
+        "involvedCells": [3],
+        "eliminations": [],
+        "placements": [
+          {
+            "cell": 3,
+            "digit": 1
+          }
+        ],
+        "narration": "第 1 行第 4 列只剩候选数 1，因此这格只能填 1。",
+        "visual": {
+          "cells": [
+            {
+              "index": 3,
+              "role": "target",
+              "shape": "dashedBorderWithCornerDot",
+              "focusDigits": []
+            }
+          ],
+          "regions": [],
+          "links": [],
+          "candidateMarks": [
+            {
+              "cellIndex": 3,
+              "digit": 1,
+              "kind": "target"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

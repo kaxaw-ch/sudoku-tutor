@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_016",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": ".3.5....7....186...5....8..1.7....2..6..2.9...2..64.5.61.....9..9.2.........4....",
+  "solution81": "831596247279418635456732819147985326365127984928364751614873592793251468582649173",
+  "seed": 1518043959,
+  "source": "app\\assets\\puzzles\\master.json.gz#16",
+  "note": "正例：t2 全量规则集下逐级求解 64 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,finnedXWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#16。 目标技巧 简单涂色 在第 25 步触发（共 64 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 25,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 12,
+        "digit": 7
+      },
+      {
+        "cellIndex": 18,
+        "digit": 7
+      },
+      {
+        "cellIndex": 43,
+        "digit": 7
+      },
+      {
+        "cellIndex": 48,
+        "digit": 7
+      },
+      {
+        "cellIndex": 69,
+        "digit": 7
+      },
+      {
+        "cellIndex": 73,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

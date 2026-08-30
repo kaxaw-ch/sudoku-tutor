@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedTriple_positive_017",
+  "techniqueId": "nakedTriple",
+  "label": "positive",
+  "puzzle81": ".7....2....4..2.65..5....74..7.4.9.2.1.9.6.........5......1....9..48..53.8..5.4..",
+  "solution81": "378564291194372865265198374637845912512936748849721536453219687926487153781653429",
+  "seed": null,
+  "source": "ch2_l07",
+  "note": "正例：t2 全量规则集下逐级求解 67 步，难度 hard，最高技巧 finnedXWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple,finnedXWing}。来源：level 档 ch2_l07。 目标技巧 裸三 在第 22 步触发（共 67 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 22,
+    "techniqueId": "nakedTriple",
+    "eliminations": [
+      {
+        "cellIndex": 18,
+        "digit": 1
+      },
+      {
+        "cellIndex": 18,
+        "digit": 3
+      },
+      {
+        "cellIndex": 18,
+        "digit": 8
+      },
+      {
+        "cellIndex": 19,
+        "digit": 3
+      },
+      {
+        "cellIndex": 22,
+        "digit": 3
+      }
+    ],
+    "placements": []
+  }
+}

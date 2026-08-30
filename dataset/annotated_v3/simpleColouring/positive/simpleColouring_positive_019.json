@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_019",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": ".7..4...1......42.21.5......5..8.3....7..........1..68.....25....5..8.4.68....1..",
+  "solution81": "978243651536891427214576893152689374867324915493715268741932586325168749689457132",
+  "seed": 1518244405,
+  "source": "app\\assets\\puzzles\\master.json.gz#164",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#164。 目标技巧 简单涂色 在第 39 步触发（共 60 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 39,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 62,
+        "digit": 3
+      },
+      {
+        "cellIndex": 71,
+        "digit": 3
+      }
+    ],
+    "placements": []
+  }
+}

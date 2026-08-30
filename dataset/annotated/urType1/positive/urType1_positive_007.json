@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_positive_007",
+  "techniqueId": "urType1",
+  "label": "positive",
+  "puzzle81": "5.768....4......2....9.......18...........3..68.7....1.9...6.3......4.56......2.7",
+  "solution81": "517682493439157628826943175941835762752461389683729541195276834278314956364598217",
+  "seed": 1518145071,
+  "source": "app\\assets\\puzzles\\master.json.gz#105",
+  "note": "正例：t2 全量规则集下逐级求解 71 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,hiddenTriple,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#105。 目标技巧 唯一矩形 型一 在第 18 步触发（共 71 步）。",
+  "expected": {
+    "stepOrder": 18,
+    "techniqueId": "urType1",
+    "eliminations": [
+      {
+        "cellIndex": 24,
+        "digit": 6
+      },
+      {
+        "cellIndex": 24,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

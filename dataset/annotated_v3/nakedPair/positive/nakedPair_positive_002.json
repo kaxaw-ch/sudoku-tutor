@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedPair_positive_002",
+  "techniqueId": "nakedPair",
+  "label": "positive",
+  "puzzle81": "1....85.......3..9..359..8..68.2....519.8.2......6....7...32....84...15.........7",
+  "solution81": "197648532845213769623597481468729315519384276372165948751832694284976153936451827",
+  "seed": null,
+  "source": "ch0_l06",
+  "note": "正例：t2 全量规则集下逐级求解 56 步，难度 easy，最高技巧 nakedPair，使用技巧 {nakedSingle,hiddenSingle,nakedPair}。来源：level 档 ch0_l06。 目标技巧 裸对 在第 10 步触发（共 56 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 10,
+    "techniqueId": "nakedPair",
+    "eliminations": [
+      {
+        "cellIndex": 63,
+        "digit": 6
+      },
+      {
+        "cellIndex": 63,
+        "digit": 9
+      },
+      {
+        "cellIndex": 71,
+        "digit": 6
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_018",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": "92.1...653.1.8..2......5....4...8............682....5989.5...12..............738.",
+  "solution81": "927143865351689427468725931149258673573961248682374159894536712736812594215497386",
+  "seed": 1518244248,
+  "source": "app\\assets\\puzzles\\master.json.gz#163",
+  "note": "正例：t2 全量规则集下逐级求解 68 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,nakedTriple,swordfish,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#163。 目标技巧 简单涂色 在第 15 步触发（共 68 步）。",
+  "expected": {
+    "stepOrder": 15,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 4,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

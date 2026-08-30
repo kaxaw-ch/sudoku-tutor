@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "wWing_positive_011",
+  "techniqueId": "wWing",
+  "label": "positive",
+  "puzzle81": "..4..78...9.51.3....6...71.....7.65.387.9...2...........2....8....1..5..5.94.....",
+  "solution81": "154237896798516324236948715921374658387695142465821937612759483843162579579483261",
+  "seed": 1511824312,
+  "source": "app\\assets\\puzzles\\hard.json.gz#143",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 hard，最高技巧 wWing，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates,finnedXWing,xyWing,wWing}。来源：puzzle 档 app\\assets\\puzzles\\hard.json.gz#143。 目标技巧 W 翼 在第 33 步触发（共 60 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 33,
+    "techniqueId": "wWing",
+    "eliminations": [
+      {
+        "cellIndex": 70,
+        "digit": 6
+      }
+    ],
+    "placements": []
+  }
+}

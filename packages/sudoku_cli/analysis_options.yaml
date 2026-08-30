@@ -1,0 +1,22 @@
+# sudoku_cli lint 基线（纯 Dart CLI）
+#
+# 与 sudoku_core 的差异：CLI 需要向终端输出，故**不启用** avoid_print
+# （但仍建议统一走 lib/src/io/progress_reporter.dart，见批次 D）。
+include: package:lints/recommended.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true
+  exclude:
+    - '**/build/**'
+    - '**/.dart_tool/**'
+  errors:
+    todo: ignore
+
+linter:
+  rules:
+    - always_declare_return_types
+    - avoid_relative_lib_imports
+    - prefer_single_quotes
+    - unnecessary_brace_in_string_interps

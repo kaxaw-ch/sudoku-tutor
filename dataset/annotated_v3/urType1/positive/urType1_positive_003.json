@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType1_positive_003",
+  "techniqueId": "urType1",
+  "label": "positive",
+  "puzzle81": ".....12......5.8....4.3...71........7....9..4..6325....1.9.8.5..........95.14..3.",
+  "solution81": "587491263361257849294836517139784625725619384846325971613978452472563198958142736",
+  "seed": 1518144878,
+  "source": "app\\assets\\puzzles\\master.json.gz#101",
+  "note": "正例：t2 全量规则集下逐级求解 64 步，难度 master，最高技巧 urType1，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,urType1}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#101。 目标技巧 唯一矩形 型一 在第 25 步触发（共 64 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 25,
+    "techniqueId": "urType1",
+    "eliminations": [
+      {
+        "cellIndex": 12,
+        "digit": 4
+      },
+      {
+        "cellIndex": 12,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

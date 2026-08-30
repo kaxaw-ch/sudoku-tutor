@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenTriple_positive_010",
+  "techniqueId": "hiddenTriple",
+  "label": "positive",
+  "puzzle81": "..3.69.485.9.....684..3.9.5...1......6......7.2.8..5.4.....1..94....2.........25.",
+  "solution81": "213569748579418326846237915758143692364925187921876534682351479435792861197684253",
+  "seed": null,
+  "source": "ch1_l07",
+  "note": "正例：t2 全量规则集下逐级求解 63 步，难度 medium，最高技巧 hiddenTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,hiddenTriple}。来源：level 档 ch1_l07。 目标技巧 隐三 在第 29 步触发（共 63 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 29,
+    "techniqueId": "hiddenTriple",
+    "eliminations": [
+      {
+        "cellIndex": 28,
+        "digit": 3
+      },
+      {
+        "cellIndex": 28,
+        "digit": 9
+      },
+      {
+        "cellIndex": 29,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_014",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": "....6..8...3..562..6..4..53....3......6...5.47.26....1.2..5.......47.3...9......8",
+  "solution81": "175263489483195627269748153941537862836921574752684931324859716618472395597316248",
+  "seed": 1518243759,
+  "source": "app\\assets\\puzzles\\master.json.gz#156",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#156。 目标技巧 简单涂色 在第 41 步触发（共 60 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 41,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 0,
+        "digit": 9
+      },
+      {
+        "cellIndex": 17,
+        "digit": 9
+      },
+      {
+        "cellIndex": 23,
+        "digit": 9
+      },
+      {
+        "cellIndex": 29,
+        "digit": 9
+      },
+      {
+        "cellIndex": 33,
+        "digit": 9
+      },
+      {
+        "cellIndex": 36,
+        "digit": 9
+      },
+      {
+        "cellIndex": 49,
+        "digit": 9
+      },
+      {
+        "cellIndex": 57,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

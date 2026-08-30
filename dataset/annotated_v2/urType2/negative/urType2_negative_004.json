@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType2_negative_004",
+  "techniqueId": "urType2",
+  "label": "negative",
+  "puzzle81": "2..8...3.51........3.6....8.72...51.......8.......4.6.4...83......9...27..64.1...",
+  "solution81": "267845139518239746934617258672398514149562873853174962425783691381956427796421385",
+  "seed": 1518144912,
+  "source": "app\\assets\\puzzles\\master.json.gz#102",
+  "note": "负例：t2 全量规则集下逐级求解 71 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing,xyzWing,urType1,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#102。 该题全程未触发 唯一矩形 型二，用作误报回归盘面。",
+  "checkMode": "solve"
+}

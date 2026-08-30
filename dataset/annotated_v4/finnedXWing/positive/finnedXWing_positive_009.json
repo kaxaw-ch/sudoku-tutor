@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "finnedXWing_positive_009",
+  "techniqueId": "finnedXWing",
+  "label": "positive",
+  "puzzle81": "..1..34...54.....6...7...5.1.6..9..8....7....7..8......473....5...92...3..3.85..7",
+  "solution81": "871653492954218736362794851136549278485172369729836514247361985518927643693485127",
+  "seed": null,
+  "source": "ch2_l04",
+  "note": "正例：t2 全量规则集下逐级求解 61 步，难度 hard，最高技巧 finnedXWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing}。来源：level 档 ch2_l04。 目标技巧 鳍形 X 翼（含 Sashimi） 在第 22 步触发（共 61 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 22,
+    "techniqueId": "finnedXWing",
+    "eliminations": [
+      {
+        "cellIndex": 15,
+        "digit": 1
+      },
+      {
+        "cellIndex": 16,
+        "digit": 1
+      }
+    ],
+    "placements": []
+  }
+}

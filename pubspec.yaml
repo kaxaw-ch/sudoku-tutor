@@ -1,0 +1,26 @@
+# 仓库根 pubspec —— 占位包，不含任何依赖，不参与打包。
+#
+# 作用：
+#   1. 为 tools/ci/*.dart 脚本提供一个可 `dart pub get` 的包上下文；
+#   2. 预留 Dart 3.6+ workspace 迁移位（见架构文档 §8 风险 A-01 / A-03）。
+#
+# ⚠️ 本期基线采用 `path:` 依赖，不启用 workspace（全 Flutter 版本可编译）。
+#    待 .fvmrc 锁定的 Dart SDK 确认 >= 3.6 后，可将下方注释块解除注释，
+#    并在三个子包 pubspec 中加入 `resolution: workspace`，即可平滑升级为
+#    统一 lockfile 的 workspace 模式 —— **仅改 pubspec，不改任何代码**。
+#
+# workspace:
+#   - app
+#   - packages/sudoku_core
+#   - packages/sudoku_cli
+#
+# ⚠️ 若客户机 Dart SDK 对根 pubspec 的存在产生任何解析异常，
+#    可直接删除本文件，三个子包各自 `pub get` 不受影响。
+
+name: sudoku_tutor_workspace
+description: 数独教学跨端游戏 —— 仓库根占位包（不发布、不打包）。
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'

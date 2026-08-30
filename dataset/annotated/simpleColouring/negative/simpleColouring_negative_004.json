@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_negative_004",
+  "techniqueId": "simpleColouring",
+  "label": "negative",
+  "puzzle81": ".3...89.69......5...12...........5.3..65...2.3....41....4.....7.2.4.1....9...3.42",
+  "solution81": "235148976948367251761295438479612583816539724352784169584926317623471895197853642",
+  "seed": 1518148311,
+  "source": "app\\assets\\puzzles\\master.json.gz#148",
+  "note": "负例：t2 全量规则集下逐级求解 66 步，难度 master，最高技巧 urType2，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,xWing,finnedXWing,xyWing,xyzWing,wWing,urType2}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#148。 该题全程未触发 简单涂色，用作误报回归盘面。"
+}

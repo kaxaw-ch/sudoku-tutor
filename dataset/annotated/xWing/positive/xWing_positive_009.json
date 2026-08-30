@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xWing_positive_009",
+  "techniqueId": "xWing",
+  "label": "positive",
+  "puzzle81": "..65..9.47...8......429..........57....7....2.4..2863...1....5.47.6....9.69......",
+  "solution81": "386517924792384165154296387923461578618753492547928631231849756475632819869175243",
+  "seed": null,
+  "source": "ch1_l08",
+  "note": "正例：t2 全量规则集下逐级求解 57 步，难度 medium，最高技巧 xWing，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,xWing}。来源：level 档 ch1_l08。 目标技巧 X 翼 在第 31 步触发（共 57 步）。",
+  "expected": {
+    "stepOrder": 31,
+    "techniqueId": "xWing",
+    "eliminations": [
+      {
+        "cellIndex": 14,
+        "digit": 3
+      },
+      {
+        "cellIndex": 15,
+        "digit": 3
+      },
+      {
+        "cellIndex": 28,
+        "digit": 3
+      },
+      {
+        "cellIndex": 32,
+        "digit": 3
+      }
+    ],
+    "placements": []
+  }
+}

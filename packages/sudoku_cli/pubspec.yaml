@@ -1,0 +1,20 @@
+name: sudoku_cli
+description: 数独教学游戏离线出题工具：批量生成、逐级标注、筛选去重与题库导出（Dart CLI）。
+publish_to: 'none'
+version: 0.1.0
+
+# ⚠️ 铁律（PRD C-13）：CLI **只允许**通过 sudoku_core 复用推理规则，
+#    严禁在本包内重复实现任何算法；由代码评审 + tools/ci/check_layering.dart 保证。
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  sudoku_core:
+    path: ../sudoku_core
+  args: ^2.6.0
+  path: ^1.9.0
+  yaml: ^3.1.2
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.0.0

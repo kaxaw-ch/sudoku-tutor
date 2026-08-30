@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "finnedXWing_negative_015",
+  "techniqueId": "finnedXWing",
+  "label": "negative",
+  "puzzle81": ".7...5.9.29...751.....8.2...5..24.....7...6.4...8..9....6..8.4..83......5..3.1...",
+  "solution81": "378215496294637518165489273659724831827193654431856927916578342783942165542361789",
+  "seed": null,
+  "source": "ch1_l11",
+  "note": "负例：t2 全量规则集下逐级求解 58 步，难度 medium，最高技巧 xWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,xWing}。来源：level 档 ch1_l11。 该题全程未触发 鳍形 X 翼（含 Sashimi），用作误报回归盘面。",
+  "checkMode": "solve"
+}

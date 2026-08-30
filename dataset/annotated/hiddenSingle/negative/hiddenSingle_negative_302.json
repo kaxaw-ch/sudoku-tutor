@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenSingle_negative_302",
+  "techniqueId": "hiddenSingle",
+  "label": "negative",
+  "puzzle81": "7..5.3........6.4..4........6...43..89...1..24.....1.8....596.3.3.7.........1857.",
+  "solution81": "719543286358296741246187935561824397893671452472935168187459623935762814624318579",
+  "seed": null,
+  "source": "ch0_l02",
+  "note": "负例：t2 全量规则集下逐级求解 55 步，难度 beginner，最高技巧 nakedSingle，使用技巧 {nakedSingle}。来源：level 档 ch0_l02。 该题全程未触发 隐性唯一数，用作误报回归盘面。",
+  "checkMode": "solve"
+}

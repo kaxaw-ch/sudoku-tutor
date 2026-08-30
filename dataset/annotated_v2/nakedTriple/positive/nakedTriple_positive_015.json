@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "nakedTriple_positive_015",
+  "techniqueId": "nakedTriple",
+  "label": "positive",
+  "puzzle81": "542......1..6...3...6.........3.4..6...75...4.93.....7.15....4.3..9.27.56......9.",
+  "solution81": "542138679179625438836497152751384926268759314493261587915876243384912765627543891",
+  "seed": null,
+  "source": "ch2_l05",
+  "note": "正例：t2 全量规则集下逐级求解 59 步，难度 hard，最高技巧 swordfish，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple,swordfish}。来源：level 档 ch2_l05。 目标技巧 裸三 在第 22 步触发（共 59 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 22,
+    "techniqueId": "nakedTriple",
+    "eliminations": [
+      {
+        "cellIndex": 4,
+        "digit": 8
+      },
+      {
+        "cellIndex": 13,
+        "digit": 8
+      },
+      {
+        "cellIndex": 58,
+        "digit": 6
+      },
+      {
+        "cellIndex": 76,
+        "digit": 1
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,55 @@
+name: sudoku_tutor
+description: 数独教学跨端游戏（Windows / Android，简体中文）。
+publish_to: 'none'
+version: 0.1.0+1
+
+# ⚠️ 版本锁定三处同步（架构文档 §1.4）：本文件 / 仓库根 .fvmrc / docs/版本基线.md。
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+  flutter: '>=3.24.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # 算法层唯一来源（PRD C-13）。
+  sudoku_core:
+    path: ../packages/sudoku_core
+
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.6.0
+  path_provider: ^2.1.5
+  shared_preferences: ^2.3.3
+  file_selector: ^1.0.3
+  share_plus: ^10.1.2
+  package_info_plus: ^8.1.1
+  device_info_plus: ^11.1.1
+  audioplayers: ^6.1.0
+  collection: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  # T-QA-05：关卡 JSON 回放校验测试需用 package:test 的 `dart test` 运行器
+  #（纯 Dart 测试，不 import flutter；app 内既有 flutter test 语义不受影响）。
+  test: ^1.25.0
+
+flutter:
+  uses-material-design: true
+
+  # ⚠️ 批次 E：题库（puzzles/pools）与音效（audio）目录已就绪，声明为资产。
+  #    批次 F：课程（curriculum）目录已就绪（index.json + 测试关），声明为资产；
+  #           教学文案 text 目录已就绪（mistakes_zh.json，T-EDU-04），声明为资产；
+  #    T-PKG-01：images 目录已就绪（占位图标 icon_placeholder.png / .ico），声明为资产。
+  assets:
+    - assets/puzzles/
+    - assets/pools/
+    - assets/audio/
+    - assets/curriculum/
+    - assets/text/
+    - assets/images/

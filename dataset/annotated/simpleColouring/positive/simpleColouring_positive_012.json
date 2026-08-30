@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_012",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": "2..9..4..3...7...99...61.8.1.5..7.4..2..361......4...5......8..6.9..3......72..3.",
+  "solution81": "276985413318274569954361287165897342427536198893142675732619854689453721541728936",
+  "seed": 1518148397,
+  "source": "app\\assets\\puzzles\\master.json.gz#149",
+  "note": "正例：t2 全量规则集下逐级求解 65 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,finnedXWing,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#149。 目标技巧 简单涂色 在第 25 步触发（共 65 步）。",
+  "expected": {
+    "stepOrder": 25,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 7,
+        "digit": 7
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "xyzWing_positive_009",
+  "techniqueId": "xyzWing",
+  "label": "positive",
+  "puzzle81": ".3......4....68.7..6.7.......24.....5..6..2.8.4.1.2..6..935....4.3.......7.81.5..",
+  "solution81": "738521694124968375965743182682495713591637248347182956819356427453279861276814539",
+  "seed": null,
+  "source": "ch3_l08",
+  "note": "正例：t2 全量规则集下逐级求解 63 步，难度 hard，最高技巧 xyzWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair,lockedCandidates,xyWing,xyzWing}。来源：level 档 ch3_l08。 目标技巧 XYZ 翼 在第 26 步触发（共 63 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 26,
+    "techniqueId": "xyzWing",
+    "eliminations": [
+      {
+        "cellIndex": 20,
+        "digit": 1
+      }
+    ],
+    "placements": []
+  }
+}

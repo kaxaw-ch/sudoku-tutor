@@ -1,0 +1,17 @@
+# T2 出题 profile（doc 07 T-CLI-01，本期默认推荐档）。
+#
+# ruleSet.mode:
+#   t1     → RuleSet.t1() 基础档 13 项
+#   t2     → RuleSet.t2() 全量 16 项
+#   custom → 按下方 ids 显式声明技巧清单（必须与 TechniqueId.id 完全一致）
+name: t2
+description: 全量规则集：16 项（含鳍形 X 翼 / W 翼 / 简单涂色），本期默认推荐档。
+ruleSet:
+  mode: t2
+  ids: []
+
+defaults:
+  difficulty: medium
+  targetGivens: 30
+  symmetry: none        # none | central
+  maxAttempts: 500      # 单道题尝试预算上限

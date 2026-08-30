@@ -1,0 +1,50 @@
+%% 数独教学跨端游戏 · 核心时序图（摘自 docs/06-架构设计.md §5.1 自由练习主流程）
+sequenceDiagram
+    autonumber
+    actor U as 玩家
+    participant DP as DifficultyPage
+    participant PP as PuzzlePicker
+    participant BR as PuzzleBankRepository
+    participant GC as GameSessionController
+    participant IES as IsolateEngineService
+    participant CORE as sudoku_core
+    participant HS as HintService
+    participant PR as ProgressRepository
+
+    U->>DP: 选择「困难」
+    DP->>PR: loadSession()
+    PR-->>DP: SessionSnapshot 或 null
+    alt 存在断点存档
+        DP-->>U: 显示「继续上次对局 / 开始新局（覆盖）」
+        U->>DP: 选择「开始新局」并二次确认
+    end
+    DP->>PP: pick(Difficulty.hard)
+    PP->>BR: loadBank(hard)
+    BR-->>PP: List(Puzzle)（gz 解压 + 已玩去重）
+    PP-->>GC: Puzzle（含 puzzle81 / solution81 / givenMask）
+    GC->>CORE: Board.fromPuzzleString + recomputeAll
+    CORE-->>GC: Board
+    GC-->>U: 渲染棋盘，开始计时
+
+    U->>GC: 填入 r4c5 = 7
+    GC->>CORE: place + syncAfterPlace + findConflicts
+    CORE-->>GC: 冲突集合（同步，小于 1ms）
+    GC->>PR: saveSession（防抖 2s）
+    GC-->>U: 刷新棋盘 / 错误标红（若开启）
+
+    U->>GC: 点击「核对答案」
+    GC->>CORE: 逐格对比 solution81
+    CORE-->>GC: 错误格集合
+    GC-->>U: 红色描边 + 抖动，不纠正、不透露空格
+
+    U->>HS: 请求提示（一级）
+    HS->>IES: scanHint(board, RuleSet.t2())
+    IES->>CORE: HintScanner.scanSimplest
+    Note over IES,CORE: 在独立 Isolate 执行；超过 300ms 由 LoadingGate 上抛加载态
+    CORE-->>IES: TechniqueResult（含 VisualHint + Narration）
+    IES-->>HS: TechniqueResult
+    HS-->>U: 一级：「此处可用 X 翼」+ 高亮相关格
+    U->>HS: 请求提示（二级）
+    HS->>GC: applyEliminations(result)
+    GC->>CORE: eliminate xN
+    GC-->>U: 执行删数（绝不告知某格填几）

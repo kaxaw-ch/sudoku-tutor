@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenTriple_positive_018",
+  "techniqueId": "hiddenTriple",
+  "label": "positive",
+  "puzzle81": "...92....4.2..1..5..7.8...6..3.5.......8.7.3.5..362..91..........5..328.....4...1",
+  "solution81": "851926347462731895397584126723459618946817532518362479184275963675193284239648751",
+  "seed": 133311,
+  "source": "app\\assets\\pools\\ch1.json.gz#18",
+  "note": "正例：t2 全量规则集下逐级求解 62 步，难度 medium，最高技巧 hiddenTriple，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,hiddenTriple}。来源：pool 档 app\\assets\\pools\\ch1.json.gz#18。 目标技巧 隐三 在第 17 步触发（共 62 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 17,
+    "techniqueId": "hiddenTriple",
+    "eliminations": [
+      {
+        "cellIndex": 55,
+        "digit": 4
+      },
+      {
+        "cellIndex": 55,
+        "digit": 7
+      },
+      {
+        "cellIndex": 55,
+        "digit": 9
+      },
+      {
+        "cellIndex": 72,
+        "digit": 6
+      },
+      {
+        "cellIndex": 72,
+        "digit": 7
+      },
+      {
+        "cellIndex": 72,
+        "digit": 9
+      },
+      {
+        "cellIndex": 73,
+        "digit": 7
+      },
+      {
+        "cellIndex": 73,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

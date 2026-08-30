@@ -1,0 +1,27 @@
+# 全仓 lint 基线（架构文档 §7.6 / PRD P0-QA-07）
+#
+# 说明：根目录无 pub 依赖，故本文件**不使用 `include:`**（避免解析不到 lints 包）。
+# 三个子包各自的 analysis_options.yaml 会 include 对应基线：
+#   packages/sudoku_core → package:lints/recommended.yaml
+#   packages/sudoku_cli  → package:lints/recommended.yaml
+#   app                  → package:flutter_lints/flutter.yaml
+# 三者均额外开启 strict-casts / strict-raw-types。
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true
+  exclude:
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - '**/build/**'
+    - '**/.dart_tool/**'
+  errors:
+    todo: ignore
+
+linter:
+  rules:
+    - always_declare_return_types
+    - avoid_relative_lib_imports
+    - prefer_single_quotes
+    - unnecessary_brace_in_string_interps

@@ -1,0 +1,188 @@
+%% 数独教学跨端游戏 · 核心类图（摘自 docs/06-架构设计.md §4）
+%% 图 1：技巧识别与求解（sudoku_core 核心）
+classDiagram
+    direction TB
+
+    class Board {
+        +List~int~ values
+        +List~bool~ givenMask
+        +List~CandidateSet~ candidates
+        +Board fromPuzzleString(String s81)$
+        +int valueAt(int index)
+        +bool isGiven(int index)
+        +CandidateSet candidatesAt(int index)
+        +void place(int index, int digit)
+        +void clear(int index)
+        +void eliminate(int index, int digit)
+        +Board snapshot()
+        +String toPuzzleString()
+    }
+
+    class CandidateSet {
+        +int mask
+        +bool contains(int digit)
+        +CandidateSet plus(int digit)
+        +CandidateSet minus(int digit)
+        +int count()
+        +List~int~ digits()
+    }
+
+    class SolveContext {
+        +Board board
+        +List~bool~ givenMask
+        +bool uniqueSolutionGuaranteed
+        +List~int~ solution
+        +RuleSet ruleSet
+        +bool allows(TechniqueId id)
+    }
+
+    class Technique {
+        <<interface>>
+        +TechniqueId id
+        +int rank
+        +Difficulty difficulty
+        +Iterable~TechniqueResult~ find(SolveContext ctx, int limit)
+    }
+
+    class FishBase {
+        <<abstract>>
+        +int size
+        +bool allowFin
+        +Iterable~TechniqueResult~ findFish(SolveContext ctx)
+        #bool isDegenerate(FishPattern p)
+    }
+
+    class TechniqueResult {
+        +TechniqueId techniqueId
+        +List~Elimination~ eliminations
+        +List~Placement~ placements
+        +VisualHint visual
+        +NarrationParams narration
+        +String fingerprint
+    }
+
+    class Elimination {
+        +int cellIndex
+        +int digit
+    }
+    class Placement {
+        +int cellIndex
+        +int digit
+    }
+
+    class TechniqueRegistry {
+        +TechniqueRegistry defaults()$
+        +void register(Technique t)
+        +List~Technique~ enabled(RuleSet rs)
+        +Technique byId(TechniqueId id)
+    }
+
+    class RuleSet {
+        +Set~TechniqueId~ enabled
+        +RuleSet t1()$
+        +RuleSet t2()$
+        +RuleSet upTo(int rank)$
+        +RuleSet only(Set~TechniqueId~ ids)$
+    }
+
+    class LogicalSolver {
+        +SolveReport solve(Board puzzle)
+        +TechniqueResult nextStep(SolveContext ctx)
+        +void applyResult(Board b, TechniqueResult r)
+    }
+
+    class SolveStep {
+        +int order
+        +TechniqueId techniqueId
+        +List~int~ involvedCells
+        +List~Elimination~ eliminations
+        +List~Placement~ placements
+        +VisualHint visual
+        +String narration
+    }
+
+    class SolveReport {
+        +bool solved
+        +List~SolveStep~ steps
+        +Map~TechniqueId,int~ histogram
+        +TechniqueId highestTechnique
+        +int elapsedMicros
+    }
+
+    class DifficultyGrader {
+        +Difficulty grade(SolveReport report)
+        +Difficulty tierOf(TechniqueId id)$
+    }
+
+    class HintScanner {
+        +TechniqueResult scanSimplest(SolveContext ctx)
+        +List~TechniqueResult~ scanAll(SolveContext ctx, int limit)
+    }
+
+    class ScriptReplayer {
+        +ReplayReport replay(Board puzzle, SolutionScript script)
+    }
+
+    class SanityGuard {
+        +void assertEliminationSafe(List~int~ solution, Elimination e)$
+        +void assertPlacementSafe(List~int~ solution, Placement p)$
+    }
+
+    class VisualHint {
+        +List~CellMark~ cells
+        +List~RegionMark~ regions
+        +List~LinkMark~ links
+        +List~CandidateMark~ candidateMarks
+        +Map~String,Object~ toJson()
+    }
+    class CellMark {
+        +int index
+        +MarkRole role
+        +ShapeCode shape
+        +CandidateSet focusDigits
+    }
+    class RegionMark {
+        +List~int~ cornerCells
+        +MarkRole role
+        +bool dashed
+        +bool animated
+    }
+    class LinkMark {
+        +int fromCell
+        +int toCell
+        +int digit
+        +bool strong
+    }
+    class CandidateMark {
+        +int cellIndex
+        +int digit
+        +CandidateMarkKind kind
+    }
+    class NarrationParams {
+        +TechniqueId techniqueId
+        +Map~String,Object~ slots
+        +String render(NarrationTemplate t)
+    }
+
+    Board *-- CandidateSet
+    SolveContext --> Board
+    Technique ..> SolveContext
+    Technique ..> TechniqueResult
+    Technique <|.. FishBase
+    TechniqueResult *-- Elimination
+    TechniqueResult *-- Placement
+    TechniqueResult *-- VisualHint
+    TechniqueResult *-- NarrationParams
+    TechniqueRegistry o-- Technique
+    TechniqueRegistry ..> RuleSet
+    LogicalSolver --> TechniqueRegistry
+    LogicalSolver --> SolveReport
+    LogicalSolver ..> SanityGuard
+    SolveReport *-- SolveStep
+    DifficultyGrader ..> SolveReport
+    HintScanner --> TechniqueRegistry
+    ScriptReplayer --> LogicalSolver
+    VisualHint *-- CellMark
+    VisualHint *-- RegionMark
+    VisualHint *-- LinkMark
+    VisualHint *-- CandidateMark

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "simpleColouring_positive_004",
+  "techniqueId": "simpleColouring",
+  "label": "positive",
+  "puzzle81": "7...3....9.5..8........483...6.4..7.2..6.5...5.9.......98...1..........3...1.7.6.",
+  "solution81": "784531629935268741621794835816943572273615498549872316498326157167459283352187964",
+  "seed": 1518145858,
+  "source": "app\\assets\\puzzles\\master.json.gz#124",
+  "note": "正例：t2 全量规则集下逐级求解 71 步，难度 master，最高技巧 simpleColouring，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,hiddenTriple,xWing,finnedXWing,wWing,simpleColouring}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#124。 目标技巧 简单涂色 在第 27 步触发（共 71 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 27,
+    "techniqueId": "simpleColouring",
+    "eliminations": [
+      {
+        "cellIndex": 35,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

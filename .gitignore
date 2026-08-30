@@ -1,0 +1,75 @@
+# ---- Dart / Flutter ----
+.dart_tool/
+.packages
+build/
+.flutter_work/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+coverage/
+doc/api/
+
+# ⚠️ pubspec.lock 必须入库（架构文档 §1.4 版本锁定，三份）
+!app/pubspec.lock
+!packages/sudoku_core/pubspec.lock
+!packages/sudoku_cli/pubspec.lock
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.iml
+*.iws
+.history/
+
+# ---- 平台构建产物 ----
+app/windows/flutter/ephemeral/
+app/android/.gradle/
+app/android/local.properties
+app/android/app/debug/
+app/android/app/profile/
+app/android/app/release/
+app/ios/Flutter/ephemeral/
+app/macos/Flutter/ephemeral/
+
+# ---- CLI 中间产物（不进安装包）----
+dataset/tmp/
+dataset/qa_tmp/
+dataset/**/*.tmp
+out/
+release/
+
+# ---- 本地工作区 / 临时备份 ----
+.backup_app_*/
+.probe_tmp/
+.workbuddy/
+
+# ---- 本地诊断与发布产物 ----
+dist/
+scripts/env_report_*.txt
+build_diag.txt
+*.log
+
+# ---- 一次性探针 / 临时校验脚本 ----
+/reply.md
+/len.dart
+/probe_len.dart
+/readgz.dart
+/t_interp_test.dart
+/verify_mistakes.dart
+/verify_puzzle.dart
+/app/.probe_dummy.txt
+/app/find5.dart
+/dataset/annotated/probe.json
+/dataset/annotated/rw_probe.txt
+/packages/sudoku_cli/probe*.dart
+/packages/sudoku_cli/out.txt
+/packages/sudoku_cli/err.txt
+/packages/sudoku_cli/o.txt
+/packages/sudoku_cli/e.txt
+/packages/sudoku_cli/clean_out.txt
+/packages/sudoku_cli/clean_err.txt
+
+# ---- 系统 ----
+.DS_Store
+Thumbs.db

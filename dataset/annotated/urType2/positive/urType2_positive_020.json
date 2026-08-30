@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType2_positive_020",
+  "techniqueId": "urType2",
+  "label": "positive",
+  "puzzle81": "..2....4.35.....7...1...6.993.4.5......1......8...6....9.....28..5..976.6...73...",
+  "solution81": "862791345359648271471352689936425817524187936187936452793564128245819763618273594",
+  "seed": 1518345471,
+  "source": "app\\assets\\puzzles\\master.json.gz#260",
+  "note": "正例：t2 全量规则集下逐级求解 61 步，难度 master，最高技巧 urType2，使用技巧 {nakedSingle,hiddenSingle,hiddenPair,lockedCandidates,finnedXWing,urType2}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#260。 目标技巧 唯一矩形 型二 在第 25 步触发（共 61 步）。",
+  "expected": {
+    "stepOrder": 25,
+    "techniqueId": "urType2",
+    "eliminations": [
+      {
+        "cellIndex": 42,
+        "digit": 4
+      }
+    ],
+    "placements": []
+  }
+}

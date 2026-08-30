@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "lockedCandidates_positive_005",
+  "techniqueId": "lockedCandidates",
+  "label": "positive",
+  "puzzle81": "...3.89..6...2.....49.......51..7.9...7.4163.9......7.8.6............3.4..419..6.",
+  "solution81": "512368947678429153349715286451637892287941635963582471836254719195876324724193568",
+  "seed": null,
+  "source": "ch0_l11",
+  "note": "正例：t2 全量规则集下逐级求解 59 步，难度 easy，最高技巧 lockedCandidates，使用技巧 {nakedSingle,hiddenSingle,lockedCandidates}。来源：level 档 ch0_l11。 目标技巧 区块排除 在第 24 步触发（共 59 步）。",
+  "expected": {
+    "stepOrder": 24,
+    "techniqueId": "lockedCandidates",
+    "eliminations": [
+      {
+        "cellIndex": 8,
+        "digit": 2
+      }
+    ],
+    "placements": []
+  }
+}

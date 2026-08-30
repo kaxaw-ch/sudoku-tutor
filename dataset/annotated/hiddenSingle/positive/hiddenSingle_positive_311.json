@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenSingle_positive_311",
+  "techniqueId": "hiddenSingle",
+  "label": "positive",
+  "puzzle81": ".......85..8..2..9..7.5.......69..1..36...7..12..8...37.....1....57...384....82..",
+  "solution81": "312974685658132479947856321574693812836215794129487563783529146265741938491368257",
+  "seed": null,
+  "source": "ch0_l06",
+  "note": "正例：t2 全量规则集下逐级求解 56 步，难度 easy，最高技巧 nakedPair，使用技巧 {nakedSingle,hiddenSingle,nakedPair}。来源：level 档 ch0_l06。 目标技巧 隐性唯一数 在第 8 步触发（共 56 步）。",
+  "checkMode": "solve",
+  "expected": {
+    "stepOrder": 8,
+    "techniqueId": "hiddenSingle",
+    "eliminations": [],
+    "placements": [
+      {
+        "cellIndex": 21,
+        "digit": 8
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "urType2_positive_017",
+  "techniqueId": "urType2",
+  "label": "positive",
+  "puzzle81": ".2......7.7.28..1.5........7.5....932.9...45.....94.....6.2...4.....15..85.3....2",
+  "solution81": "128956347674283915593417628745162893269738451381594276916825734432671589857349162",
+  "seed": 1518344643,
+  "source": "app\\assets\\puzzles\\master.json.gz#245",
+  "note": "正例：t2 全量规则集下逐级求解 60 步，难度 master，最高技巧 urType2，使用技巧 {nakedSingle,hiddenSingle,nakedPair,wWing,urType1,urType2}。来源：puzzle 档 app\\assets\\puzzles\\master.json.gz#245。 目标技巧 唯一矩形 型二 在第 30 步触发（共 60 步）。",
+  "expected": {
+    "stepOrder": 30,
+    "techniqueId": "urType2",
+    "eliminations": [
+      {
+        "cellIndex": 24,
+        "digit": 9
+      },
+      {
+        "cellIndex": 26,
+        "digit": 9
+      },
+      {
+        "cellIndex": 60,
+        "digit": 9
+      }
+    ],
+    "placements": []
+  }
+}

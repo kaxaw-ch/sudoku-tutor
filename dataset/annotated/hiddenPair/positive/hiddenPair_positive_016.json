@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenPair_positive_016",
+  "techniqueId": "hiddenPair",
+  "label": "positive",
+  "puzzle81": ".....7..57..5.18.2....9..1...72......3..86.7.9...1.2.6.8...23......6.5.8.......2.",
+  "solution81": "891427635764531892523698714617245983235986471948713256489152367172369548356874129",
+  "seed": null,
+  "source": "ch0_l13",
+  "note": "正例：t2 全量规则集下逐级求解 57 步，难度 easy，最高技巧 hiddenPair，使用技巧 {nakedSingle,hiddenSingle,nakedPair,hiddenPair}。来源：level 档 ch0_l13。 目标技巧 隐对 在第 5 步触发（共 57 步）。",
+  "expected": {
+    "stepOrder": 5,
+    "techniqueId": "hiddenPair",
+    "eliminations": [
+      {
+        "cellIndex": 36,
+        "digit": 1
+      },
+      {
+        "cellIndex": 36,
+        "digit": 4
+      },
+      {
+        "cellIndex": 38,
+        "digit": 1
+      },
+      {
+        "cellIndex": 38,
+        "digit": 4
+      }
+    ],
+    "placements": []
+  }
+}

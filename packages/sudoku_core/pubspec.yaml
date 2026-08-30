@@ -1,0 +1,18 @@
+name: sudoku_core
+description: 数独教学游戏纯 Dart 算法层：盘面模型、校验、候选、回溯求解、生成、撤销栈与技巧识别框架。
+publish_to: 'none'
+version: 0.1.0
+
+# ⚠️ 铁律：本包**禁止**出现 flutter / dart:ui / dart:io 依赖（架构文档 §2.1、§7.6）。
+#    由 tools/ci/check_layering.dart 在 CI 中静态校验，违规即阻断。
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  meta: ^1.15.0
+  collection: ^1.18.0
+
+dev_dependencies:
+  test: ^1.25.0
+  coverage: ^1.11.0
+  lints: ^5.0.0

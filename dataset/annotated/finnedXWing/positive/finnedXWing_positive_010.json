@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "finnedXWing_positive_010",
+  "techniqueId": "finnedXWing",
+  "label": "positive",
+  "puzzle81": "..3.8.......35.4.691......8..48659...8.4......5..1....1.76....4..6....1......8.7.",
+  "solution81": "463982157728351496915746238374865921281493765659217843137629584896574312542138679",
+  "seed": null,
+  "source": "ch2_l05",
+  "note": "正例：t2 全量规则集下逐级求解 61 步，难度 hard，最高技巧 finnedXWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,finnedXWing}。来源：level 档 ch2_l05。 目标技巧 鳍形 X 翼（含 Sashimi） 在第 33 步触发（共 61 步）。",
+  "expected": {
+    "stepOrder": 33,
+    "techniqueId": "finnedXWing",
+    "eliminations": [
+      {
+        "cellIndex": 41,
+        "digit": 2
+      }
+    ],
+    "placements": []
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "kind": "annotation-example",
+  "id": "hiddenTriple_negative_018",
+  "techniqueId": "hiddenTriple",
+  "label": "negative",
+  "puzzle81": "2...9.1....7..2.36...8...7...1.4...9.24....6..931....57.6........25.3.......7.6..",
+  "solution81": "238697154917452836465831972671345289524789361893126745746918523182563497359274618",
+  "seed": null,
+  "source": "ch1_l08",
+  "note": "负例：t2 全量规则集下逐级求解 68 步，难度 medium，最高技巧 xWing，使用技巧 {nakedSingle,hiddenSingle,nakedPair,lockedCandidates,nakedTriple,xWing}。来源：level 档 ch1_l08。 该题全程未触发 隐三，用作误报回归盘面。"
+}
