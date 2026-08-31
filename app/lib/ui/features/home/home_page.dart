@@ -5,7 +5,7 @@
 /// - 主体：章节纵向卡片列表（[ChapterCard]），点击展开该章关卡格栅
 ///   （[LevelGrid]，全部关卡均可自由选择，已通关关卡显示星级）；
 /// - 底部常驻「自由练习」大按钮 → `/difficulty`（难度选择页）；
-/// - P1 入口位预留：对战 / 每日一题 置灰占位卡（标注「即将推出」，不实现功能）。
+/// - 离线对决入口：挑战码异步竞速，不依赖网络或服务器。
 ///
 /// **UI 零逻辑**：课程列表/各章进度/解锁状态/完成数全部来自
 /// [curriculumStateProvider]（T-EDU-01 装配），本页不做任何解锁/进度计算，
@@ -122,25 +122,14 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             const SizedBox(height: AppSpacing.sm),
-            // P1 入口位预留（置灰占位，不实现功能）。
+            // 离线挑战码对决入口。
             Text('更多玩法', style: theme.textTheme.titleMedium),
             const SizedBox(height: AppSpacing.sm),
-            const Row(
-              children: <Widget>[
-                Expanded(
-                  child: _P1PlaceholderCard(
-                    icon: Icons.sports_esports_outlined,
-                    label: '对战',
-                  ),
-                ),
-                SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: _P1PlaceholderCard(
-                    icon: Icons.calendar_month_outlined,
-                    label: '每日一题',
-                  ),
-                ),
-              ],
+            _MoreModeCard(
+              icon: Icons.sports_esports_outlined,
+              label: '离线对决',
+              description: '挑战码异步竞速',
+              onTap: () => context.goNamed(RouteNames.asyncDuel),
             ),
             const SizedBox(height: AppSpacing.sm),
           ],
@@ -289,9 +278,14 @@ class _ProgressHero extends StatelessWidget {
   }
 }
 
-/// P1 占位卡片：置灰 + 「即将推出」，不可点击。
-class _P1PlaceholderCard extends StatelessWidget {
-  const _P1PlaceholderCard({required this.icon, required this.label});
+/// 首页的扩展玩法入口。
+class _MoreModeCard extends StatelessWidget {
+  const _MoreModeCard({
+    required this.icon,
+    required this.label,
+    required this.description,
+    required this.onTap,
+  });
 
   /// 占位图标。
   final IconData icon;
@@ -299,34 +293,53 @@ class _P1PlaceholderCard extends StatelessWidget {
   /// 入口名（如 `对战`）。
   final String label;
 
+  /// 简短玩法说明。
+  final String description;
+
+  /// 点击入口。
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme scheme = theme.colorScheme;
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: <Widget>[
-          Icon(icon, size: 24, color: scheme.outline),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            label,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: scheme.secondaryContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: scheme.secondary),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(label, style: theme.textTheme.titleSmall),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right),
+            ],
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            '即将推出',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: scheme.outline,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

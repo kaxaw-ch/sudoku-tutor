@@ -23,7 +23,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/core/core.dart';
+import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
 import 'package:sudoku_tutor/domain/hint/hint_level.dart';
 import 'package:sudoku_tutor/domain/hint/hint_providers.dart';
 import 'package:sudoku_tutor/domain/hint/hint_service.dart';
@@ -38,6 +40,7 @@ import 'package:sudoku_tutor/domain/stats/stats_collector.dart';
 import 'package:sudoku_tutor/domain/storage/models/settings_models.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
+import 'package:sudoku_tutor/ui/features/async_duel/async_duel_result_dialog.dart';
 import 'package:sudoku_tutor/ui/input/action_bar.dart';
 import 'package:sudoku_tutor/ui/input/desktop_shortcuts.dart';
 import 'package:sudoku_tutor/ui/input/input_intents.dart';
@@ -79,6 +82,21 @@ class FreePlayLaunchImported extends FreePlayLaunch {
   final Puzzle puzzle;
 }
 
+/// 通过离线挑战码开始同题竞速。
+class FreePlayLaunchChallenge extends FreePlayLaunch {
+  /// 构造挑战对局参数。
+  const FreePlayLaunchChallenge({
+    required this.challenge,
+    required this.playerName,
+  });
+
+  /// 已验证且带本机唯一解的挑战。
+  final AsyncDuelChallenge challenge;
+
+  /// 本机玩家昵称。
+  final String playerName;
+}
+
 /// 自由练习页。
 class FreePlayPage extends ConsumerStatefulWidget {
   /// 构造页面。
@@ -105,6 +123,8 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
   bool _completionCelebrated = false;
   Timer? _inactivePauseTimer;
   AppLifecycleState? _lifecycleState;
+  AsyncDuelChallenge? _duelChallenge;
+  String? _duelPlayerName;
 
   @override
   void initState() {
@@ -212,6 +232,23 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
         ok = await _startNew(difficulty, settings);
       case FreePlayLaunchImported(puzzle: final Puzzle puzzle):
         ok = await _startImported(puzzle, settings);
+      case FreePlayLaunchChallenge(
+          challenge: final AsyncDuelChallenge challenge,
+          playerName: final String playerName,
+        ):
+        _duelChallenge = challenge;
+        _duelPlayerName = playerName;
+        ok = await _startWith(
+          challenge.puzzle,
+          difficulty: challenge.difficulty,
+          settings: settings.copyWith(
+            autoCandidates: false,
+            markErrors: false,
+            hintQuota: HintQuota.off,
+          ),
+          clearFreePlaySnapshot: false,
+          recordStats: false,
+        );
       case null:
         // 直接进入（测试兜底）：尝试续玩，无断点则中等难度新局。
         ok = await controller.restoreIfAny(settings: settings) ||
@@ -267,10 +304,16 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
     Puzzle puzzle, {
     required Difficulty difficulty,
     required SettingsState settings,
+    bool clearFreePlaySnapshot = true,
+    bool recordStats = true,
   }) async {
-    await ref
-        .read(gameSessionControllerProvider.notifier)
-        .startNew(difficulty: difficulty, puzzle: puzzle, settings: settings);
+    await ref.read(gameSessionControllerProvider.notifier).startNew(
+          difficulty: difficulty,
+          puzzle: puzzle,
+          settings: settings,
+          clearFreePlaySnapshot: clearFreePlaySnapshot,
+          recordStats: recordStats,
+        );
     return true;
   }
 
@@ -293,9 +336,40 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
       _completionCelebrated = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && !_disposed) {
-          unawaited(CongratulationsAnimation.show(context));
+          final AsyncDuelChallenge? challenge = _duelChallenge;
+          if (challenge == null) {
+            unawaited(CongratulationsAnimation.show(context));
+          } else {
+            unawaited(_showDuelResult(challenge));
+          }
         }
       });
+    }
+  }
+
+  Future<void> _showDuelResult(AsyncDuelChallenge challenge) async {
+    final GameSession? session = ref.read(gameSessionControllerProvider);
+    final String? playerName = _duelPlayerName;
+    if (session == null || !session.completed || playerName == null) {
+      return;
+    }
+    final AsyncDuelResult result = AsyncDuelResult.completed(
+      challenge: challenge,
+      playerName: playerName,
+      elapsedMs: session.elapsedMs,
+      wrongCount: session.wrongCount,
+    );
+    final bool? returnToLobby = await AsyncDuelResultDialog.show(
+      context,
+      result: result,
+    );
+    if (returnToLobby == true && mounted) {
+      await ref
+          .read(gameSessionControllerProvider.notifier)
+          .discardSession(clearSavedSnapshot: false);
+      if (mounted) {
+        context.goNamed(RouteNames.asyncDuel, extra: result);
+      }
     }
   }
 
@@ -376,6 +450,10 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
 
   /// 退出并自动保存断点（P0-PRA-09；返回按钮与系统返回同一语义）。
   Future<void> _exitAndSave() async {
+    if (_duelChallenge != null) {
+      _quitGame();
+      return;
+    }
     final GameSessionController controller =
         ref.read(gameSessionControllerProvider.notifier);
     await controller.saveSnapshot();
@@ -389,11 +467,14 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
   /// 放弃本局（二次确认 → 清除断点 → 返回）。
   void _quitGame() {
     final BuildContext stateContext = context;
+    final bool duel = _duelChallenge != null;
     showDialog<void>(
       context: stateContext,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('放弃本局？'),
-        content: const Text('放弃后将清除本局进度，且不可恢复。'),
+        title: Text(duel ? '放弃挑战？' : '放弃本局？'),
+        content: Text(
+          duel ? '离线挑战暂不保存中途盘面，放弃后需用挑战码重新开始。' : '放弃后将清除本局进度，且不可恢复。',
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
@@ -404,9 +485,11 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
               Navigator.of(dialogContext).pop();
               await ref
                   .read(gameSessionControllerProvider.notifier)
-                  .discardSession();
+                  .discardSession(clearSavedSnapshot: !duel);
               if (stateContext.mounted) {
-                stateContext.goNamed('difficulty');
+                stateContext.goNamed(
+                  duel ? RouteNames.asyncDuel : RouteNames.difficulty,
+                );
               }
             },
             child: const Text('放弃'),
@@ -446,7 +529,7 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
 
   @override
   Widget build(BuildContext context) {
-    // 保持统计采集常驻（T-DOM-06）。
+    // 保持自由练习统计采集常驻；离线挑战显式不计入练习数据。
     ref.watch(statsCollectorProvider);
     final GameSession? session = ref.watch(gameSessionControllerProvider);
     final SettingsState settings =
@@ -454,7 +537,9 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
 
     if (_starting || session == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('自由练习')),
+        appBar: AppBar(
+          title: Text(_duelChallenge == null ? '自由练习' : '离线对决'),
+        ),
         body: const LoadingIndicator(),
       );
     }
@@ -486,9 +571,14 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
             icon: const Icon(Icons.arrow_back),
             onPressed: _exitAndSave,
           ),
-          title: Text('自由练习 · ${session.difficulty.zhName}'),
+          title: Text(
+            _duelChallenge == null
+                ? '自由练习 · ${session.difficulty.zhName}'
+                : '离线对决 · ${session.difficulty.zhName}',
+          ),
           actions: <Widget>[
-            if (settings.showTimer) _TimerBadge(session: session),
+            if (settings.showTimer || _duelChallenge != null)
+              _TimerBadge(session: session),
             IconButton(
               tooltip: '暂停',
               icon: Icon(session.paused ? Icons.play_arrow : Icons.pause),
@@ -596,11 +686,17 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
                                         switchInCurve: Curves.easeOutCubic,
                                         transitionBuilder: _hintTransition,
                                         child: _hint == null
-                                            ? const _HintPlaceholder(
-                                                key: ValueKey<String>(
-                                                  'hint-placeholder',
-                                                ),
-                                              )
+                                            ? (_duelChallenge == null
+                                                ? const _HintPlaceholder(
+                                                    key: ValueKey<String>(
+                                                      'hint-placeholder',
+                                                    ),
+                                                  )
+                                                : const _DuelRulesPanel(
+                                                    key: ValueKey<String>(
+                                                      'duel-rules',
+                                                    ),
+                                                  ))
                                             : SingleChildScrollView(
                                                 key: ValueKey<String>(
                                                   'hint-${_hint!.sceneFingerprint}-${_hint!.level.order}',
@@ -635,7 +731,9 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
                             switchInCurve: Curves.easeOutCubic,
                             transitionBuilder: _hintTransition,
                             child: _hint == null
-                                ? const SizedBox.shrink()
+                                ? (_duelChallenge == null
+                                    ? const SizedBox.shrink()
+                                    : const _DuelRulesPanel(compact: true))
                                 : _HintCard(
                                     key: ValueKey<String>(
                                       'mobile-hint-${_hint!.sceneFingerprint}-${_hint!.level.order}',
@@ -691,12 +789,14 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
           _runBoardAction(() => controller.toggleNote(digit));
         },
         onToggleNoteMode: controller.toggleNoteMode,
-        onAutoNotes: () => _runBoardAction(controller.autoFillNotes),
+        onAutoNotes: _duelChallenge == null
+            ? () => _runBoardAction(controller.autoFillNotes)
+            : null,
         onClearCell: () => _runBoardAction(controller.clearCell),
         onUndo: () => _runBoardAction(controller.undo),
         onRedo: () => _runBoardAction(controller.redo),
-        onRequestHint: _requestHint,
-        onCheckAnswer: _checkAnswer,
+        onRequestHint: _duelChallenge == null ? _requestHint : null,
+        onCheckAnswer: _duelChallenge == null ? _checkAnswer : null,
         onPause: _togglePause,
         onMoveSelection: _moveSelection,
         onSelectCell: controller.selectCell,
@@ -736,6 +836,47 @@ class _TimerBadge extends StatelessWidget {
         child: Chip(
           label: Text(label),
           visualDensity: VisualDensity.compact,
+        ),
+      ),
+    );
+  }
+}
+
+/// 离线挑战固定规则提示；代替自由练习的提示说明区。
+class _DuelRulesPanel extends StatelessWidget {
+  const _DuelRulesPanel({this.compact = false, super.key});
+
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Card(
+      color: theme.colorScheme.secondaryContainer,
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: compact ? AppSpacing.xs : 0,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(compact ? AppSpacing.sm : AppSpacing.md),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            if (!compact) ...<Widget>[
+              const Icon(Icons.sports_esports_outlined, size: 38),
+              const SizedBox(height: AppSpacing.sm),
+            ],
+            Text(
+              '离线同题竞速',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            const Text(
+              '提示、核对和自动笔记已关闭；手动笔记可用。'
+              '填满后自动核验，每个错误格罚时 5 秒。',
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

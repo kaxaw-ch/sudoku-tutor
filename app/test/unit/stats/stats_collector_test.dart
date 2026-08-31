@@ -49,6 +49,38 @@ void main() {
       expect(repo.current.stats.totalGames, 0, reason: '未终结不写记录');
     });
 
+    test('离线对决 recordStats=false：状态和完成事件均不进入练习统计', () async {
+      final GameSession duel = buildTestGameSession(
+        elapsedMs: 5000,
+        completed: true,
+        recordStats: false,
+      );
+
+      collector.onSessionChanged(null, duel);
+      collector.onEvent(const GameCompletedEvent());
+      await settleFlush();
+
+      expect(collector.isActive, isFalse);
+      expect(repo.current.stats.totalGames, 0);
+    });
+
+    test('自由练习后插入离线对决，不会把练习误结算或用对决事件结算', () async {
+      final GameSession practice = buildTestGameSession(elapsedMs: 3000);
+      final GameSession duel = buildTestGameSession(
+        elapsedMs: 5000,
+        completed: true,
+        recordStats: false,
+      );
+
+      collector.onSessionChanged(null, practice);
+      collector.onSessionChanged(practice, duel);
+      collector.onEvent(const GameCompletedEvent());
+      collector.onSessionChanged(duel, null);
+      await settleFlush();
+
+      expect(repo.current.stats.totalGames, 0);
+    });
+
     test('同局状态追踪：提示/错误/用时累计进聚合', () async {
       // 同一指纹（同一 puzzle）的新状态 = 同局追踪，不重复开局。
       final GameSession s1 = buildTestGameSession(elapsedMs: 500);

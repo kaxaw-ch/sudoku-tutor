@@ -32,6 +32,9 @@ abstract final class RoutePaths {
   /// 数独技巧百科。
   static const String wiki = '/wiki';
 
+  /// 完全离线的挑战码异步对决大厅。
+  static const String asyncDuel = '/duel';
+
   /// 开发者模式页（S-12）。
   static const String developer = '/settings/developer';
 
@@ -68,6 +71,9 @@ abstract final class RouteNames {
 
   /// 数独技巧百科。
   static const String wiki = 'wiki';
+
+  /// 离线异步对决大厅。
+  static const String asyncDuel = 'asyncDuel';
 
   /// 开发者模式页。
   static const String developer = 'developer';

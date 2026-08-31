@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/core/core.dart';
+import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
 import 'package:sudoku_tutor/domain/hint/hint_providers.dart';
 import 'package:sudoku_tutor/domain/hint/hint_service.dart';
 import 'package:sudoku_tutor/domain/session/game_session.dart';
@@ -45,8 +46,9 @@ void main() {
   /// 「续玩失败 → 中等难度新局」兜底），全部依赖注入假实现。
   Future<ProviderContainer> pumpFreePlayPage(
     WidgetTester tester,
-    FakeProgressRepository repo,
-  ) async {
+    FakeProgressRepository repo, {
+    Object? launch,
+  }) async {
     final ProviderContainer container = ProviderContainer(
       overrides: <Override>[
         progressRepositoryProvider.overrideWith((Ref ref) async => repo),
@@ -71,6 +73,9 @@ void main() {
         ),
       ],
     );
+    if (launch != null) {
+      router.go('/free-play/session', extra: launch);
+    }
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
@@ -392,5 +397,49 @@ void main() {
 
     await tester.tap(find.text('太棒了'));
     await tester.pumpAndSettle();
+  });
+
+  testWidgets('离线挑战使用固定规则，完成后生成成绩码而非普通恭喜动画', (WidgetTester tester) async {
+    final AsyncDuelChallenge challenge = AsyncDuelChallenge.create(
+      challengerName: '甲',
+      puzzle: buildTestPuzzle(difficulty: Difficulty.medium),
+      difficulty: Difficulty.medium,
+      createdAtMs: 1700000000000,
+    );
+    final ProviderContainer container = await pumpFreePlayPage(
+      tester,
+      FakeProgressRepository(),
+      launch: FreePlayLaunchChallenge(
+        challenge: challenge,
+        playerName: '乙',
+      ),
+    );
+
+    expect(find.text('离线对决 · 中等'), findsOneWidget);
+    expect(find.text('离线同题竞速'), findsOneWidget);
+    final ActionBar actionBar =
+        tester.widget<ActionBar>(find.byType(ActionBar));
+    expect(actionBar.callbacks.onRequestHint, isNull);
+    expect(actionBar.callbacks.onCheckAnswer, isNull);
+    expect(actionBar.callbacks.onAutoNotes, isNull);
+    expect(container.read(gameSessionControllerProvider)!.recordStats, isFalse);
+
+    final GameSessionController controller =
+        container.read(gameSessionControllerProvider.notifier);
+    final GameSession session = container.read(gameSessionControllerProvider)!;
+    for (final int cell in session.board.blankCells()) {
+      controller.selectCell(cell);
+      controller.inputDigit(session.solution![cell]);
+    }
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('挑战完成！'), findsOneWidget);
+    final SelectableText resultCode = tester.widget<SelectableText>(
+      find.byKey(const ValueKey<String>('duel-result-code')),
+    );
+    expect(resultCode.data, startsWith('SDKR1.'));
+    expect(find.byKey(const ValueKey<String>('congratulations-animation')),
+        findsNothing);
   });
 }

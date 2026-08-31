@@ -159,6 +159,11 @@ void main() {
           builder: (_, __) => const Scaffold(body: Text('wiki-page')),
         ),
         GoRoute(
+          path: RoutePaths.asyncDuel,
+          name: RouteNames.asyncDuel,
+          builder: (_, __) => const Scaffold(body: Text('async-duel-page')),
+        ),
+        GoRoute(
           path: RoutePaths.demo,
           name: RouteNames.demo,
           builder: (_, __) => const Scaffold(body: Text('demo-page')),
@@ -219,9 +224,10 @@ void main() {
       expect(find.text('已通关 0/1'), findsOneWidget);
       // 总进度行 + P1 占位入口。
       expect(find.text('已完成 0/4 关'), findsOneWidget);
-      expect(find.text('对战'), findsOneWidget);
-      expect(find.text('每日一题'), findsOneWidget);
-      expect(find.text('即将推出'), findsNWidgets(2));
+      expect(find.text('离线对决'), findsOneWidget);
+      expect(find.text('挑战码异步竞速'), findsOneWidget);
+      expect(find.text('每日一题'), findsNothing);
+      expect(find.text('即将推出'), findsNothing);
       // 底部常驻「自由练习」入口。
       expect(find.text('自由练习'), findsOneWidget);
     });
@@ -237,6 +243,16 @@ void main() {
         findsOneWidget,
         reason: '未完成第 0 章也能自由打开第 1 章',
       );
+    });
+
+    testWidgets('点击离线对决入口进入挑战码大厅', (WidgetTester tester) async {
+      await pumpHome(tester, FakeProgressRepository());
+
+      await tester.ensureVisible(find.text('离线对决'));
+      await tester.tap(find.text('离线对决'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('async-duel-page'), findsOneWidget);
     });
 
     testWidgets('点击章节卡片展开关卡格栅，再次点击收起（动画）', (WidgetTester tester) async {

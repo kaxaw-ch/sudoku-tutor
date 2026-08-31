@@ -83,6 +83,7 @@ class GameSessionController extends Notifier<GameSession?> {
   bool _autoNotesFilled = false;
   bool _markErrors = true;
   bool _highlightSameDigit = true;
+  bool _recordStats = true;
   int? _selected;
   Set<int> _errorCells = <int>{};
   int _wrongCount = 0;
@@ -129,6 +130,7 @@ class GameSessionController extends Notifier<GameSession?> {
     required Puzzle puzzle,
     required SettingsState settings,
     bool clearFreePlaySnapshot = true,
+    bool recordStats = true,
   }) async {
     final Board board = puzzle.toGivenBoard();
     if (settings.autoCandidates) {
@@ -145,6 +147,7 @@ class GameSessionController extends Notifier<GameSession?> {
     _autoNotesFilled = false;
     _markErrors = settings.markErrors;
     _highlightSameDigit = settings.highlightSameDigit;
+    _recordStats = recordStats;
     _selected = null;
     _errorCells = <int>{};
     _wrongCount = 0;
@@ -191,6 +194,7 @@ class GameSessionController extends Notifier<GameSession?> {
     _autoNotesFilled = restored.autoNotesFilled;
     _markErrors = settings.markErrors;
     _highlightSameDigit = settings.highlightSameDigit;
+    _recordStats = true;
     _selected = null;
     _errorCells = <int>{};
     _wrongCount = 0;
@@ -635,6 +639,7 @@ class GameSessionController extends Notifier<GameSession?> {
       usedHints: _usedHints,
       markErrors: _markErrors,
       highlightSameDigit: _highlightSameDigit,
+      recordStats: _recordStats,
       undoMoves: <Move>[
         for (final MoveRecord record in undo.history()) record.move,
       ],

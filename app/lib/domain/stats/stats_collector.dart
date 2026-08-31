@@ -41,6 +41,7 @@ class StatsCollector {
   int _durationMs = 0;
   bool _completed = false;
   bool _flushed = false;
+  bool _acceptSessionEvents = true;
 
   /// 是否正在采集一局。
   bool get isActive => _activeDifficultyId != null;
@@ -51,7 +52,22 @@ class StatsCollector {
   ///
   /// 返回是否发生了「本局终结并写入」。
   void onSessionChanged(GameSession? previous, GameSession? next) {
-    final String? prevFp = previous?.puzzle.fingerprint;
+    if (next != null && !next.recordStats) {
+      // 离线对决会暂时复用同一个 GameSessionController，但不得结算或覆盖
+      // 此前保存的自由练习统计上下文。
+      _acceptSessionEvents = false;
+      return;
+    }
+    if (previous != null && !previous.recordStats) {
+      if (next == null) {
+        return;
+      }
+      // 从离线对决回到自由练习，按一次新装载的可统计会话处理。
+      previous = null;
+    }
+    _acceptSessionEvents = true;
+    final GameSession? trackedPrevious = previous;
+    final String? prevFp = trackedPrevious?.puzzle.fingerprint;
     final String? nextFp = next?.puzzle.fingerprint;
     final bool isNewGame = prevFp != nextFp;
     if (isNewGame && prevFp != null) {
@@ -72,7 +88,7 @@ class StatsCollector {
 
   /// 对局事件回调（Provider 订阅 `controller.events`）。
   void onEvent(GameSessionEvent event) {
-    if (event is GameCompletedEvent) {
+    if (_acceptSessionEvents && event is GameCompletedEvent) {
       _flush(completed: true);
     }
   }
@@ -85,6 +101,7 @@ class StatsCollector {
   void reset() {
     _activeDifficultyId = null;
     _flushed = true;
+    _acceptSessionEvents = true;
   }
 
   // ------------------------------------------------------------ 内部

@@ -144,6 +144,7 @@ GameSession buildTestGameSession({
   bool autoCandidates = true,
   bool markErrors = true,
   bool highlightSameDigit = true,
+  bool recordStats = true,
   int? selectedIndex,
 }) {
   final Puzzle puzzle = buildTestPuzzle(difficulty: difficulty);
@@ -166,6 +167,7 @@ GameSession buildTestGameSession({
     usedHints: usedHints,
     markErrors: markErrors,
     highlightSameDigit: highlightSameDigit,
+    recordStats: recordStats,
   );
 }
 

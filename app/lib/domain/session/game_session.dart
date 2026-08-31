@@ -28,6 +28,7 @@ class GameSession {
     required this.usedHints,
     required this.markErrors,
     required this.highlightSameDigit,
+    this.recordStats = true,
     this.undoMoves = const <Move>[],
     this.redoMoves = const <Move>[],
   });
@@ -83,6 +84,9 @@ class GameSession {
   /// 相同数字高亮开关（设置快照，P0-PRA-07）。
   final bool highlightSameDigit;
 
+  /// 是否计入自由练习统计；教学及离线对决等复用对局组件时可关闭。
+  final bool recordStats;
+
   /// 撤销栈的 Move 序列（由旧到新；断点序列化用，P0-PRA-09）。
   final List<Move> undoMoves;
 
@@ -132,6 +136,7 @@ class GameSession {
     int? usedHints,
     bool? markErrors,
     bool? highlightSameDigit,
+    bool? recordStats,
     List<Move>? undoMoves,
     List<Move>? redoMoves,
   }) =>
@@ -153,6 +158,7 @@ class GameSession {
         usedHints: usedHints ?? this.usedHints,
         markErrors: markErrors ?? this.markErrors,
         highlightSameDigit: highlightSameDigit ?? this.highlightSameDigit,
+        recordStats: recordStats ?? this.recordStats,
         undoMoves: undoMoves ?? this.undoMoves,
         redoMoves: redoMoves ?? this.redoMoves,
       );

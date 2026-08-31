@@ -3,6 +3,8 @@ library;
 
 import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
+import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
+import 'package:sudoku_tutor/ui/features/async_duel/async_duel_page.dart';
 import 'package:sudoku_tutor/ui/features/demo/demo_page.dart';
 import 'package:sudoku_tutor/ui/features/developer/developer_page.dart';
 import 'package:sudoku_tutor/ui/features/free_play/difficulty_page.dart';
@@ -40,6 +42,15 @@ GoRouter buildRouter({String initialLocation = RoutePaths.home}) => GoRouter(
           path: RoutePaths.wiki,
           name: RouteNames.wiki,
           builder: (_, __) => const TechniqueWikiPage(),
+        ),
+        GoRoute(
+          path: RoutePaths.asyncDuel,
+          name: RouteNames.asyncDuel,
+          builder: (_, GoRouterState state) => AsyncDuelPage(
+            initialResult: state.extra is AsyncDuelResult
+                ? state.extra! as AsyncDuelResult
+                : null,
+          ),
         ),
         GoRoute(
           path: RoutePaths.onboarding,
