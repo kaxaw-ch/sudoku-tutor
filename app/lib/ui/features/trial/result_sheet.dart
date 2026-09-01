@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 import '../../widgets/congratulations_animation.dart';
@@ -66,32 +67,41 @@ class TrialResultSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Row(
+      title: Row(
         children: <Widget>[
-          CelebrationTrophy(),
-          SizedBox(width: AppSpacing.sm),
-          Expanded(child: Text('挑战通过！')),
+          const CelebrationTrophy(),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(child: Text(context.l10n.text('挑战通过！'))),
         ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Text('自动核验通过，整盘全部正确。'),
+          Text(context.l10n.text('自动核验通过，整盘全部正确。')),
           const SizedBox(height: AppSpacing.md),
-          _StatRow(label: '用时', value: formatDuration(elapsedMs)),
+          _StatRow(
+            label: context.l10n.text('用时'),
+            value: formatDuration(elapsedMs),
+          ),
           const SizedBox(height: AppSpacing.sm),
-          _StatRow(label: '错误次数', value: '$errorCount 次'),
+          _StatRow(
+            label: context.l10n.text('错误次数'),
+            value: context.l10n.text(
+              '{count} 次',
+              <String, Object?>{'count': errorCount},
+            ),
+          ),
         ],
       ),
       actions: <Widget>[
         TextButton(
           onPressed: onBackToMap,
-          child: const Text('返回章节'),
+          child: Text(context.l10n.text('返回章节')),
         ),
         if (hasNext && onNextLevel != null)
           FilledButton(
             onPressed: onNextLevel,
-            child: const Text('下一关'),
+            child: Text(context.l10n.text('下一关')),
           ),
       ],
     );

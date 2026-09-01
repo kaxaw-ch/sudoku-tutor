@@ -10,6 +10,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/chapter_model.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 import 'package:sudoku_tutor/ui/widgets/technique_chip.dart';
 
@@ -115,7 +116,10 @@ class _ChapterCardState extends State<ChapterCard> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            '第 ${model.chapter} 章',
+            context.l10n.text(
+              '第 {chapter} 章',
+              <String, Object?>{'chapter': model.chapter},
+            ),
             style: theme.textTheme.bodySmall?.copyWith(
               color: scheme.primary,
               fontWeight: FontWeight.w700,
@@ -132,7 +136,7 @@ class _ChapterCardState extends State<ChapterCard> {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      model.title,
+                      context.l10n.chapterTitle(model.chapter, model.title),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleMedium?.copyWith(
@@ -161,13 +165,19 @@ class _ChapterCardState extends State<ChapterCard> {
                 children: <Widget>[
                   for (final TechniqueId id
                       in TechniqueId.values.where(model.techniqueTags.contains))
-                    TechniqueChip(label: id.zhName),
+                    TechniqueChip(label: context.l10n.techniqueName(id)),
                 ],
               ),
               const SizedBox(height: AppSpacing.sm),
               // 进度 `n/m`（S-02 文案：已通关 n/m）。
               Text(
-                '已通关 ${model.completedCount}/${model.totalCount}',
+                context.l10n.text(
+                  '已通关 {completed}/{total}',
+                  <String, Object?>{
+                    'completed': model.completedCount,
+                    'total': model.totalCount,
+                  },
+                ),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: scheme.onSurfaceVariant,
                 ),

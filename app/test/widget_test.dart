@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sudoku_tutor/app/app.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_providers.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_repository.dart';
@@ -58,5 +59,81 @@ void main() {
     expect(find.text('设置'), findsWidgets);
     // 设置页数据落地：外观分组标题可见（说明加载完成而非 loading 卡死）。
     expect(find.text('外观'), findsOneWidget);
+  });
+
+  testWidgets('默认中文，主页语言按钮可即时切换并持久化 English', (WidgetTester tester) async {
+    final FakeProgressRepository repo = FakeProgressRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: <Override>[
+          progressRepositoryProvider.overrideWith((Ref ref) async => repo),
+          curriculumRepositoryProvider.overrideWithValue(
+            CurriculumRepository(
+              loader: buildTeachingCurriculumLoader(
+                levelJsonById: buildDefaultTeachingLevels(),
+              ),
+            ),
+          ),
+        ],
+        child: const SudokuTutorApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('学习地图'), findsOneWidget, reason: '默认语言为中文');
+    expect(find.text('Learning Map'), findsNothing);
+
+    await tester.tap(
+      find.byKey(const ValueKey<String>('quick-language-toggle')),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('Learning Map'), findsOneWidget);
+    expect(find.text('Free Play'), findsOneWidget);
+    expect(find.text('Chapter 0 · Rules & Foundations'), findsOneWidget);
+    expect(repo.current.settings.language, 'en', reason: '语言偏好应写入存档');
+
+    await tester.tap(
+      find.byKey(const ValueKey<String>('quick-language-toggle')),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.text('学习地图'), findsOneWidget);
+    expect(repo.current.settings.language, 'zh');
+  });
+
+  testWidgets('首启引导无需退出即可切换 English', (WidgetTester tester) async {
+    final FakeProgressRepository repo = FakeProgressRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: <Override>[
+          progressRepositoryProvider.overrideWith((Ref ref) async => repo),
+          curriculumRepositoryProvider.overrideWithValue(
+            CurriculumRepository(
+              loader: buildTeachingCurriculumLoader(
+                levelJsonById: buildDefaultTeachingLevels(),
+              ),
+            ),
+          ),
+        ],
+        child: const SudokuTutorApp(initialLocation: '/onboarding'),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('零门槛入门数独'), findsOneWidget);
+    await tester.tap(
+      find.byKey(const ValueKey<String>('onboarding-language-toggle')),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('Learn Sudoku from Scratch'), findsOneWidget);
+    expect(find.text('Skip'), findsOneWidget);
+    expect(find.text('Next'), findsOneWidget);
+    expect(repo.current.settings.language, 'en');
   });
 }

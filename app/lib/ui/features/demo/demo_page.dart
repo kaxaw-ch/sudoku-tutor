@@ -16,6 +16,7 @@ import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/session/game_session.dart';
 import 'package:sudoku_tutor/domain/teaching/demo_controller.dart';
 import 'package:sudoku_tutor/domain/teaching/teaching_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
 import 'package:sudoku_tutor/ui/features/teaching/next_level_button.dart';
@@ -73,7 +74,11 @@ class _DemoPageState extends ConsumerState<DemoPage> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text('首次进入须完整观看本关（看完最后一步即可退出）')),
+          SnackBar(
+            content: Text(
+              context.l10n.text('首次进入须完整观看本关（看完最后一步即可退出）'),
+            ),
+          ),
         );
       return;
     }
@@ -87,8 +92,10 @@ class _DemoPageState extends ConsumerState<DemoPage> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(
-            content: Text('首次进入须完整观看本关（看完最后一步即可进入下一关）'),
+          SnackBar(
+            content: Text(
+              context.l10n.text('首次进入须完整观看本关（看完最后一步即可进入下一关）'),
+            ),
           ),
         );
       return false;
@@ -102,7 +109,7 @@ class _DemoPageState extends ConsumerState<DemoPage> {
     final DemoState? state = ref.watch(demoControllerProvider);
     if (state == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('原理演示')),
+        appBar: AppBar(title: Text(context.l10n.text('原理演示'))),
         body: const LoadingIndicator(),
       );
     }
@@ -144,11 +151,13 @@ class _DemoPageState extends ConsumerState<DemoPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: '返回',
+            tooltip: context.l10n.text('返回'),
             icon: const Icon(Icons.arrow_back),
             onPressed: _handleExit,
           ),
-          title: Text(state.level.title),
+          title: Text(
+            context.l10n.lessonTitle(state.level.id, state.level.title),
+          ),
           actions: <Widget>[
             NextLevelButton(
               currentLevelId: state.level.id,
@@ -158,7 +167,9 @@ class _DemoPageState extends ConsumerState<DemoPage> {
               child: Padding(
                 padding: const EdgeInsets.only(right: AppSpacing.md),
                 child: Chip(
-                  label: Text(state.currentStep.techniqueId.zhName),
+                  label: Text(
+                    context.l10n.techniqueName(state.currentStep.techniqueId),
+                  ),
                   visualDensity: VisualDensity.compact,
                 ),
               ),
@@ -208,8 +219,12 @@ class _DemoPageState extends ConsumerState<DemoPage> {
               ),
               child: NarrationCard(
                 key: ValueKey<int>(state.currentIndex),
-                narration: state.narration,
-                techniqueName: state.currentStep.techniqueId.zhName,
+                narration: context.l10n.scriptNarration(
+                  state.currentStep,
+                  state.narration,
+                ),
+                techniqueName:
+                    context.l10n.techniqueName(state.currentStep.techniqueId),
               ),
             ),
             const SizedBox(height: AppSpacing.md),

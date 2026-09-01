@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
-import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/hint/hint_providers.dart';
 import 'package:sudoku_tutor/domain/hint/hint_service.dart';
 import 'package:sudoku_tutor/domain/hint/hint_state.dart';
@@ -27,6 +26,7 @@ import 'package:sudoku_tutor/domain/teaching/teaching_providers.dart';
 import 'package:sudoku_tutor/domain/session/game_session.dart';
 import 'package:sudoku_tutor/domain/session/game_session_controller.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
 import 'package:sudoku_tutor/ui/features/teaching/next_level_button.dart';
@@ -117,7 +117,7 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
     }
     if (hint == null) {
       final HintService service = ref.read(hintServiceProvider);
-      _showMessage(service.lastUnavailableReason?.zhMessage ?? '暂无可用提示');
+      _showMessage(context.l10n.hintUnavailable(service.lastUnavailableReason));
       return;
     }
     setState(() {
@@ -158,7 +158,10 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
     if (!mounted) {
       return;
     }
-    final MistakeMessage message = repo.messageFor(event);
+    final MistakeMessage message = context.l10n.mistakeMessage(
+      event,
+      repo.messageFor(event),
+    );
     await MistakeDialog.show(context, message);
     if (mounted) {
       ref.read(practiceControllerProvider.notifier).acknowledgeMistake();
@@ -182,7 +185,7 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
           .discardSession(clearSavedSnapshot: false);
     } on Object {
       if (mounted) {
-        _showMessage('教学进度保存失败，请重试');
+        _showMessage(context.l10n.text('教学进度保存失败，请重试'));
       }
       return;
     }
@@ -204,7 +207,7 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
       return true;
     } on Object {
       if (mounted) {
-        _showMessage('教学进度保存失败，请重试');
+        _showMessage(context.l10n.text('教学进度保存失败，请重试'));
       }
       return false;
     }
@@ -260,8 +263,8 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
             unawaited(
               CongratulationsAnimation.show(
                 context,
-                title: '恭喜通关！',
-                message: '自动核验通过，本关盘面全部正确。',
+                title: context.l10n.text('恭喜通关！'),
+                message: context.l10n.text('自动核验通过，本关盘面全部正确。'),
               ),
             );
           });
@@ -273,7 +276,7 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
     final GameSession? session = ref.watch(gameSessionControllerProvider);
     if (practiceState == null || session == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('引导实操')),
+        appBar: AppBar(title: Text(context.l10n.text('引导实操'))),
         body: const LoadingIndicator(),
       );
     }
@@ -303,22 +306,27 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: '返回',
+            tooltip: context.l10n.text('返回'),
             icon: const Icon(Icons.arrow_back),
             onPressed: () => unawaited(_handleExit()),
           ),
-          title: Text(practiceState.level.title),
+          title: Text(
+            context.l10n.lessonTitle(
+              practiceState.level.id,
+              practiceState.level.title,
+            ),
+          ),
           actions: <Widget>[
             NextLevelButton(
               currentLevelId: practiceState.level.id,
               beforeNavigate: _beforeNextLevel,
             ),
             if (practiceState.resumed)
-              const Padding(
-                padding: EdgeInsets.only(right: AppSpacing.sm),
+              Padding(
+                padding: const EdgeInsets.only(right: AppSpacing.sm),
                 child: Tooltip(
-                  message: '已恢复上次保存的盘面',
-                  child: Icon(Icons.cloud_done_outlined),
+                  message: context.l10n.text('已恢复上次保存的盘面'),
+                  child: const Icon(Icons.cloud_done_outlined),
                 ),
               ),
             Center(
@@ -327,8 +335,8 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
                 child: Chip(
                   label: Text(
                     practiceState.level.techniqueTags
-                        .map((TechniqueId t) => t.zhName)
-                        .join('、'),
+                        .map(context.l10n.techniqueName)
+                        .join(context.l10n.isEnglish ? ', ' : '、'),
                   ),
                   visualDensity: VisualDensity.compact,
                 ),

@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 
@@ -36,7 +37,7 @@ class PauseOverlay extends StatelessWidget {
         children: <Widget>[
           Semantics(
             button: true,
-            label: '单击空白区域继续',
+            label: context.l10n.text('单击空白区域继续'),
             child: GestureDetector(
               key: const ValueKey<String>('pause-resume-area'),
               behavior: HitTestBehavior.opaque,
@@ -54,10 +55,16 @@ class PauseOverlay extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text('已暂停', style: theme.textTheme.headlineSmall),
+                    Text(
+                      context.l10n.text('已暂停'),
+                      style: theme.textTheme.headlineSmall,
+                    ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      '用时 ${_format(elapsedMs)}',
+                      context.l10n.text(
+                        '用时 {time}',
+                        <String, Object?>{'time': _format(elapsedMs)},
+                      ),
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: AppSpacing.md),
@@ -71,7 +78,7 @@ class PauseOverlay extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          '单击空白区域继续',
+                          context.l10n.text('单击空白区域继续'),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -82,7 +89,7 @@ class PauseOverlay extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: onQuit,
                       icon: const Icon(Icons.flag_outlined),
-                      label: const Text('放弃'),
+                      label: Text(context.l10n.text('放弃')),
                     ),
                   ],
                 ),

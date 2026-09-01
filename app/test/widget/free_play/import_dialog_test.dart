@@ -113,7 +113,7 @@ void main() {
     await tester.enterText(find.byType(TextField), puzzle.givenString);
     await tester.tap(find.text('导入'));
     await tester.pump();
-    expect(find.text('导入题目非唯一解'), findsOneWidget);
+    expect(find.text('[E_IMPORT_002] 导入题目非唯一解'), findsOneWidget);
   });
 
   testWidgets('取消：返回 null', (WidgetTester tester) async {

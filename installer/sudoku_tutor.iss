@@ -53,7 +53,22 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Messages]
 ; 安装过程中的提示语本地化
-WelcomeLabel2=欢迎使用 [name/ver]。本程序将引导您完成安装。%n%n应用名：《数独学堂 SudokuTutor》%n发布者：{#MyAppPublisher}%n%n安装前请关闭已运行的 {#MyAppExeName}。
+chinesesimp.WelcomeLabel2=欢迎使用 [name/ver]。本程序将引导您完成安装。%n%n应用名：《数独学堂 SudokuTutor》%n发布者：{#MyAppPublisher}%n%n安装前请关闭已运行的 {#MyAppExeName}。
+english.WelcomeLabel2=Welcome to [name/ver]. This wizard will guide you through the installation.%n%nApplication: SudokuTutor%nPublisher: {#MyAppPublisher}%n%nPlease close any running copy of {#MyAppExeName} before continuing.
+
+[CustomMessages]
+chinesesimp.DesktopIcon=创建桌面快捷方式(&D)
+english.DesktopIcon=Create a &desktop shortcut
+chinesesimp.StartMenuIcon=创建开始菜单快捷方式(&S)
+english.StartMenuIcon=Create a &Start menu shortcut
+chinesesimp.AdditionalTasks=附加任务：
+english.AdditionalTasks=Additional tasks:
+chinesesimp.LaunchApp=启动 数独学堂
+english.LaunchApp=Launch SudokuTutor
+chinesesimp.AppShortcut=数独学堂 SudokuTutor
+english.AppShortcut=SudokuTutor
+chinesesimp.UninstallShortcut=卸载 数独学堂 SudokuTutor
+english.UninstallShortcut=Uninstall SudokuTutor
 
 [Files]
 ; 打包 dist/SudokuTutor-windows-x64/ 整个目录（含 sudoku_tutor.exe + data/ + 必要 DLL）
@@ -63,14 +78,14 @@ Source: "..\dist\SudokuTutor-windows-x64\*"; DestDir: "{app}"; Flags: ignorevers
 
 [Icons]
 ; 桌面快捷方式（可选，由 Tasks 控制）
-Name: "{autodesktop}\数独学堂 SudokuTutor"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0; Tasks: desktopicon
+Name: "{autodesktop}\{cm:AppShortcut}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0; Tasks: desktopicon
 ; 开始菜单快捷方式（默认勾选）
-Name: "{group}\数独学堂 SudokuTutor"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0; Tasks: startmenu
-Name: "{group}\卸载 数独学堂 SudokuTutor"; Filename: "{uninstallexe}"; Tasks: startmenu
+Name: "{group}\{cm:AppShortcut}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppExeName}"; IconIndex: 0; Tasks: startmenu
+Name: "{group}\{cm:UninstallShortcut}"; Filename: "{uninstallexe}"; Tasks: startmenu
 
 [Tasks]
-Name: "desktopicon"; Description: "创建桌面快捷方式(&D)"; GroupDescription: "附加任务："; Flags: unchecked
-Name: "startmenu";  Description: "创建开始菜单快捷方式(&S)"; GroupDescription: "附加任务："; Flags: checkedonce
+Name: "desktopicon"; Description: "{cm:DesktopIcon}"; GroupDescription: "{cm:AdditionalTasks}"; Flags: unchecked
+Name: "startmenu";  Description: "{cm:StartMenuIcon}"; GroupDescription: "{cm:AdditionalTasks}"; Flags: checkedonce
 
 [Dirs]
 ; 用户存档目录（首次安装创建，便于卸载时一并清理）
@@ -78,7 +93,7 @@ Name: "{userappdata}\SudokuTutor"; Permissions: users-modify
 
 [Run]
 ; 安装完成后勾选"启动"才执行
-Filename: "{app}\{#MyAppExeName}"; Description: "启动 数独学堂"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchApp}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 ; 卸载时清理用户存档目录（仅当用户勾选）

@@ -53,9 +53,9 @@ void main() {
     );
 
     // 已解锁的一级/二级可见内容。
-    expect(find.textContaining('一级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('一级 · 裸对'), findsOneWidget);
     expect(find.textContaining('一级文案'), findsOneWidget);
-    expect(find.textContaining('二级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('二级 · 裸对'), findsOneWidget);
     expect(find.textContaining('二级文案'), findsOneWidget);
     // 三级未解锁 → 占位卡片。
     expect(find.textContaining('三级 · 尚未解锁'), findsOneWidget);
@@ -76,7 +76,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.textContaining('二级 · 「裸对」'));
+    await tester.tap(find.textContaining('二级 · 裸对'));
     expect(selected, h2, reason: '点击二级卡片回看二级内容');
   });
 
@@ -91,7 +91,7 @@ void main() {
         ),
       ),
     );
-    expect(find.textContaining('三级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('三级 · 裸对'), findsOneWidget);
     expect(find.textContaining('三级文案'), findsOneWidget);
   });
 }

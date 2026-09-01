@@ -1,5 +1,5 @@
 name: sudoku_tutor
-description: 数独教学跨端游戏（Windows / Android，简体中文）。
+description: 双语数独教学应用（Windows / Android，简体中文 / English）。
 publish_to: 'none'
 version: 0.1.0+1
 

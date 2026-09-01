@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 
@@ -40,7 +41,13 @@ class NarrationCard extends StatelessWidget {
                   color: theme.colorScheme.primary,
                 ),
                 const SizedBox(width: AppSpacing.sm),
-                Text('本步技巧：$techniqueName', style: theme.textTheme.labelLarge),
+                Text(
+                  context.l10n.text(
+                    '本步技巧：{technique}',
+                    <String, Object?>{'technique': techniqueName},
+                  ),
+                  style: theme.textTheme.labelLarge,
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.sm),

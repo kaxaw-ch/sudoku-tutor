@@ -6,7 +6,7 @@
 ///   （关闭/3/5/不限）；
 /// - **反馈**：音效（默认关）、震动（移动端默认开）；
 /// - **数据**：见 `DataSection`（导出/导入/清空错题本/重置二次确认/导出日志）；
-/// - **关于**：版本号连点 7 次进开发者模式、语言（置灰）。
+/// - **关于**：版本号连点 7 次进开发者模式、简体中文 / English 切换。
 library;
 
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
 import 'package:sudoku_tutor/domain/storage/models/settings_models.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/game_palette.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
@@ -34,11 +35,11 @@ class SettingsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          tooltip: '返回',
+          tooltip: context.l10n.text('返回'),
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.goNamed(RouteNames.home),
         ),
-        title: const Text('设置'),
+        title: Text(context.l10n.text('设置')),
       ),
       body: Center(
         child: ConstrainedBox(
@@ -46,7 +47,12 @@ class SettingsPage extends ConsumerWidget {
           child: asyncSettings.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (Object e, StackTrace st) => Center(
-              child: Text('设置加载失败：$e'),
+              child: Text(
+                context.l10n.text(
+                  '设置加载失败：{error}',
+                  <String, Object?>{'error': context.l10n.errorMessage(e)},
+                ),
+              ),
             ),
             data: (SettingsState settings) => ListView(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
@@ -86,7 +92,7 @@ class _AppearanceSection extends ConsumerWidget {
             AppSpacing.xs,
           ),
           child: Text(
-            '外观',
+            context.l10n.text('外观'),
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -109,10 +115,10 @@ class _AppearanceSection extends ConsumerWidget {
                         ? theme.colorScheme.primary
                         : theme.colorScheme.outline,
                   ),
-                  title: Text(slot.zhName),
+                  title: Text(context.l10n.themeName(slot)),
                   subtitle: slot == ThemeSlot.white
-                      ? const Text('当前主题')
-                      : const Text('即将推出'),
+                      ? Text(context.l10n.text('当前主题'))
+                      : Text(context.l10n.text('即将推出')),
                   trailing: slot == ThemeSlot.white
                       ? null
                       : const Icon(Icons.lock_outline),
@@ -130,9 +136,14 @@ class _AppearanceSection extends ConsumerWidget {
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.grid_4x4_rounded),
-                title: const Text('棋盘主题'),
+                title: Text(context.l10n.text('棋盘主题')),
                 subtitle: Text(
-                  '当前：${settings.boardTheme.zhName} · 做题与教学棋盘同步切换',
+                  context.l10n.text(
+                    '当前：{theme} · 做题与教学棋盘同步切换',
+                    <String, Object?>{
+                      'theme': context.l10n.boardThemeName(settings.boardTheme),
+                    },
+                  ),
                 ),
               ),
               Padding(
@@ -151,7 +162,7 @@ class _AppearanceSection extends ConsumerWidget {
                         icon: _BoardThemeSwatch(
                           color: GamePalette.boardOf(style).selectionFill,
                         ),
-                        label: Text(style.zhName),
+                        label: Text(context.l10n.boardThemeName(style)),
                       ),
                   ],
                   selected: <BoardThemeStyle>{settings.boardTheme},
@@ -212,7 +223,7 @@ class _GameplaySection extends ConsumerWidget {
             AppSpacing.xs,
           ),
           child: Text(
-            '玩法',
+            context.l10n.text('玩法'),
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -260,8 +271,10 @@ class _GameplaySection extends ConsumerWidget {
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.lightbulb_outline),
-                title: const Text('提示次数'),
-                subtitle: const Text('自由练习每局可用提示次数'),
+                title: Text(context.l10n.text('提示次数')),
+                subtitle: Text(
+                  context.l10n.text('自由练习每局可用提示次数'),
+                ),
                 trailing: DropdownButton<HintQuota>(
                   value: settings.hintQuota,
                   underline: const SizedBox.shrink(),
@@ -269,7 +282,7 @@ class _GameplaySection extends ConsumerWidget {
                     for (final HintQuota quota in HintQuota.values)
                       DropdownMenuItem<HintQuota>(
                         value: quota,
-                        child: Text(quota.zhName),
+                        child: Text(context.l10n.hintQuotaName(quota)),
                       ),
                   ],
                   onChanged: (HintQuota? quota) {
@@ -309,7 +322,7 @@ class _FeedbackSection extends ConsumerWidget {
             AppSpacing.xs,
           ),
           child: Text(
-            '反馈',
+            context.l10n.text('反馈'),
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -364,8 +377,8 @@ class _SwitchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SwitchListTile(
         secondary: Icon(icon),
-        title: Text(title),
-        subtitle: subtitle == null ? null : Text(subtitle!),
+        title: Text(context.l10n.text(title)),
+        subtitle: subtitle == null ? null : Text(context.l10n.text(subtitle!)),
         value: value,
         onChanged: onChanged,
       );

@@ -173,17 +173,17 @@ void main() {
     await tester.tap(find.byTooltip('提示（H）'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
-    expect(find.textContaining('一级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('一级 · 裸对'), findsOneWidget);
 
     await tester.tap(find.byTooltip('提示（H）'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
-    expect(find.textContaining('二级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('二级 · 裸对'), findsOneWidget);
 
     await tester.tap(find.byTooltip('提示（H）'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
-    expect(find.textContaining('三级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('三级 · 裸对'), findsOneWidget);
   });
 
   testWidgets('实操提示后填数 → 自动清除棋盘高亮并保留提示卡', (WidgetTester tester) async {
@@ -196,7 +196,7 @@ void main() {
       find.byType(SudokuBoardView),
     );
     expect(board.viewModel.hintCells, isNotEmpty);
-    expect(find.textContaining('一级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('一级 · 裸对'), findsOneWidget);
 
     container.read(practiceControllerProvider.notifier).handleSelectCell(5);
     final NumpadPanel numpad = tester.widget<NumpadPanel>(
@@ -210,7 +210,7 @@ void main() {
     expect(board.viewModel.hintRegions, isEmpty);
     expect(board.viewModel.hintLinks, isEmpty);
     expect(board.viewModel.hintCandidateMarks, isEmpty);
-    expect(find.textContaining('一级 · 「裸对」'), findsOneWidget);
+    expect(find.textContaining('一级 · 裸对'), findsOneWidget);
   });
 
   testWidgets('误操作填错 → 「这一步有问题」弹窗（错在哪 + 正确思路 + 明白了）',

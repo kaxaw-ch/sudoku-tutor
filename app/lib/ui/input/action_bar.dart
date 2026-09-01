@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import 'input_intents.dart';
 
@@ -110,7 +111,7 @@ class _BarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return IconButton.filledTonal(
-      tooltip: tooltip,
+      tooltip: context.l10n.text(tooltip),
       onPressed: onTap,
       icon: Icon(icon, size: 24),
       style: IconButton.styleFrom(

@@ -17,8 +17,10 @@ import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_providers.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
 import 'package:sudoku_tutor/domain/storage/models/progress_state.dart';
 import 'package:sudoku_tutor/domain/storage/progress_repository.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 首启引导页。
@@ -102,6 +104,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final bool isLast = _current == _pageCount - 1;
+    final String language = AppLanguages.normalize(
+      ref.watch(settingsStateProvider).valueOrNull?.language,
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -113,24 +118,27 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   child: PageView(
                     controller: _controller,
                     onPageChanged: _onPageChanged,
-                    children: const <Widget>[
+                    children: <Widget>[
                       _GuidePage(
                         icon: Icons.grid_4x4_rounded,
-                        title: '零门槛入门数独',
-                        subtitle: '从行、列、宫规则到候选数，'
-                            '跟着分步动画一点点看懂数独，不需要任何基础。',
+                        title: context.l10n.text('零门槛入门数独'),
+                        subtitle: context.l10n.text(
+                          '从行、列、宫规则到候选数，跟着分步动画一点点看懂数独，不需要任何基础。',
+                        ),
                       ),
                       _GuidePage(
                         icon: Icons.school_outlined,
-                        title: '四章渐进学习',
-                        subtitle: '基础 → 进阶技巧 → 实战，四章 34 关循序渐进，'
-                            '演示 / 实操 / 试炼三种关卡层层递进。',
+                        title: context.l10n.text('四章渐进学习'),
+                        subtitle: context.l10n.text(
+                          '基础 → 进阶技巧 → 实战，四章 34 关循序渐进，演示 / 实操 / 试炼三种关卡层层递进。',
+                        ),
                       ),
                       _GuidePage(
                         icon: Icons.extension_outlined,
-                        title: '海量题库 · 即时反馈',
-                        subtitle: '五大难度题库离线内置，随时自由练习，'
-                            '即时核对答案与分步提示陪你稳步进步。',
+                        title: context.l10n.text('海量题库 · 即时反馈'),
+                        subtitle: context.l10n.text(
+                          '五大难度题库离线内置，随时自由练习，即时核对答案与分步提示陪你稳步进步。',
+                        ),
                       ),
                     ],
                   ),
@@ -147,12 +155,33 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: isLast ? _finish : _next,
-                      child: Text(isLast ? '开始学习' : '下一步'),
+                      child: Text(
+                        context.l10n.text(isLast ? '开始学习' : '下一步'),
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
               ],
+            ),
+            // Keep language switching available before the user has to read
+            // or dismiss any onboarding copy.
+            Positioned(
+              top: AppSpacing.xs,
+              left: AppSpacing.xs,
+              child: IconButton(
+                key: const ValueKey<String>('onboarding-language-toggle'),
+                tooltip: context.l10n.text(
+                  language == AppLanguages.chinese ? '切换到英文' : '切换到中文',
+                ),
+                icon: const Icon(Icons.language),
+                onPressed: () =>
+                    ref.read(settingsControllerProvider.notifier).setLanguage(
+                          language == AppLanguages.chinese
+                              ? AppLanguages.english
+                              : AppLanguages.chinese,
+                        ),
+              ),
             ),
             // 右上角常驻「跳过」。
             Positioned(
@@ -160,7 +189,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               right: AppSpacing.xs,
               child: TextButton(
                 onPressed: _finish,
-                child: const Text('跳过'),
+                child: Text(context.l10n.text('跳过')),
               ),
             ),
           ],

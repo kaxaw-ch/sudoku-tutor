@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/puzzle_bank/puzzle_bank_repository.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/color_tokens.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
@@ -34,7 +35,7 @@ class DifficultyPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('选择难度'),
+        title: Text(context.l10n.text('选择难度')),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.goNamed('home'),
@@ -85,11 +86,13 @@ class DifficultyPage extends ConsumerWidget {
                   );
                 },
                 icon: const Icon(Icons.upload_file_outlined),
-                label: const Text('从文本导入题目'),
+                label: Text(context.l10n.text('从文本导入题目')),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                '困难 / 大师档仅使用预置题库；入门 / 简单 / 中等档可运行时生成补充。',
+                context.l10n.text(
+                  '困难 / 大师档仅使用预置题库；入门 / 简单 / 中等档可运行时生成补充。',
+                ),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
@@ -107,19 +110,21 @@ class DifficultyPage extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('开始新局？'),
-        content: const Text('开始新局将覆盖上次未完成的对局，且不可恢复。'),
+        title: Text(context.l10n.text('开始新局？')),
+        content: Text(
+          context.l10n.text('开始新局将覆盖上次未完成的对局，且不可恢复。'),
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('取消'),
+            child: Text(context.l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               _goNewGame(context, difficulty);
             },
-            child: const Text('继续'),
+            child: Text(context.l10n.text('继续')),
           ),
         ],
       ),
@@ -156,7 +161,7 @@ class _DifficultyCard extends StatelessWidget {
           _iconOf(difficulty),
           color: AppColorTokens.white.seedColor,
         ),
-        title: Text(difficulty.zhName),
+        title: Text(context.l10n.difficultyName(difficulty)),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: AppSpacing.xs),
           child: description,
@@ -186,9 +191,19 @@ class _DescriptionText extends ConsumerWidget {
     final AsyncValue<DifficultyMeta> meta =
         ref.watch(difficultyMetaProvider(difficulty));
     return meta.when(
-      data: (DifficultyMeta m) => Text('最高需用到：${m.hardestTechniqueZh}'),
-      loading: () => const Text('最高需用到：加载中…'),
-      error: (Object e, StackTrace st) => const Text('最高需用到：—'),
+      data: (DifficultyMeta m) => Text(
+        context.l10n.text(
+          '最高需用到：{technique}',
+          <String, Object?>{
+            'technique': m.hardestTechnique == null
+                ? '—'
+                : context.l10n.techniqueName(m.hardestTechnique!),
+          },
+        ),
+      ),
+      loading: () => Text(context.l10n.text('最高需用到：加载中…')),
+      error: (Object e, StackTrace st) =>
+          Text(context.l10n.text('最高需用到：—')),
     );
   }
 }
@@ -196,10 +211,13 @@ class _DescriptionText extends ConsumerWidget {
 /// 一档题库的代表元信息。
 class DifficultyMeta {
   /// 构造元信息。
-  const DifficultyMeta({required this.hardestTechniqueZh});
+  const DifficultyMeta({required this.hardestTechnique});
 
   /// 代表题的最高技巧中文名。
-  final String hardestTechniqueZh;
+  final TechniqueId? hardestTechnique;
+
+  /// Backwards-compatible Chinese label used by older callers/tests.
+  String get hardestTechniqueZh => hardestTechnique?.zhName ?? '—';
 }
 
 /// 读取一档题库代表题（第一题）的最高技巧中文名。
@@ -213,7 +231,7 @@ final AutoDisposeFutureProviderFamily<DifficultyMeta, Difficulty>
     final PuzzleBankRepository repo = ref.watch(puzzleBankRepositoryProvider);
     final DifficultyBank bank = await repo.loadBank(difficulty);
     if (bank.puzzles.isEmpty) {
-      return const DifficultyMeta(hardestTechniqueZh: '—');
+      return const DifficultyMeta(hardestTechnique: null);
     }
     final Puzzle representative = bank.puzzles.first;
     TechniqueId? hardest;
@@ -222,6 +240,6 @@ final AutoDisposeFutureProviderFamily<DifficultyMeta, Difficulty>
         hardest = id;
       }
     }
-    return DifficultyMeta(hardestTechniqueZh: hardest?.zhName ?? '—');
+    return DifficultyMeta(hardestTechnique: hardest);
   },
 );

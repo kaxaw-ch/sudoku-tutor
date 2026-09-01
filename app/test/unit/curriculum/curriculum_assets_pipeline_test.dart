@@ -12,8 +12,10 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_repository.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -44,5 +46,38 @@ void main() {
     final ChapterEntry? chapter = await repo.chapterEntry(0);
     expect(chapter, isNotNull);
     expect(chapter!.levels, isNotEmpty);
+  });
+
+  test('English：全部真实教程标题、简介与脚本步骤均可呈现英文', () async {
+    final CurriculumRepository repo = CurriculumRepository();
+    final LevelIndex index = await repo.loadIndex();
+    const AppLocalizations english = AppLocalizations(Locale('en'));
+    final RegExp han = RegExp(r'[\u3400-\u9fff]');
+    int stepCount = 0;
+
+    expect(index.allLevels.length, 34, reason: '正式课程应完整覆盖 34 关');
+    for (final LevelEntry entry in index.allLevels) {
+      final LessonLevel level = await repo.loadLevel(entry.id);
+      final String title = english.lessonTitle(entry.id, entry.title);
+      final String intro = english.lessonIntro(entry.id, level.intro);
+      expect(title.trim(), isNotEmpty, reason: '${entry.id} 英文标题');
+      expect(han.hasMatch(title), isFalse, reason: '${entry.id} 标题仍含中文');
+      expect(intro.trim(), isNotEmpty, reason: '${entry.id} 英文简介');
+      expect(han.hasMatch(intro), isFalse, reason: '${entry.id} 简介仍含中文');
+
+      for (final ScriptStep step
+          in level.script?.steps ?? const <ScriptStep>[]) {
+        stepCount++;
+        final String narration = english.scriptNarration(step, step.narration);
+        expect(narration.trim(), isNotEmpty,
+            reason: '${entry.id} #${step.order}');
+        expect(
+          han.hasMatch(narration),
+          isFalse,
+          reason: '${entry.id} #${step.order} 英文旁白仍含中文：$narration',
+        );
+      }
+    }
+    expect(stepCount, greaterThan(1000), reason: '应审计全部真实教程脚本，而非样例');
   });
 }

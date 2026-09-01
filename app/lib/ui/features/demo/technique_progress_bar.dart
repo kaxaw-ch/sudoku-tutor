@@ -6,6 +6,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:sudoku_tutor/core/core.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 带技巧节点的演示进度条。
@@ -64,14 +65,14 @@ class DemoTechniqueProgressBar extends StatelessWidget {
                   Icon(Icons.route_outlined, size: 18, color: scheme.primary),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
-                    '技巧进度',
+                    context.l10n.text('技巧进度'),
                     style: theme.textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const Spacer(),
                   Text(
-                    '点击技巧节点快速跳转',
+                    context.l10n.text('点击技巧节点快速跳转'),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: scheme.onSurfaceVariant,
                     ),
@@ -108,8 +109,14 @@ class DemoTechniqueProgressBar extends StatelessWidget {
                                 _positionOf(milestone.stepIndex, steps.length),
                             top: 1,
                             child: Tooltip(
-                              message:
-                                  '${milestone.technique.zhName}：第 ${milestone.stepIndex + 1} 步',
+                              message: context.l10n.text(
+                                '{technique}：第 {step} 步',
+                                <String, Object?>{
+                                  'technique': context.l10n
+                                      .techniqueName(milestone.technique),
+                                  'step': milestone.stepIndex + 1,
+                                },
+                              ),
                               child: InkWell(
                                 key: ValueKey<String>(
                                   'demo-progress-marker-${milestone.technique.id}',
@@ -200,9 +207,20 @@ class _MilestoneChip extends StatelessWidget {
         child: Text('${milestone.stepIndex + 1}'),
       ),
       label: Text(
-        '${milestone.technique.zhName}${isTarget ? ' · 重点' : ''}',
+        isTarget
+            ? context.l10n.text(
+                '{technique} · 重点',
+                <String, Object?>{
+                  'technique':
+                      context.l10n.techniqueName(milestone.technique),
+                },
+              )
+            : context.l10n.techniqueName(milestone.technique),
       ),
-      tooltip: '跳到第 ${milestone.stepIndex + 1} 步',
+      tooltip: context.l10n.text(
+        '跳到第 {step} 步',
+        <String, Object?>{'step': milestone.stepIndex + 1},
+      ),
       onPressed: onTap,
       backgroundColor:
           selected ? Theme.of(context).colorScheme.primaryContainer : null,

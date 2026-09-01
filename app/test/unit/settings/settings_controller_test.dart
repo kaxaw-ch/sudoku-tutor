@@ -42,7 +42,7 @@ void main() {
       expect(settings.showTimer, isTrue);
       expect(settings.highlightSameDigit, isTrue);
       expect(settings.hintQuota, HintQuota.unlimited, reason: '提示默认不限');
-      expect(settings.language, 'zh', reason: '本期仅简体中文');
+      expect(settings.language, 'zh', reason: '界面默认简体中文');
       expect(settings.developerMode, isFalse);
     });
 
@@ -139,6 +139,19 @@ void main() {
       await controller.setSoundOn(true);
       await controller.setSoundOn(false);
       expect(repo.current.settings.soundOn, isFalse);
+    });
+
+    test('setLanguage 持久化英文，未知语言回退中文', () async {
+      await controller.setLanguage('en');
+      expect(repo.current.settings.language, 'en');
+      expect(
+        container.read(settingsControllerProvider).valueOrNull?.language,
+        'en',
+        reason: '语言切换应立即发布给应用根节点',
+      );
+
+      await controller.setLanguage('fr');
+      expect(repo.current.settings.language, 'zh', reason: '不支持的语言安全回退中文');
     });
   });
 

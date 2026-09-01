@@ -8,6 +8,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudoku_tutor/domain/engine/engine_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 /// 全局加载指示（订阅引擎 loading 状态）。
 class LoadingIndicator extends ConsumerWidget {
@@ -27,7 +28,7 @@ class LoadingIndicator extends ConsumerWidget {
           const CircularProgressIndicator(),
           const SizedBox(height: 12),
           Text(
-            '正在计算，请稍候…',
+            context.l10n.text('正在计算，请稍候…'),
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],

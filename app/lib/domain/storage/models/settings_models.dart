@@ -2,10 +2,12 @@
 ///
 /// 冻结清单：应用主题（本期仅白色实现，粉/蓝置灰预留）、棋盘主题、音效开关、
 /// 震动开关、自动候选数、错误标红、计时显示、相同数字高亮、自由练习提示次数、
-/// 语言（置灰）、存档导入/导出、清空错题本、重置全部进度、关于与版本号、
+/// 界面语言（简体中文 / English）、存档导入/导出、清空错题本、重置全部进度、关于与版本号、
 /// 开发者模式入口（隐藏）。
 /// 其中「导入/导出/清空/重置/关于」属于动作而非布尔开关，不在此建模。
 library;
+
+import 'package:sudoku_tutor/l10n/language.dart';
 
 /// 主题插槽（P0-UI-01：白/粉/蓝三套令牌插槽）。
 ///
@@ -159,7 +161,7 @@ class SettingsState {
   /// 自由练习提示配额。
   final HintQuota hintQuota;
 
-  /// 界面语言（本期仅简体中文，置灰不可改）。
+  /// 界面语言（`zh` / `en`，默认简体中文）。
   final String language;
 
   /// 开发者模式（连点版本号 7 次进入，隐藏入口）。
@@ -223,7 +225,7 @@ class SettingsState {
         highlightSameDigit: (json['highlightSameDigit'] as bool?) ?? true,
         hintQuota: HintQuota.tryParse(json['hintQuota']! as String) ??
             HintQuota.unlimited,
-        language: (json['language'] as String?) ?? 'zh',
+        language: AppLanguages.normalize(json['language'] as String?),
         developerMode: (json['developerMode'] as bool?) ?? false,
       );
 }

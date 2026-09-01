@@ -9,6 +9,7 @@ import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/app/router.dart';
 import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
 import 'package:sudoku_tutor/domain/storage/models/settings_models.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/app_theme.dart';
 import 'package:sudoku_tutor/ui/theme/text_scale_clamp.dart';
 import 'package:sudoku_tutor/ui/widgets/responsive_shell.dart';
@@ -48,17 +49,27 @@ class _SudokuTutorAppState extends ConsumerState<SudokuTutorApp> {
             value.valueOrNull?.boardTheme ?? BoardThemeStyle.green,
       ),
     );
+    final String language = ref.watch(
+      settingsStateProvider.select(
+        (AsyncValue<SettingsState> value) =>
+            AppLanguages.normalize(value.valueOrNull?.language),
+      ),
+    );
     return MaterialApp.router(
-      title: '数独教学',
+      onGenerateTitle: (BuildContext context) =>
+          context.l10n.text('数独教学'),
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: AppTheme.light(
         boardTheme: boardTheme,
       ),
-      // 本期仅简体中文（PRD C-17：ARB 结构预留，不做翻译）。
-      locale: const Locale('zh', 'CN'),
-      supportedLocales: const <Locale>[Locale('zh', 'CN')],
+      // 中文为默认语言；设置加载后按持久化偏好即时切换。
+      locale: language == AppLanguages.english
+          ? const Locale(AppLanguages.english)
+          : const Locale(AppLanguages.chinese, 'CN'),
+      supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const <LocalizationsDelegate<Object>>[
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

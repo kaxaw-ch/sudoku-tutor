@@ -10,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:sudoku_tutor/domain/hint/hint_level.dart';
 import 'package:sudoku_tutor/domain/hint/hint_state.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/game_palette.dart';
 
 import '../../theme/spacing.dart';
@@ -53,8 +54,11 @@ class HintPanel extends StatelessWidget {
               children: <Widget>[
                 Icon(Icons.lightbulb_outline, color: colors.accent),
                 const SizedBox(width: AppSpacing.sm),
-                const Expanded(
-                  child: Text('点击「提示」按钮，提示将逐级解锁：一级→二级→三级。'),
+                Expanded(
+                  child: Text(
+                    context.l10n
+                        .text('点击「提示」按钮，提示将逐级解锁：一级→二级→三级。'),
+                  ),
                 ),
               ],
             ),
@@ -125,7 +129,13 @@ class _LevelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final String levelName = HintRules.ofOrder(order)?.zhName ?? '第 $order 级';
+    final HintLevel? level = HintRules.ofOrder(order);
+    final String levelName = level == null
+        ? context.l10n.text(
+            '第 {order} 级',
+            <String, Object?>{'order': order},
+          )
+        : context.l10n.hintLevelName(level);
     final bool unlocked = hint != null;
     final SemanticColorStyle colors = GamePalette.hintLevelStyleOf(order);
 
@@ -138,9 +148,12 @@ class _LevelCard extends StatelessWidget {
             ? colors.accent
             : theme.colorScheme.onSurface;
 
-    final String techniqueLabel =
-        unlocked ? '「${hint!.techniqueId.zhName}」' : '尚未解锁';
-    final String narration = unlocked ? hint!.narration : '继续使用上一级提示后解锁';
+    final String techniqueLabel = unlocked
+        ? context.l10n.techniqueName(hint!.techniqueId)
+        : context.l10n.text('尚未解锁');
+    final String narration = unlocked
+        ? context.l10n.hintNarration(hint!)
+        : context.l10n.text('继续使用上一级提示后解锁');
 
     return AnimatedScale(
       scale: active ? 1 : 0.985,

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "sudututor.app" "\0"
-            VALUE "FileDescription", "sudoku_tutor" "\0"
+            VALUE "FileDescription", "数独教学 · Sudoku Tutor" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "sudoku_tutor" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 sudututor.app. All rights reserved." "\0"
             VALUE "OriginalFilename", "sudoku_tutor.exe" "\0"
-            VALUE "ProductName", "sudoku_tutor" "\0"
+            VALUE "ProductName", "Sudoku Tutor" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudoku_tutor/domain/settings/developer_mode.dart';
 import 'package:sudoku_tutor/domain/storage/models/level_progress.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 开发者模式页。
@@ -38,10 +39,11 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
   }
 
   Future<void> _unlockAll() async {
+    final String successMessage = context.l10n.text('已全解锁全部已有关卡');
     await _run(() async {
       final DeveloperTools tools = ref.read(developerToolsProvider);
       await tools.unlockAll();
-      _toast('已全解锁全部已有关卡');
+      _toast(successMessage);
     });
   }
 
@@ -49,40 +51,45 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
     final bool? ok = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('重置全部进度？'),
-        content: const Text('将删除全部进度与设置，此操作不可恢复。'),
+        title: Text(context.l10n.text('重置全部进度？')),
+        content: Text(context.l10n.text('将删除全部进度与设置，此操作不可恢复。')),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('取消'),
+            child: Text(context.l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('重置'),
+            child: Text(context.l10n.text('重置')),
           ),
         ],
       ),
     );
-    if (ok != true) {
+    if (!mounted || ok != true) {
       return;
     }
+    final String successMessage = context.l10n.text('已重置全部进度');
     await _run(() async {
       final DeveloperTools tools = ref.read(developerToolsProvider);
       await tools.resetProgress();
-      _toast('已重置全部进度');
+      _toast(successMessage);
     });
   }
 
   Future<void> _unlockLevel() async {
     final String levelId = _levelId.text.trim();
     if (levelId.isEmpty) {
-      _toast('请输入关卡 ID');
+      _toast(context.l10n.text('请输入关卡 ID'));
       return;
     }
+    final String successMessage = context.l10n.text(
+      '已解锁关卡 {id}',
+      <String, Object?>{'id': levelId},
+    );
     await _run(() async {
       final DeveloperTools tools = ref.read(developerToolsProvider);
       await tools.unlockLevel(levelId);
-      _toast('已解锁关卡 $levelId');
+      _toast(successMessage);
     });
   }
 
@@ -99,7 +106,7 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('开发者模式')),
+      appBar: AppBar(title: Text(context.l10n.text('开发者模式'))),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 560),
@@ -112,21 +119,27 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('开发者工具', style: theme.textTheme.titleMedium),
+                      Text(
+                        context.l10n.text('开发者工具'),
+                        style: theme.textTheme.titleMedium,
+                      ),
                       const SizedBox(height: AppSpacing.sm),
                       FilledButton.icon(
                         onPressed: _busy ? null : _unlockAll,
                         icon: const Icon(Icons.lock_open),
-                        label: const Text('全解锁'),
+                        label: Text(context.l10n.text('全解锁')),
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       OutlinedButton.icon(
                         onPressed: _busy ? null : _resetProgress,
                         icon: const Icon(Icons.delete_forever),
-                        label: const Text('重置进度'),
+                        label: Text(context.l10n.text('重置进度')),
                       ),
                       const SizedBox(height: AppSpacing.md),
-                      Text('跳关（解锁指定关卡 ID）', style: theme.textTheme.bodyMedium),
+                      Text(
+                        context.l10n.text('跳关（解锁指定关卡 ID）'),
+                        style: theme.textTheme.bodyMedium,
+                      ),
                       const SizedBox(height: AppSpacing.xs),
                       Row(
                         children: <Widget>[
@@ -134,16 +147,16 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
                             child: TextField(
                               controller: _levelId,
                               enabled: !_busy,
-                              decoration: const InputDecoration(
-                                hintText: '如 ch0_l01',
-                                border: OutlineInputBorder(),
+                              decoration: InputDecoration(
+                                hintText: context.l10n.text('如 ch0_l01'),
+                                border: const OutlineInputBorder(),
                               ),
                             ),
                           ),
                           const SizedBox(width: AppSpacing.sm),
                           FilledButton.tonal(
                             onPressed: _busy ? null : _unlockLevel,
-                            child: const Text('解锁'),
+                            child: Text(context.l10n.text('解锁')),
                           ),
                         ],
                       ),
@@ -152,7 +165,10 @@ class _DeveloperPageState extends ConsumerState<DeveloperPage> {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              Text('关卡元信息（读取已存进度）', style: theme.textTheme.titleMedium),
+              Text(
+                context.l10n.text('关卡元信息（读取已存进度）'),
+                style: theme.textTheme.titleMedium,
+              ),
               const SizedBox(height: AppSpacing.sm),
               _LevelList(),
             ],
@@ -178,14 +194,19 @@ class _LevelList extends ConsumerWidget {
         padding: EdgeInsets.all(AppSpacing.md),
         child: CircularProgressIndicator(),
       )),
-      error: (Object e, StackTrace st) => Text('加载失败：$e'),
+      error: (Object e, StackTrace st) => Text(
+        context.l10n.text(
+          '加载失败：{error}',
+          <String, Object?>{'error': context.l10n.errorMessage(e)},
+        ),
+      ),
       data: (List<LevelProgress> list) {
         if (list.isEmpty) {
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
               child: Text(
-                '暂无已存关卡进度（完成教学关或跳关后出现）',
+                context.l10n.text('暂无已存关卡进度（完成教学关或跳关后出现）'),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
@@ -203,9 +224,16 @@ class _LevelList extends ConsumerWidget {
                   leading: _StatusIcon(status: p.status),
                   title: Text(p.levelId),
                   subtitle: Text(
-                    '状态：${p.status.zhName} · 用时 ${_ms(p.durationMs)} · '
-                    '提示 ${p.hintUsed} · 错误 ${p.errorCount} · '
-                    '尝试 ${p.attempts} 次',
+                    context.l10n.text(
+                      '状态：{status} · 用时 {time} · 提示 {hints} · 错误 {errors} · 尝试 {attempts} 次',
+                      <String, Object?>{
+                        'status': context.l10n.levelStatusName(p.status),
+                        'time': _ms(context, p.durationMs),
+                        'hints': p.hintUsed,
+                        'errors': p.errorCount,
+                        'attempts': p.attempts,
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -216,8 +244,11 @@ class _LevelList extends ConsumerWidget {
     );
   }
 
-  static String _ms(int ms) {
+  static String _ms(BuildContext context, int ms) {
     final int seconds = ms ~/ 1000;
+    if (context.l10n.isEnglish) {
+      return '${seconds ~/ 60}m ${seconds % 60}s';
+    }
     return '${seconds ~/ 60}分${seconds % 60}秒';
   }
 }

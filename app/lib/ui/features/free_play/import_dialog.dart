@@ -13,6 +13,7 @@ import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/domain_error.dart';
 import 'package:sudoku_tutor/domain/puzzle_bank/puzzle_import_service.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 
@@ -47,7 +48,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
     final ClipboardData? data = await Clipboard.getData('text/plain');
     final String? text = data?.text;
     if (text == null || text.trim().isEmpty) {
-      setState(() => _error = '剪贴板为空');
+      setState(() => _error = context.l10n.text('剪贴板为空'));
       return;
     }
     setState(() {
@@ -60,7 +61,9 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
   Future<void> _import() async {
     final String raw = _controller.text;
     if (raw.trim().isEmpty) {
-      setState(() => _error = '请输入 81 位题目字符串');
+      setState(
+        () => _error = context.l10n.text('请输入 81 位题目字符串'),
+      );
       return;
     }
     setState(() {
@@ -79,7 +82,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
         return;
       }
       setState(() {
-        _error = e.message; // E_IMPORT_001 / E_IMPORT_002 中文消息。
+        _error = context.l10n.errorMessage(e);
         _importing = false;
       });
     } on Object catch (e) {
@@ -87,7 +90,10 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
         return;
       }
       setState(() {
-        _error = '导入失败：$e';
+        _error = context.l10n.text(
+          '导入失败：{error}',
+          <String, Object?>{'error': context.l10n.errorMessage(e)},
+        );
         _importing = false;
       });
     }
@@ -97,7 +103,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      title: const Text('从文本导入题目'),
+      title: Text(context.l10n.text('从文本导入题目')),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 420),
         child: Column(
@@ -105,8 +111,9 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              '粘贴 81 位题目字符串（0/./空格表示空格，可含换行与竖线）。'
-              '导入前将校验格式与唯一解。',
+              context.l10n.text(
+                '粘贴 81 位题目字符串（0/./空格表示空格，可含换行与竖线）。导入前将校验格式与唯一解。',
+              ),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.outline,
               ),
@@ -119,7 +126,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
               maxLines: 6,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                hintText: '例如：530070000600195000…',
+                hintText: context.l10n.text('例如：530070000600195000…'),
                 border: const OutlineInputBorder(),
                 errorText: _error,
               ),
@@ -131,10 +138,10 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
                 TextButton.icon(
                   onPressed: _importing ? null : _pasteFromClipboard,
                   icon: const Icon(Icons.content_paste),
-                  label: const Text('从剪贴板导入'),
+                  label: Text(context.l10n.text('从剪贴板导入')),
                 ),
                 Text(
-                  '建议 81 位',
+                  context.l10n.text('建议 81 位'),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
@@ -147,7 +154,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: _importing ? null : () => Navigator.of(context).pop(null),
-          child: const Text('取消'),
+          child: Text(context.l10n.text('取消')),
         ),
         FilledButton(
           onPressed: _importing ? null : _import,
@@ -157,7 +164,7 @@ class _ImportDialogState extends ConsumerState<ImportDialog> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('导入'),
+              : Text(context.l10n.text('导入')),
         ),
       ],
     );

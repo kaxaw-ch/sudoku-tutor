@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 /// 跳转前回调；返回 false 时留在当前关卡。
 typedef BeforeNextLevel = Future<bool> Function();
@@ -35,10 +36,15 @@ class NextLevelButton extends ConsumerWidget {
       _ => null,
     };
     final String tooltip = asyncIndex.isLoading
-        ? '正在加载下一关'
+        ? context.l10n.text('正在加载下一关')
         : next == null
-            ? '已经是最后一关'
-            : '下一关：${next.title}';
+            ? context.l10n.text('已经是最后一关')
+            : context.l10n.text(
+                '下一关：{title}',
+                <String, Object?>{
+                  'title': context.l10n.lessonTitle(next.id, next.title),
+                },
+              );
 
     return IconButton(
       key: const ValueKey<String>('next-level-button'),

@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 /// 通用占位页。
 class PlaceholderPage extends StatelessWidget {
@@ -37,10 +38,19 @@ class PlaceholderPage extends StatelessWidget {
                 color: theme.colorScheme.outline,
               ),
               const SizedBox(height: 16),
-              Text('「$title」尚未交付', style: theme.textTheme.titleMedium),
+              Text(
+                context.l10n.text(
+                  '「{title}」尚未交付',
+                  <String, Object?>{'title': title},
+                ),
+                style: theme.textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               Text(
-                '计划交付：$milestone',
+                context.l10n.text(
+                  '计划交付：{milestone}',
+                  <String, Object?>{'milestone': milestone},
+                ),
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(color: theme.colorScheme.outline),
               ),

@@ -7,6 +7,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:sudoku_tutor/domain/curriculum/chapter_model.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 关卡格栅。
@@ -95,7 +96,10 @@ class _LevelCard extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    '第 ${tile.entry.order} 小关',
+                    context.l10n.text(
+                      '第 {order} 小关',
+                      <String, Object?>{'order': tile.entry.order},
+                    ),
                     style: theme.textTheme.labelMedium?.copyWith(
                       color: scheme.onSurfaceVariant,
                     ),
@@ -121,7 +125,12 @@ class _LevelCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                tile.techniqueLabel,
+                tile.primaryTechnique == null
+                    ? context.l10n.lessonTitle(
+                        tile.entry.id,
+                        tile.entry.title,
+                      )
+                    : context.l10n.techniqueName(tile.primaryTechnique!),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.titleSmall?.copyWith(
@@ -137,7 +146,7 @@ class _LevelCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(99),
                 ),
                 child: Text(
-                  tile.typeLabel,
+                  context.l10n.levelKindName(tile.entry.kind),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: scheme.primary,
                     fontWeight: FontWeight.w600,

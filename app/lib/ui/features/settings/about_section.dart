@@ -2,7 +2,7 @@
 ///
 /// - 版本号行：**连点 7 次**进入开发者模式（P0-EDU-10 / S-08），
 ///   由 [DeveloperMode] 计数，达阈值后写入设置并导航开发者页；
-/// - 语言行：本期仅简体中文，**置灰不可改**；
+/// - 语言行：简体中文 / English 即时切换并持久化；
 /// - 应用名 / 版权信息。
 library;
 
@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/domain/settings/developer_mode.dart';
 import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 应用版本号（与 `pubspec.yaml` 同步；连点阈值见 [kDeveloperTapThreshold]）。
@@ -28,6 +29,9 @@ class AboutSection extends ConsumerWidget {
     final DeveloperMode mode = ref.watch(developerModeProvider);
     final bool developerUnlocked =
         ref.watch(settingsStateProvider).valueOrNull?.developerMode ?? false;
+    final String language = AppLanguages.normalize(
+      ref.watch(settingsStateProvider).valueOrNull?.language,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +44,7 @@ class AboutSection extends ConsumerWidget {
             AppSpacing.xs,
           ),
           child: Text(
-            '关于',
+            context.l10n.text('关于'),
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -52,25 +56,53 @@ class AboutSection extends ConsumerWidget {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.apps),
-                title: const Text('数独教学'),
-                subtitle: const Text('版本 $kAppVersion'),
+                title: Text(context.l10n.text('数独教学')),
+                subtitle: Text(
+                  context.l10n.text(
+                    '版本 {version}',
+                    const <String, Object?>{'version': kAppVersion},
+                  ),
+                ),
                 trailing: developerUnlocked
                     ? const Icon(Icons.verified, color: Colors.green)
                     : null,
                 onTap: () => _onVersionTap(context, ref, mode),
               ),
               const Divider(height: 1),
-              const ListTile(
-                leading: Icon(Icons.language),
-                title: Text('语言'),
-                subtitle: Text('简体中文'),
-                enabled: false, // 本期仅 zh，置灰。
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: Text(context.l10n.text('语言')),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: AppSpacing.sm),
+                  child: SegmentedButton<String>(
+                    key: const ValueKey<String>('language-selector'),
+                    segments: <ButtonSegment<String>>[
+                      ButtonSegment<String>(
+                        value: AppLanguages.chinese,
+                        label: Text(context.l10n.text('简体中文')),
+                      ),
+                      ButtonSegment<String>(
+                        value: AppLanguages.english,
+                        // Language names stay in their native form so the
+                        // selector remains understandable in either locale.
+                        label: const Text('English'),
+                      ),
+                    ],
+                    selected: <String>{language},
+                    showSelectedIcon: false,
+                    onSelectionChanged: (Set<String> selected) => ref
+                        .read(settingsControllerProvider.notifier)
+                        .setLanguage(selected.single),
+                  ),
+                ),
               ),
               const Divider(height: 1),
-              const ListTile(
-                leading: Icon(Icons.info_outline),
-                title: Text('隐私说明'),
-                subtitle: Text('完全离线运行，本地存档，无网络上报'),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text(context.l10n.text('隐私说明')),
+                subtitle: Text(
+                  context.l10n.text('完全离线运行，本地存档，无网络上报'),
+                ),
                 enabled: false,
               ),
             ],
@@ -89,7 +121,9 @@ class AboutSection extends ConsumerWidget {
     ref.read(settingsControllerProvider.notifier).enableDeveloperMode();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('开发者模式已开启')));
+      ..showSnackBar(
+        SnackBar(content: Text(context.l10n.text('开发者模式已开启'))),
+      );
     context.goNamed(RouteNames.developer);
   }
 }

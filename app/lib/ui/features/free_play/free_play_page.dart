@@ -38,6 +38,7 @@ import 'package:sudoku_tutor/domain/session/session_providers.dart';
 import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
 import 'package:sudoku_tutor/domain/stats/stats_collector.dart';
 import 'package:sudoku_tutor/domain/storage/models/settings_models.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
 import 'package:sudoku_tutor/ui/features/async_duel/async_duel_result_dialog.dart';
@@ -327,7 +328,12 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
     if (event case GameAutoCheckFailedEvent(:final wrongCount)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && !_disposed) {
-          _showMessage('自动核验发现 $wrongCount 格错误（已标红）');
+          _showMessage(
+            context.l10n.text(
+              '自动核验发现 {count} 格错误（已标红）',
+              <String, Object?>{'count': wrongCount},
+            ),
+          );
         }
       });
       return;
@@ -392,7 +398,7 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
       return;
     }
     if (hint == null) {
-      _showMessage(service.lastUnavailableReason?.zhMessage ?? '暂无可用提示');
+      _showMessage(context.l10n.hintUnavailable(service.lastUnavailableReason));
       return;
     }
     // 成功：记录配额消耗，展示提示（narration + visual，无填数答案）。
@@ -436,9 +442,14 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
       return;
     }
     if (result.wrongCount > 0) {
-      _showMessage('有 ${result.wrongCount} 格填错（已标红）');
+      _showMessage(
+        context.l10n.text(
+          '有 {count} 格填错（已标红）',
+          <String, Object?>{'count': result.wrongCount},
+        ),
+      );
     } else {
-      _showMessage('当前已填数全部正确');
+      _showMessage(context.l10n.text('当前已填数全部正确'));
     }
   }
 
@@ -471,14 +482,18 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
     showDialog<void>(
       context: stateContext,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: Text(duel ? '放弃挑战？' : '放弃本局？'),
+        title: Text(context.l10n.text(duel ? '放弃挑战？' : '放弃本局？')),
         content: Text(
-          duel ? '离线挑战暂不保存中途盘面，放弃后需用挑战码重新开始。' : '放弃后将清除本局进度，且不可恢复。',
+          context.l10n.text(
+            duel
+                ? '离线挑战暂不保存中途盘面，放弃后需用挑战码重新开始。'
+                : '放弃后将清除本局进度，且不可恢复。',
+          ),
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('取消'),
+            child: Text(context.l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () async {
@@ -492,7 +507,7 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
                 );
               }
             },
-            child: const Text('放弃'),
+            child: Text(context.l10n.text('放弃')),
           ),
         ],
       ),
@@ -538,7 +553,11 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
     if (_starting || session == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(_duelChallenge == null ? '自由练习' : '离线对决'),
+          title: Text(
+            context.l10n.text(
+              _duelChallenge == null ? '自由练习' : '离线对决',
+            ),
+          ),
         ),
         body: const LoadingIndicator(),
       );
@@ -567,20 +586,19 @@ class _FreePlayPageState extends ConsumerState<FreePlayPage>
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: '返回',
+            tooltip: context.l10n.text('返回'),
             icon: const Icon(Icons.arrow_back),
             onPressed: _exitAndSave,
           ),
           title: Text(
-            _duelChallenge == null
-                ? '自由练习 · ${session.difficulty.zhName}'
-                : '离线对决 · ${session.difficulty.zhName}',
+            '${context.l10n.text(_duelChallenge == null ? '自由练习' : '离线对决')}'
+            ' · ${context.l10n.difficultyName(session.difficulty)}',
           ),
           actions: <Widget>[
             if (settings.showTimer || _duelChallenge != null)
               _TimerBadge(session: session),
             IconButton(
-              tooltip: '暂停',
+              tooltip: context.l10n.text('暂停'),
               icon: Icon(session.paused ? Icons.play_arrow : Icons.pause),
               onPressed: _togglePause,
             ),
@@ -867,13 +885,14 @@ class _DuelRulesPanel extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
             ],
             Text(
-              '离线同题竞速',
+              context.l10n.text('离线同题竞速'),
               style: theme.textTheme.titleMedium,
             ),
             const SizedBox(height: AppSpacing.xs),
-            const Text(
-              '提示、核对和自动笔记已关闭；手动笔记可用。'
-              '填满后自动核验，每个错误格罚时 5 秒。',
+            Text(
+              context.l10n.text(
+                '提示、核对和自动笔记已关闭；手动笔记可用。填满后自动核验，每个错误格罚时 5 秒。',
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -901,7 +920,7 @@ class _HintPlaceholder extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            '点击「提示」查看技巧讲解',
+            context.l10n.text('点击「提示」查看技巧讲解'),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -943,7 +962,12 @@ class _HintCard extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  '${hint.level.zhName}提示',
+                  context.l10n.text(
+                    '{level}提示',
+                    <String, Object?>{
+                      'level': context.l10n.hintLevelName(hint.level),
+                    },
+                  ),
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: colors.accent,
                     fontWeight: FontWeight.w800,
@@ -960,7 +984,7 @@ class _HintCard extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              hint.narration,
+              context.l10n.hintNarration(hint),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
                 height: 1.55,

@@ -22,6 +22,7 @@ import 'package:sudoku_tutor/domain/storage/import_export_service.dart';
 import 'package:sudoku_tutor/domain/storage/models/mistake_book.dart';
 import 'package:sudoku_tutor/domain/storage/progress_repository.dart';
 import 'package:sudoku_tutor/domain/storage/storage_paths.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 数据分组。
@@ -43,7 +44,7 @@ class DataSection extends ConsumerWidget {
             AppSpacing.xs,
           ),
           child: Text(
-            '数据',
+            context.l10n.text('数据'),
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -55,36 +56,36 @@ class DataSection extends ConsumerWidget {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.upload_outlined),
-                title: const Text('导出存档'),
-                subtitle: const Text('桌面选路径 / 移动端分享'),
+                title: Text(context.l10n.text('导出存档')),
+                subtitle: Text(context.l10n.text('桌面选路径 / 移动端分享')),
                 onTap: () => _export(context, ref),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.download_outlined),
-                title: const Text('导入存档'),
-                subtitle: const Text('导入前自动备份当前进度'),
+                title: Text(context.l10n.text('导入存档')),
+                subtitle: Text(context.l10n.text('导入前自动备份当前进度')),
                 onTap: () => _import(context, ref),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.menu_book_outlined),
-                title: const Text('清空错题本'),
-                subtitle: const Text('删除全部错题记录'),
+                title: Text(context.l10n.text('清空错题本')),
+                subtitle: Text(context.l10n.text('删除全部错题记录')),
                 onTap: () => _clearMistakes(context, ref),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.delete_forever_outlined),
-                title: const Text('重置全部进度'),
-                subtitle: const Text('删除所有进度与设置，不可恢复'),
+                title: Text(context.l10n.text('重置全部进度')),
+                subtitle: Text(context.l10n.text('删除所有进度与设置，不可恢复')),
                 onTap: () => _resetAll(context, ref),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.bug_report_outlined),
-                title: const Text('导出日志'),
-                subtitle: const Text('崩溃日志（最近 20 条）'),
+                title: Text(context.l10n.text('导出日志')),
+                subtitle: Text(context.l10n.text('崩溃日志（最近 20 条）')),
                 onTap: () => _exportLogs(context, ref),
               ),
             ],
@@ -97,6 +98,7 @@ class DataSection extends ConsumerWidget {
   // ------------------------------------------------------------ 导出
 
   Future<void> _export(BuildContext context, WidgetRef ref) async {
+    final AppLocalizations l10n = context.l10n;
     final ImportExportService service =
         await ref.read(importExportServiceProvider.future);
     final String json = await service.exportJson();
@@ -104,8 +106,11 @@ class DataSection extends ConsumerWidget {
     if (!Platform.isAndroid && !Platform.isIOS) {
       final FileSaveLocation? location = await getSaveLocation(
         suggestedName: 'sudoku_save.json',
-        acceptedTypeGroups: const <XTypeGroup>[
-          XTypeGroup(label: 'JSON 存档', extensions: <String>['json']),
+        acceptedTypeGroups: <XTypeGroup>[
+          XTypeGroup(
+            label: l10n.text('JSON 存档'),
+            extensions: const <String>['json'],
+          ),
         ],
       );
       if (location == null) {
@@ -113,17 +118,18 @@ class DataSection extends ConsumerWidget {
       }
       await File(location.path).writeAsString(json, flush: true);
       if (context.mounted) {
-        _toast(context, '已导出存档');
+        _toast(context, l10n.text('已导出存档'));
       }
       return;
     }
     // 移动端：share_plus 分享文本。
-    await Share.share(json, subject: '数独教学存档');
+    await Share.share(json, subject: l10n.text('数独教学存档'));
   }
 
   // ------------------------------------------------------------ 导入
 
   Future<void> _import(BuildContext context, WidgetRef ref) async {
+    final AppLocalizations l10n = context.l10n;
     final ImportExportService service =
         await ref.read(importExportServiceProvider.future);
     if (!context.mounted) {
@@ -133,16 +139,18 @@ class DataSection extends ConsumerWidget {
     final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('导入存档？'),
-        content: const Text('导入将覆盖当前进度（导入前会自动备份当前存档）。'),
+        title: Text(l10n.text('导入存档？')),
+        content: Text(
+          l10n.text('导入将覆盖当前进度（导入前会自动备份当前存档）。'),
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('取消'),
+            child: Text(l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('导入'),
+            child: Text(l10n.text('导入')),
           ),
         ],
       ),
@@ -154,8 +162,11 @@ class DataSection extends ConsumerWidget {
     // 桌面端：file_selector 选文件。
     if (!Platform.isAndroid && !Platform.isIOS) {
       final XFile? file = await openFile(
-        acceptedTypeGroups: const <XTypeGroup>[
-          XTypeGroup(label: 'JSON 存档', extensions: <String>['json']),
+        acceptedTypeGroups: <XTypeGroup>[
+          XTypeGroup(
+            label: l10n.text('JSON 存档'),
+            extensions: const <String>['json'],
+          ),
         ],
       );
       if (file == null) {
@@ -163,7 +174,17 @@ class DataSection extends ConsumerWidget {
       }
       final ImportResult result = await service.importFromFile(file.path);
       if (context.mounted) {
-        _toast(context, result.ok ? '导入成功' : '导入失败：${result.message}');
+        _toast(
+          context,
+          result.ok
+              ? l10n.text('导入成功')
+              : l10n.text(
+                  '导入失败：{message}',
+                  <String, Object?>{
+                    'message': l10n.errorMessage(result.message ?? '未知错误'),
+                  },
+                ),
+        );
       }
       if (result.ok) {
         // 导入覆盖了进度 → 设置立即重载，课程状态同步重算。
@@ -175,14 +196,24 @@ class DataSection extends ConsumerWidget {
     // 移动端：分享文本输入导入（share_plus 读回原始文本）。
     try {
       final ShareResult result = await Share.share(
-        '请将「数独教学存档 JSON」粘贴到对话框后确认导入',
+        l10n.text('请将「数独教学存档 JSON」粘贴到对话框后确认导入'),
         sharePositionOrigin: const Rect.fromLTWH(0, 0, 1, 1),
       );
       final String raw = result.raw;
       if (raw.isNotEmpty && result.status == ShareResultStatus.success) {
         final ImportResult r = await service.importJsonString(raw);
         if (context.mounted) {
-          _toast(context, r.ok ? '导入成功' : '导入失败：${r.message}');
+          _toast(
+            context,
+            r.ok
+                ? l10n.text('导入成功')
+                : l10n.text(
+                    '导入失败：{message}',
+                    <String, Object?>{
+                      'message': l10n.errorMessage(r.message ?? '未知错误'),
+                    },
+                  ),
+          );
         }
         if (r.ok) {
           // 导入覆盖了进度 → 设置立即重载，课程状态同步重算。
@@ -192,7 +223,13 @@ class DataSection extends ConsumerWidget {
       }
     } on Object catch (e) {
       if (context.mounted) {
-        _toast(context, '移动端导入失败：$e');
+        _toast(
+          context,
+          l10n.text(
+            '移动端导入失败：{error}',
+            <String, Object?>{'error': l10n.errorMessage(e)},
+          ),
+        );
       }
     }
   }
@@ -200,19 +237,20 @@ class DataSection extends ConsumerWidget {
   // ------------------------------------------------------------ 其它
 
   Future<void> _clearMistakes(BuildContext context, WidgetRef ref) async {
+    final AppLocalizations l10n = context.l10n;
     final bool? ok = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('清空错题本？'),
-        content: const Text('将删除全部错题记录。'),
+        title: Text(l10n.text('清空错题本？')),
+        content: Text(l10n.text('将删除全部错题记录。')),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('取消'),
+            child: Text(l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('清空'),
+            child: Text(l10n.text('清空')),
           ),
         ],
       ),
@@ -225,24 +263,27 @@ class DataSection extends ConsumerWidget {
     final state = await repo.load();
     await repo.save(state.copyWith(mistakeBook: const MistakeBook()));
     if (context.mounted) {
-      _toast(context, '错题本已清空');
+      _toast(context, l10n.text('错题本已清空'));
     }
   }
 
   Future<void> _resetAll(BuildContext context, WidgetRef ref) async {
+    final AppLocalizations l10n = context.l10n;
     final bool? ok = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
-        title: const Text('重置全部进度？'),
-        content: const Text('将删除全部关卡进度、设置与对局断点，此操作不可恢复。'),
+        title: Text(l10n.text('重置全部进度？')),
+        content: Text(
+          l10n.text('将删除全部关卡进度、设置与对局断点，此操作不可恢复。'),
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('取消'),
+            child: Text(l10n.text('取消')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('重置'),
+            child: Text(l10n.text('重置')),
           ),
         ],
       ),
@@ -257,11 +298,12 @@ class DataSection extends ConsumerWidget {
     ref.invalidate(settingsControllerProvider);
     ref.invalidate(curriculumStateProvider);
     if (context.mounted) {
-      _toast(context, '已重置全部进度');
+      _toast(context, l10n.text('已重置全部进度'));
     }
   }
 
   Future<void> _exportLogs(BuildContext context, WidgetRef ref) async {
+    final AppLocalizations l10n = context.l10n;
     final StoragePaths paths = await StoragePaths.resolve();
     await paths.ensureDirectories();
     final CrashLogService service = CrashLogService(logsDir: paths.logsDir);
@@ -276,11 +318,11 @@ class DataSection extends ConsumerWidget {
       }
       await File(location.path).writeAsString(text, flush: true);
       if (context.mounted) {
-        _toast(context, '已导出日志');
+        _toast(context, l10n.text('已导出日志'));
       }
       return;
     }
-    await Share.share(text, subject: '崩溃日志');
+    await Share.share(text, subject: l10n.text('崩溃日志'));
   }
 
   void _toast(BuildContext context, String message) {

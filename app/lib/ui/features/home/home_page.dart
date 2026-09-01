@@ -19,6 +19,8 @@ import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/chapter_model.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_providers.dart';
+import 'package:sudoku_tutor/domain/settings/settings_controller.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 import 'chapter_card.dart';
@@ -32,18 +34,35 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<CurriculumState> asyncState =
         ref.watch(curriculumStateProvider);
+    final String language = AppLanguages.normalize(
+      ref.watch(settingsStateProvider).valueOrNull?.language,
+    );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('学习地图'),
+        title: Text(context.l10n.text('学习地图')),
         actions: <Widget>[
           IconButton(
-            tooltip: '技巧 Wiki',
+            key: const ValueKey<String>('quick-language-toggle'),
+            tooltip: context.l10n.text(
+              language == AppLanguages.chinese ? '切换到英文' : '切换到中文',
+            ),
+            icon: const Icon(Icons.language),
+            onPressed: () => ref
+                .read(settingsControllerProvider.notifier)
+                .setLanguage(
+                  language == AppLanguages.chinese
+                      ? AppLanguages.english
+                      : AppLanguages.chinese,
+                ),
+          ),
+          IconButton(
+            tooltip: context.l10n.text('技巧 Wiki'),
             icon: const Icon(Icons.menu_book_outlined),
             onPressed: () => context.goNamed(RouteNames.wiki),
           ),
           IconButton(
-            tooltip: '设置',
+            tooltip: context.l10n.text('设置'),
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => context.goNamed(RouteNames.settings),
           ),
@@ -69,7 +88,7 @@ class HomePage extends ConsumerWidget {
           child: FilledButton.icon(
             onPressed: () => context.goNamed(RouteNames.difficulty),
             icon: const Icon(Icons.grid_view_rounded),
-            label: const Text('自由练习'),
+            label: Text(context.l10n.text('自由练习')),
           ),
         ),
       ),
@@ -123,7 +142,10 @@ class HomePage extends ConsumerWidget {
               ),
             const SizedBox(height: AppSpacing.sm),
             // 离线挑战码对决入口。
-            Text('更多玩法', style: theme.textTheme.titleMedium),
+            Text(
+              context.l10n.text('更多玩法'),
+              style: theme.textTheme.titleMedium,
+            ),
             const SizedBox(height: AppSpacing.sm),
             _MoreModeCard(
               icon: Icons.sports_esports_outlined,
@@ -157,10 +179,13 @@ class HomePage extends ConsumerWidget {
               color: theme.colorScheme.error,
             ),
             const SizedBox(height: AppSpacing.md),
-            Text('课程加载失败', style: theme.textTheme.titleMedium),
+            Text(
+              context.l10n.text('课程加载失败'),
+              style: theme.textTheme.titleMedium,
+            ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              '$error',
+              context.l10n.errorMessage(error),
               textAlign: TextAlign.center,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -169,7 +194,7 @@ class HomePage extends ConsumerWidget {
             const SizedBox(height: AppSpacing.md),
             FilledButton.tonal(
               onPressed: () => ref.invalidate(curriculumStateProvider),
-              child: const Text('重试'),
+              child: Text(context.l10n.text('重试')),
             ),
           ],
         ),
@@ -235,14 +260,20 @@ class _ProgressHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '继续你的数独旅程',
+                  context.l10n.text('继续你的数独旅程'),
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  '已完成 $completed/$total 关',
+                  context.l10n.text(
+                    '已完成 {completed}/{total} 关',
+                    <String, Object?>{
+                      'completed': completed,
+                      'total': total,
+                    },
+                  ),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -325,10 +356,13 @@ class _MoreModeCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(label, style: theme.textTheme.titleSmall),
+                    Text(
+                      context.l10n.text(label),
+                      style: theme.textTheme.titleSmall,
+                    ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      description,
+                      context.l10n.text(description),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: scheme.onSurfaceVariant,
                       ),

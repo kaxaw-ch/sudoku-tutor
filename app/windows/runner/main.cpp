@@ -27,7 +27,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1280, 720);
-  if (!window.Create(L"sudoku_tutor", origin, size)) {
+  if (!window.Create(L"\u6570\u72ec\u6559\u5b66 \u00b7 Sudoku Tutor", origin,
+                     size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

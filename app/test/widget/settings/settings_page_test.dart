@@ -2,7 +2,7 @@
 ///
 /// 覆盖：
 /// - 冻结清单项存在（外观/玩法/反馈/数据/关于 五个分组齐全）；
-/// - 置灰项：粉色/蓝色主题、语言、隐私说明不可选（enabled=false）；
+/// - 可用状态：粉色/蓝色应用主题与隐私说明置灰，语言可切换；
 /// - 棋盘主题：经典蓝色/清新绿色可切换并写档；
 /// - 开关写档：切换「音效」后存档真实变更；
 /// - 提示次数下拉切换写档；
@@ -10,10 +10,13 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/domain/storage/models/progress_state.dart';
 import 'package:sudoku_tutor/domain/storage/models/settings_models.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/features/settings/settings_page.dart';
 import 'package:sudoku_tutor/ui/theme/app_theme.dart';
 
@@ -22,8 +25,9 @@ import '../../helpers/fake_progress_repository.dart';
 void main() {
   Future<FakeProgressRepository> pumpSettings(
     WidgetTester tester,
-    FakeProgressRepository repo,
-  ) async {
+    FakeProgressRepository repo, {
+    bool english = false,
+  }) async {
     // 设置页 ListView 项多（五组），默认 800×600 放不下 → 屏幕外分组不构建、
     // Dropdown 偏移不可点。放大窗口使全部项一屏可见（保留 scrollTo 作兜底）。
     tester.view.physicalSize = const Size(1200, 2000);
@@ -36,15 +40,24 @@ void main() {
         ],
         child: MaterialApp(
           theme: AppTheme.light(),
+          locale: Locale(english ? 'en' : 'zh'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const <LocalizationsDelegate<Object>>[
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
           home: const SettingsPage(),
         ),
       ),
     );
     // 等待设置异步加载完成（fake repo 立即返回）。
-    for (int i = 0; i < 20 && find.text('外观').evaluate().isEmpty; i++) {
+    final String heading = english ? 'Appearance' : '外观';
+    for (int i = 0; i < 20 && find.text(heading).evaluate().isEmpty; i++) {
       await tester.pump(const Duration(milliseconds: 50));
     }
-    expect(find.text('外观'), findsOneWidget, reason: '设置页加载完成');
+    expect(find.text(heading), findsOneWidget, reason: '设置页加载完成');
     return repo;
   }
 
@@ -97,10 +110,11 @@ void main() {
     expect(find.text('版本 0.1.0'), findsOneWidget);
     expect(find.text('语言'), findsOneWidget);
     expect(find.text('简体中文'), findsOneWidget);
+    expect(find.text('English'), findsOneWidget);
     expect(find.text('隐私说明'), findsOneWidget);
   });
 
-  testWidgets('置灰项：粉色/蓝色主题、语言、隐私说明不可选', (WidgetTester tester) async {
+  testWidgets('可用状态：应用主题占位与隐私说明置灰，语言可切换', (WidgetTester tester) async {
     await pumpSettings(tester, FakeProgressRepository());
 
     // 主题三插槽：白色可选，粉/蓝置灰。
@@ -114,14 +128,80 @@ void main() {
     expect(pink.enabled, isFalse, reason: '粉色置灰预留');
     expect(blue.enabled, isFalse, reason: '蓝色置灰预留');
 
-    // 语言 / 隐私说明置灰。
+    // 语言已实现中英切换；隐私说明仍为只读占位。
     await scrollToIfNeeded(tester, find.text('隐私说明'));
     final ListTile language =
         tester.widget<ListTile>(find.widgetWithText(ListTile, '语言'));
     final ListTile privacy =
         tester.widget<ListTile>(find.widgetWithText(ListTile, '隐私说明'));
-    expect(language.enabled, isFalse);
+    expect(language.enabled, isTrue);
+    expect(
+      find.byKey(const ValueKey<String>('language-selector')),
+      findsOneWidget,
+    );
     expect(privacy.enabled, isFalse);
+  });
+
+  testWidgets('语言按钮切换为 English 并写档', (WidgetTester tester) async {
+    final FakeProgressRepository repo =
+        await pumpSettings(tester, FakeProgressRepository());
+
+    await scrollToIfNeeded(tester, find.text('English'));
+    await tester.tap(find.text('English'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(repo.current.settings.language, 'en');
+    expect(
+      tester
+          .widget<SegmentedButton<String>>(
+            find.byKey(const ValueKey<String>('language-selector')),
+          )
+          .selected,
+      <String>{'en'},
+    );
+  });
+
+  testWidgets('English 设置页覆盖全部分组、按钮与提示', (WidgetTester tester) async {
+    final FakeProgressRepository repo = FakeProgressRepository(
+      initial: const ProgressState(
+        schemaVersion: 1,
+        deviceId: 'english-settings',
+        settings: SettingsState(language: 'en'),
+      ),
+    );
+    await pumpSettings(tester, repo, english: true);
+
+    for (final String group in <String>[
+      'Appearance',
+      'Gameplay',
+      'Feedback',
+      'Data',
+      'About',
+    ]) {
+      expect(find.text(group), findsWidgets, reason: group);
+    }
+    for (final String item in <String>[
+      'Automatic Candidates',
+      'Mark Errors',
+      'Show Timer',
+      'Highlight Matching Digits',
+      'Hint Limit',
+      'Sound Effects',
+      'Haptics',
+      'Export Progress',
+      'Import Progress',
+      'Clear Mistake Book',
+      'Reset All Progress',
+      'Export Logs',
+      'Sudoku Tutor',
+      'Language',
+      'Privacy',
+    ]) {
+      expect(find.text(item), findsOneWidget, reason: item);
+    }
+    expect(find.text('简体中文'), findsOneWidget);
+    expect(find.text('English'), findsOneWidget);
   });
 
   testWidgets('切换「音效」开关 → 存档真实变更', (WidgetTester tester) async {

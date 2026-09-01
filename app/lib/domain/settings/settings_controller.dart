@@ -14,6 +14,7 @@ library;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../session/session_providers.dart';
+import '../../l10n/language.dart';
 import '../storage/models/settings_models.dart';
 import '../storage/progress_repository.dart';
 
@@ -65,6 +66,12 @@ class SettingsController extends AsyncNotifier<SettingsState> {
   /// 自由练习提示配额（关闭/3/5/不限）。
   Future<void> setHintQuota(HintQuota quota) =>
       _update((SettingsState s) => s.copyWith(hintQuota: quota));
+
+  /// 界面语言（简体中文 / English）；未知值回退中文。
+  Future<void> setLanguage(String language) => _update(
+        (SettingsState s) =>
+            s.copyWith(language: AppLanguages.normalize(language)),
+      );
 
   /// 开启开发者模式（版本号连点 7 次后调用；不提供关闭入口）。
   Future<void> enableDeveloperMode() =>

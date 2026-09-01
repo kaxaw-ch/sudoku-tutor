@@ -35,5 +35,8 @@
   "locked": "尚未解锁",
   "soundDefaultOff": "默认关闭（桌面端不可用）",
   "firstEntryMustWatch": "首次进入须完整观看本关（看完最后一步即可退出）",
-  "onboardingIntro": "跟着分步动画一点点看懂数独，不需要任何基础。"
+  "onboardingIntro": "跟着分步动画一点点看懂数独，不需要任何基础。",
+  "language": "语言",
+  "simplifiedChinese": "简体中文",
+  "english": "English"
 }

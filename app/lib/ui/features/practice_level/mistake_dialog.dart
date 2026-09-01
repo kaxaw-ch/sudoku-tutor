@@ -7,6 +7,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../../domain/teaching/mistake_message_repository.dart';
 import '../../theme/spacing.dart';
@@ -31,11 +32,11 @@ class MistakeDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return AlertDialog(
-      title: const Row(
+      title: Row(
         children: <Widget>[
-          Icon(Icons.error_outline, color: Colors.deepOrange),
-          SizedBox(width: AppSpacing.sm),
-          Expanded(child: Text('这一步有问题')),
+          const Icon(Icons.error_outline, color: Colors.deepOrange),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(child: Text(context.l10n.text('这一步有问题'))),
         ],
       ),
       content: Column(
@@ -43,13 +44,13 @@ class MistakeDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _Section(
-            label: '错在哪',
+            label: context.l10n.text('错在哪'),
             text: message.what,
             color: theme.colorScheme.error,
           ),
           const SizedBox(height: AppSpacing.md),
           _Section(
-            label: '正确思路',
+            label: context.l10n.text('正确思路'),
             text: message.how,
             color: theme.colorScheme.primary,
           ),
@@ -58,7 +59,7 @@ class MistakeDialog extends StatelessWidget {
       actions: <Widget>[
         FilledButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('明白了'),
+          child: Text(context.l10n.text('明白了')),
         ),
       ],
     );

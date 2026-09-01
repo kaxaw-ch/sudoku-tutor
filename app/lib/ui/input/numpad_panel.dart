@@ -7,6 +7,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import 'input_intents.dart';
 
@@ -231,7 +232,7 @@ class _FunctionKey extends StatelessWidget {
             children: <Widget>[
               Icon(icon, size: 23, color: fg),
               const SizedBox(height: 3),
-              Text(label,
+              Text(context.l10n.text(label),
                   style: theme.textTheme.labelSmall?.copyWith(color: fg)),
             ],
           ),

@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 离线挑战结算弹窗。
@@ -19,7 +20,7 @@ abstract final class AsyncDuelResultDialog {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) => AlertDialog(
         icon: const Icon(Icons.emoji_events, size: 44),
-        title: const Text('挑战完成！'),
+        title: Text(dialogContext.l10n.text('挑战完成！')),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),
           child: SingleChildScrollView(
@@ -28,13 +29,24 @@ abstract final class AsyncDuelResultDialog {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  '${result.playerName} · 用时 ${_formatDuration(result.elapsedMs)}'
-                  ' · 错误 ${result.wrongCount}',
+                  dialogContext.l10n.text(
+                    '{name} · 用时 {time} · 错误 {count}',
+                    <String, Object?>{
+                      'name': result.playerName,
+                      'time': _formatDuration(result.elapsedMs),
+                      'count': result.wrongCount,
+                    },
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  '计分 ${_formatDuration(result.scoreMs)}',
+                  dialogContext.l10n.text(
+                    '计分 {time}',
+                    <String, Object?>{
+                      'time': _formatDuration(result.scoreMs),
+                    },
+                  ),
                   textAlign: TextAlign.center,
                   style: Theme.of(dialogContext).textTheme.titleMedium,
                 ),
@@ -57,8 +69,9 @@ abstract final class AsyncDuelResultDialog {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                const Text(
-                  '把成绩码发给对方，再到对决大厅比较胜负。',
+                Text(
+                  dialogContext.l10n
+                      .text('把成绩码发给对方，再到对决大厅比较胜负。'),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -72,15 +85,21 @@ abstract final class AsyncDuelResultDialog {
               if (dialogContext.mounted) {
                 ScaffoldMessenger.of(dialogContext)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(content: Text('成绩码已复制')));
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        dialogContext.l10n.text('成绩码已复制'),
+                      ),
+                    ),
+                  );
               }
             },
             icon: const Icon(Icons.copy_outlined),
-            label: const Text('复制成绩码'),
+            label: Text(dialogContext.l10n.text('复制成绩码')),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('返回对决大厅'),
+            child: Text(dialogContext.l10n.text('返回对决大厅')),
           ),
         ],
       ),

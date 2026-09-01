@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/domain/curriculum/technique_wiki.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
 /// 展示全部已实现技巧的定义、使用方法与边界条件。
@@ -36,18 +37,21 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
               query.isEmpty ||
               entry.id.zhName.toLowerCase().contains(query) ||
               entry.id.enName.toLowerCase().contains(query) ||
-              entry.definition.toLowerCase().contains(query),
+              context.l10n
+                  .text(entry.definition)
+                  .toLowerCase()
+                  .contains(query),
         )
         .toList(growable: false);
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          tooltip: '返回学习地图',
+          tooltip: context.l10n.text('返回学习地图'),
           onPressed: () => context.goNamed(RouteNames.home),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text('技巧 Wiki'),
+        title: Text(context.l10n.text('技巧 Wiki')),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -78,7 +82,7 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Text(
-                            '从定义到落子依据',
+                            context.l10n.text('从定义到落子依据'),
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.onPrimaryContainer,
@@ -86,7 +90,12 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            '收录引擎支持的 ${techniqueWikiEntries.length} 种技巧。点击条目查看识别方法、用法和易错点。',
+                            context.l10n.text(
+                              '收录引擎支持的 {count} 种技巧。点击条目查看识别方法、用法和易错点。',
+                              <String, Object?>{
+                                'count': techniqueWikiEntries.length,
+                              },
+                            ),
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onPrimaryContainer,
                             ),
@@ -97,12 +106,12 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
                     const SizedBox(height: AppSpacing.md),
                     SearchBar(
                       controller: _searchController,
-                      hintText: '搜索中文名、英文名或定义',
+                      hintText: context.l10n.text('搜索中文名、英文名或定义'),
                       leading: const Icon(Icons.search),
                       trailing: <Widget>[
                         if (_query.isNotEmpty)
                           IconButton(
-                            tooltip: '清除搜索',
+                            tooltip: context.l10n.text('清除搜索'),
                             onPressed: () {
                               _searchController.clear();
                               setState(() => _query = '');
@@ -115,7 +124,12 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      query.isEmpty ? '全部技巧' : '找到 ${entries.length} 项',
+                      query.isEmpty
+                          ? context.l10n.text('全部技巧')
+                          : context.l10n.text(
+                              '找到 {count} 项',
+                              <String, Object?>{'count': entries.length},
+                            ),
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -125,9 +139,11 @@ class _TechniqueWikiPageState extends State<TechniqueWikiPage> {
               ),
             ),
             if (entries.isEmpty)
-              const SliverFillRemaining(
+              SliverFillRemaining(
                 hasScrollBody: false,
-                child: Center(child: Text('没有找到相关技巧')),
+                child: Center(
+                  child: Text(context.l10n.text('没有找到相关技巧')),
+                ),
               )
             else
               SliverPadding(
@@ -171,12 +187,12 @@ class _TechniqueCard extends StatelessWidget {
           child: Text('${entry.rank}'),
         ),
         title: Text(
-          entry.id.zhName,
+          context.l10n.techniqueName(entry.id),
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
           ),
         ),
-        subtitle: Text('${entry.id.enName} · ${entry.difficulty.zhName}'),
+        subtitle: Text(context.l10n.difficultyName(entry.difficulty)),
         childrenPadding: const EdgeInsets.fromLTRB(
           AppSpacing.md,
           0,
@@ -185,11 +201,21 @@ class _TechniqueCard extends StatelessWidget {
         ),
         expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          _WikiSection(title: '定义', text: entry.definition),
+          _WikiSection(
+            title: context.l10n.text('定义'),
+            text: context.l10n.text(entry.definition),
+          ),
           const SizedBox(height: AppSpacing.sm),
-          _WikiSection(title: '怎么使用', text: entry.usage),
+          _WikiSection(
+            title: context.l10n.text('怎么使用'),
+            text: context.l10n.text(entry.usage),
+          ),
           const SizedBox(height: AppSpacing.sm),
-          _WikiSection(title: '注意', text: entry.tip, emphasized: true),
+          _WikiSection(
+            title: context.l10n.text('注意'),
+            text: context.l10n.text(entry.tip),
+            emphasized: true,
+          ),
         ],
       ),
     );

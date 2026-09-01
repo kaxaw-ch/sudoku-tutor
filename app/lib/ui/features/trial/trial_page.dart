@@ -20,6 +20,7 @@ import 'package:sudoku_tutor/domain/session/game_session_controller.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
 import 'package:sudoku_tutor/domain/teaching/teaching_providers.dart';
 import 'package:sudoku_tutor/domain/teaching/trial_controller.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
 import 'package:sudoku_tutor/ui/features/teaching/next_level_button.dart';
@@ -118,19 +119,31 @@ class _TrialPageState extends ConsumerState<TrialPage> {
     final String? action = await showDialog<String>(
       context: context,
       builder: (BuildContext ctx) => AlertDialog(
-        title: Text('连续失败 $kTrialFailuresBeforeReviewOffer 次'),
+        title: Text(
+          context.l10n.text(
+            '连续失败 {count} 次',
+            const <String, Object?>{
+              'count': kTrialFailuresBeforeReviewOffer,
+            },
+          ),
+        ),
         content: Text(
-          '要不要先回看一遍「${st.targetTechniqueLabel}」的原理演示，再回来挑战？',
+          context.l10n.text(
+            '要不要先回看一遍「{technique}」的原理演示，再回来挑战？',
+            <String, Object?>{
+              'technique': _targetTechniqueLabel(st),
+            },
+          ),
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(ctx).pop('continue'),
-            child: const Text('继续挑战'),
+            child: Text(context.l10n.text('继续挑战')),
           ),
           if (demoId != null)
             FilledButton(
               onPressed: () => Navigator.of(ctx).pop('review'),
-              child: const Text('回看原理演示'),
+              child: Text(context.l10n.text('回看原理演示')),
             ),
         ],
       ),
@@ -232,7 +245,7 @@ class _TrialPageState extends ConsumerState<TrialPage> {
     final GameSession? session = ref.watch(gameSessionControllerProvider);
     if (trialState == null || session == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('验收试炼')),
+        appBar: AppBar(title: Text(context.l10n.text('验收试炼'))),
         body: const LoadingIndicator(),
       );
     }
@@ -258,11 +271,16 @@ class _TrialPageState extends ConsumerState<TrialPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: '返回',
+            tooltip: context.l10n.text('返回'),
             icon: const Icon(Icons.arrow_back),
             onPressed: _handleExit,
           ),
-          title: Text(trialState.level.title),
+          title: Text(
+            context.l10n.lessonTitle(
+              trialState.level.id,
+              trialState.level.title,
+            ),
+          ),
           actions: <Widget>[
             NextLevelButton(
               currentLevelId: trialState.level.id,
@@ -272,7 +290,14 @@ class _TrialPageState extends ConsumerState<TrialPage> {
               child: Padding(
                 padding: const EdgeInsets.only(right: AppSpacing.md),
                 child: Chip(
-                  label: Text('本关需用到：${trialState.targetTechniqueLabel}'),
+                  label: Text(
+                    context.l10n.text(
+                      '本关需用到：{technique}',
+                      <String, Object?>{
+                        'technique': _targetTechniqueLabel(trialState),
+                      },
+                    ),
+                  ),
                   visualDensity: VisualDensity.compact,
                 ),
               ),
@@ -300,8 +325,12 @@ class _TrialPageState extends ConsumerState<TrialPage> {
                         children: <Widget>[
                           const Icon(Icons.lock_outline),
                           const SizedBox(width: AppSpacing.sm),
-                          const Expanded(
-                            child: Text('试炼关不提供提示：请自主识别并运用目标技巧解完整盘。'),
+                          Expanded(
+                            child: Text(
+                              context.l10n.text(
+                                '试炼关不提供提示：请自主识别并运用目标技巧解完整盘。',
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -457,4 +486,8 @@ class _TrialPageState extends ConsumerState<TrialPage> {
         onMoveSelection: _moveSelection,
         onSelectCell: controller.handleSelectCell,
       );
+
+  String _targetTechniqueLabel(TrialState state) => state.targetTechniques
+      .map(context.l10n.techniqueName)
+      .join(context.l10n.isEnglish ? ', ' : '、');
 }

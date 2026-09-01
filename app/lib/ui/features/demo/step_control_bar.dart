@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 
@@ -68,19 +69,20 @@ class StepControlBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           IconButton.filledTonal(
-            tooltip: '上一步',
+            tooltip: context.l10n.text('上一步'),
             onPressed: progress > 1 ? onPrevious : null,
             icon: const Icon(Icons.skip_previous),
           ),
           const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
-            tooltip: '下一步',
+            tooltip: context.l10n.text('下一步'),
             onPressed: enableNext ? onNext : null,
             icon: const Icon(Icons.skip_next),
           ),
           const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
-            tooltip: autoPlaying ? '暂停自动播放' : '自动播放',
+            tooltip: context.l10n
+                .text(autoPlaying ? '暂停自动播放' : '自动播放'),
             onPressed: enableAutoPlay ? onToggleAutoPlay : null,
             icon: Icon(autoPlaying ? Icons.pause : Icons.play_arrow),
           ),
@@ -88,14 +90,18 @@ class StepControlBar extends StatelessWidget {
             const SizedBox(width: AppSpacing.sm),
             // 速度切换：每 2 秒一步 ↔ 每秒两步。
             IconButton.filledTonal(
-              tooltip: autoPlayFast ? '速度：每秒两步' : '速度：每 2 秒一步（点击切换每秒两步）',
+              tooltip: context.l10n.text(
+                autoPlayFast
+                    ? '速度：每秒两步'
+                    : '速度：每 2 秒一步（点击切换每秒两步）',
+              ),
               onPressed: enableAutoPlay ? onToggleSpeed : null,
               icon: Icon(autoPlayFast ? Icons.fast_forward : Icons.speed),
             ),
           ],
           const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
-            tooltip: '重播',
+            tooltip: context.l10n.text('重播'),
             onPressed: total > 0 ? onReplay : null,
             icon: const Icon(Icons.replay),
           ),

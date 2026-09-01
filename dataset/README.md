@@ -1,12 +1,20 @@
-# dataset/ —— 题库与关卡数据集占位目录
+# dataset/ —— 离线题库生产与质量评测数据
 
-本目录用于存放**批次 D（题库导出）与批次 F（34 关关卡）**产出的离线数据：
+本目录保存开发期数据；应用运行时资产位于 `app/assets/`，并已在
+`app/pubspec.yaml` 中登记。当前有效内容如下：
 
-- `dataset/curriculum/` —— 章节/关卡定义（JSON，对应 `assets/curriculum/`）
-- `dataset/puzzles/` —— 标注完成的题目库（对应 `assets/puzzles/`）
-- `dataset/pools/` —— 按难度分桶的题源池（对应 `assets/pools/`）
-- `dataset/text/` —— 讲解模板与文案（对应 `assets/text/`）
+- `annotated_v4/`：T-QA-02 规范标注集，16 项技巧各 20 个正例与 20 个负例，共 640 例；
+- `level_candidates/`：34 个正式教学关卡的候选盘面与筛选报告；
+- `gen_no_naked_single_pool.json`：唯一余数负例边界研究所用的可复现题源。
 
-> ⚠️ 本目录在批次 A/B 阶段仅为占位；`app/pubspec.yaml` 的 `flutter.assets`
-> 条目已注释，待本目录填充真实数据后再解除注释，否则 `flutter pub get` 会因目录缺失失败。
-> 本目录不纳入版本控制的二进制资产，仅保留生成脚本与 schema。
+`annotated/`、`annotated_v2/` 与 `annotated_v3/` 是早期迭代产物，不被当前评测工具读取。
+规范评测默认使用 `annotated_v4/`：
+
+```powershell
+cd packages/sudoku_cli
+dart run tool/eval_dataset.dart
+dart run tool/check_annotated_integrity.dart
+dart run bin/sudoku_cli.dart verify --dataset dataset/annotated_v4
+```
+
+题库、课程和试炼池的最终运行时副本以 `app/assets/` 为准。

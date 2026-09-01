@@ -9,6 +9,7 @@ import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 import 'package:sudoku_tutor/ui/features/free_play/free_play_page.dart';
 import 'package:sudoku_tutor/ui/theme/spacing.dart';
 
@@ -76,9 +77,9 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
         _createdCode = AsyncDuelCodec.encodeChallenge(challenge);
       });
     } on AsyncDuelCodeException catch (error) {
-      _showMessage(error.message);
+      _showMessage(context.l10n.errorMessage(error));
     } on Object {
-      _showMessage('创建挑战失败，请稍后重试');
+      _showMessage(context.l10n.text('创建挑战失败，请稍后重试'));
     } finally {
       if (mounted) {
         setState(() => _creating = false);
@@ -100,7 +101,7 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
           AsyncDuelCodec.decodeChallenge(_challengeController.text);
       _startChallenge(challenge, _nameController.text);
     } on AsyncDuelCodeException catch (error) {
-      _showMessage(error.message);
+      _showMessage(context.l10n.errorMessage(error));
     }
   }
 
@@ -114,7 +115,7 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
         wrongCount: 0,
       );
     } on AsyncDuelCodeException catch (error) {
-      _showMessage(error.message);
+      _showMessage(context.l10n.errorMessage(error));
       return;
     }
     context.goNamed(
@@ -135,14 +136,19 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
       setState(() => _comparison = AsyncDuelCodec.compare(first, second));
     } on AsyncDuelCodeException catch (error) {
       setState(() => _comparison = null);
-      _showMessage(error.message);
+      _showMessage(context.l10n.errorMessage(error));
     }
   }
 
   Future<void> _copy(String text, String label) async {
     await Clipboard.setData(ClipboardData(text: text));
     if (mounted) {
-      _showMessage('$label已复制');
+      _showMessage(
+        context.l10n.text(
+          '{label}已复制',
+          <String, Object?>{'label': context.l10n.text(label)},
+        ),
+      );
     }
   }
 
@@ -166,14 +172,17 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    if (_nameController.text == '玩家' || _nameController.text == 'Player') {
+      _nameController.text = context.l10n.text('玩家');
+    }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          tooltip: '返回',
+          tooltip: context.l10n.text('返回'),
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.goNamed(RouteNames.home),
         ),
-        title: const Text('离线对决'),
+        title: Text(context.l10n.text('离线对决')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -185,17 +194,18 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
               children: <Widget>[
                 Card(
                   color: theme.colorScheme.primaryContainer,
-                  child: const Padding(
-                    padding: EdgeInsets.all(AppSpacing.md),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.md),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.offline_bolt_outlined),
-                        SizedBox(width: AppSpacing.sm),
+                        const Icon(Icons.offline_bolt_outlined),
+                        const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            '无需联网：分享挑战码进入同一道题，完成后交换成绩码。'
-                            '每个核验错误格罚时 5 秒。',
+                            context.l10n.text(
+                              '无需联网：分享挑战码进入同一道题，完成后交换成绩码。每个核验错误格罚时 5 秒。',
+                            ),
                           ),
                         ),
                       ],
@@ -207,10 +217,10 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                   key: const ValueKey<String>('duel-player-name'),
                   controller: _nameController,
                   maxLength: 16,
-                  decoration: const InputDecoration(
-                    labelText: '我的昵称',
-                    prefixIcon: Icon(Icons.person_outline),
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.text('我的昵称'),
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
@@ -223,15 +233,15 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                       DropdownButtonFormField<Difficulty>(
                         key: const ValueKey<String>('duel-difficulty'),
                         initialValue: _difficulty,
-                        decoration: const InputDecoration(
-                          labelText: '题目难度',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: context.l10n.text('题目难度'),
+                          border: const OutlineInputBorder(),
                         ),
                         items: <DropdownMenuItem<Difficulty>>[
                           for (final Difficulty value in Difficulty.values)
                             DropdownMenuItem<Difficulty>(
                               value: value,
-                              child: Text(value.zhName),
+                              child: Text(context.l10n.difficultyName(value)),
                             ),
                         ],
                         onChanged: _creating
@@ -253,13 +263,19 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                                     CircularProgressIndicator(strokeWidth: 2),
                               )
                             : const Icon(Icons.casino_outlined),
-                        label: Text(_creating ? '正在选题…' : '生成挑战码'),
+                        label: Text(
+                          context.l10n
+                              .text(_creating ? '正在选题…' : '生成挑战码'),
+                        ),
                       ),
                       if (_createdCode case final String code) ...<Widget>[
                         const SizedBox(height: AppSpacing.md),
                         _CodeBox(
                           key: const ValueKey<String>('created-duel-code'),
-                          label: '挑战码 · ${_createdChallenge!.id}',
+                          label: context.l10n.text(
+                            '挑战码 · {id}',
+                            <String, Object?>{'id': _createdChallenge!.id},
+                          ),
                           code: code,
                           onCopy: () => _copy(code, '挑战码'),
                         ),
@@ -267,7 +283,7 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                         OutlinedButton.icon(
                           onPressed: _startCreatedChallenge,
                           icon: const Icon(Icons.play_arrow),
-                          label: const Text('开始我的挑战'),
+                          label: Text(context.l10n.text('开始我的挑战')),
                         ),
                       ],
                     ],
@@ -291,7 +307,7 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                         key: const ValueKey<String>('join-duel'),
                         onPressed: _joinChallenge,
                         icon: const Icon(Icons.flag_outlined),
-                        label: const Text('验证并开始'),
+                        label: Text(context.l10n.text('验证并开始')),
                       ),
                     ],
                   ),
@@ -321,7 +337,7 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                         key: const ValueKey<String>('compare-duel-results'),
                         onPressed: _compareResults,
                         icon: const Icon(Icons.compare_arrows),
-                        label: const Text('比较胜负'),
+                        label: Text(context.l10n.text('比较胜负')),
                       ),
                       if (_comparison case final AsyncDuelComparison value) ...[
                         const SizedBox(height: AppSpacing.md),
@@ -332,7 +348,9 @@ class _AsyncDuelPageState extends ConsumerState<AsyncDuelPage> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Text(
-                  '说明：离线成绩码带复制校验，但不具备服务器级防作弊能力，适合熟人之间公平约战。',
+                  context.l10n.text(
+                    '说明：离线成绩码带复制校验，但不具备服务器级防作弊能力，适合熟人之间公平约战。',
+                  ),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.outline,
@@ -369,7 +387,10 @@ class _SectionCard extends StatelessWidget {
                 children: <Widget>[
                   Icon(icon),
                   const SizedBox(width: AppSpacing.sm),
-                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    context.l10n.text(title),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ],
               ),
               const SizedBox(height: AppSpacing.md),
@@ -408,7 +429,7 @@ class _CodeBox extends StatelessWidget {
             children: <Widget>[
               Expanded(child: Text(label)),
               IconButton(
-                tooltip: '复制',
+                tooltip: context.l10n.text('复制'),
                 onPressed: onCopy,
                 icon: const Icon(Icons.copy_outlined),
               ),
@@ -445,10 +466,10 @@ class _CodeInput extends StatelessWidget {
         enableSuggestions: false,
         style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
         decoration: InputDecoration(
-          labelText: label,
+          labelText: context.l10n.text(label),
           border: const OutlineInputBorder(),
           suffixIcon: IconButton(
-            tooltip: '从剪贴板粘贴',
+            tooltip: context.l10n.text('从剪贴板粘贴'),
             onPressed: onPaste,
             icon: const Icon(Icons.content_paste),
           ),
@@ -465,8 +486,12 @@ class _ComparisonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final AsyncDuelResult first = comparison.first;
     final AsyncDuelResult second = comparison.second;
-    final String headline =
-        comparison.isDraw ? '平局' : '${comparison.winner!.playerName} 获胜';
+    final String headline = comparison.isDraw
+        ? context.l10n.text('平局')
+        : context.l10n.text(
+            '{name} 获胜',
+            <String, Object?>{'name': comparison.winner!.playerName},
+          );
     return Card(
       color: Theme.of(context).colorScheme.tertiaryContainer,
       child: Padding(
@@ -478,8 +503,15 @@ class _ComparisonCard extends StatelessWidget {
             Text(headline, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              '${first.playerName}：${_formatDuration(first.scoreMs)}　·　'
-              '${second.playerName}：${_formatDuration(second.scoreMs)}',
+              context.l10n.text(
+                '{first}：{firstTime}　·　{second}：{secondTime}',
+                <String, Object?>{
+                  'first': first.playerName,
+                  'firstTime': _formatDuration(first.scoreMs),
+                  'second': second.playerName,
+                  'secondTime': _formatDuration(second.scoreMs),
+                },
+              ),
               textAlign: TextAlign.center,
             ),
           ],

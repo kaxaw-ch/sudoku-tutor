@@ -5,6 +5,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 import '../../theme/spacing.dart';
 
@@ -43,7 +44,7 @@ class ResumeBanner extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    '检测到未完成的对局',
+                    context.l10n.text('检测到未完成的对局'),
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: theme.colorScheme.onPrimaryContainer,
                     ),
@@ -53,7 +54,7 @@ class ResumeBanner extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              '可继续上次对局，或开始新局（将覆盖上次进度）',
+              context.l10n.text('可继续上次对局，或开始新局（将覆盖上次进度）'),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onPrimaryContainer,
               ),
@@ -63,12 +64,12 @@ class ResumeBanner extends StatelessWidget {
               children: <Widget>[
                 FilledButton(
                   onPressed: onResume,
-                  child: const Text('继续上次对局'),
+                  child: Text(context.l10n.text('继续上次对局')),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 TextButton(
                   onPressed: onStartNew,
-                  child: const Text('开始新局（将覆盖）'),
+                  child: Text(context.l10n.text('开始新局（将覆盖）')),
                 ),
               ],
             ),

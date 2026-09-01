@@ -4,21 +4,22 @@ library;
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:sudoku_tutor/l10n/app_localizations.dart';
 
 /// 恭喜动画弹层。
 abstract final class CongratulationsAnimation {
   /// 展示彩屑与奖杯动画；用户点击按钮或遮罩后关闭。
   static Future<void> show(
     BuildContext context, {
-    String title = '恭喜完成！',
-    String message = '自动核验通过，整盘全部正确。',
+    String? title,
+    String? message,
   }) {
     final bool disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     return showGeneralDialog<void>(
       context: context,
       barrierDismissible: true,
-      barrierLabel: '关闭恭喜动画',
+      barrierLabel: context.l10n.text('关闭恭喜动画'),
       barrierColor: Colors.black.withValues(alpha: 0.28),
       transitionDuration:
           disableAnimations ? Duration.zero : const Duration(milliseconds: 420),
@@ -27,7 +28,11 @@ abstract final class CongratulationsAnimation {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
       ) =>
-          _CongratulationsCard(title: title, message: message),
+          _CongratulationsCard(
+            title: title ?? context.l10n.text('恭喜完成！'),
+            message:
+                message ?? context.l10n.text('自动核验通过，整盘全部正确。'),
+          ),
       transitionBuilder: (
         BuildContext context,
         Animation<double> animation,
@@ -185,7 +190,7 @@ class _CongratulationsCardState extends State<_CongratulationsCard>
                             FilledButton.icon(
                               onPressed: () => Navigator.of(context).pop(),
                               icon: const Icon(Icons.celebration_rounded),
-                              label: const Text('太棒了'),
+                              label: Text(context.l10n.text('太棒了')),
                             ),
                           ],
                         ),
