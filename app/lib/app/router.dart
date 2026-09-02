@@ -1,6 +1,7 @@
 /// go_router 路由表（批次 E 收口：T-UI-04/T-UI-05 全部接入）。
 library;
 
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sudoku_tutor/app/route_paths.dart';
 import 'package:sudoku_tutor/domain/duel/async_duel_codec.dart';
@@ -70,17 +71,46 @@ GoRouter buildRouter({String initialLocation = RoutePaths.home}) => GoRouter(
         GoRoute(
           path: RoutePaths.demo,
           name: RouteNames.demo,
-          builder: (_, __) => const DemoPage(),
+          pageBuilder: (_, GoRouterState state) {
+            final String levelId = state.pathParameters['levelId'] ?? '';
+            return MaterialPage<void>(
+              // 路由模板相同而参数变化时，go_router 可能复用子树。
+              // 同时把 levelId 传入页面并设置 key，确保连续同类型关卡重载。
+              key: ValueKey<String>('demo-$levelId'),
+              child: DemoPage(
+                key: ValueKey<String>('demo-content-$levelId'),
+                levelId: levelId,
+              ),
+            );
+          },
         ),
         GoRoute(
           path: RoutePaths.practiceLevel,
           name: RouteNames.practiceLevel,
-          builder: (_, __) => const PracticeLevelPage(),
+          pageBuilder: (_, GoRouterState state) {
+            final String levelId = state.pathParameters['levelId'] ?? '';
+            return MaterialPage<void>(
+              key: ValueKey<String>('practice-$levelId'),
+              child: PracticeLevelPage(
+                key: ValueKey<String>('practice-content-$levelId'),
+                levelId: levelId,
+              ),
+            );
+          },
         ),
         GoRoute(
           path: RoutePaths.trial,
           name: RouteNames.trial,
-          builder: (_, __) => const TrialPage(),
+          pageBuilder: (_, GoRouterState state) {
+            final String levelId = state.pathParameters['levelId'] ?? '';
+            return MaterialPage<void>(
+              key: ValueKey<String>('trial-$levelId'),
+              child: TrialPage(
+                key: ValueKey<String>('trial-content-$levelId'),
+                levelId: levelId,
+              ),
+            );
+          },
         ),
       ],
     );

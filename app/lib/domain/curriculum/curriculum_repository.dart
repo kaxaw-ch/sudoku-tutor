@@ -18,8 +18,16 @@ import 'package:sudoku_tutor/domain/domain_error.dart';
 typedef CurriculumAssetLoader = Future<String> Function(String assetPath);
 
 /// 生产默认加载器：rootBundle 读资产文本。
-Future<String> defaultCurriculumAssetLoader(String assetPath) =>
-    rootBundle.loadString(assetPath);
+///
+/// 不使用 `loadString`：它会在文件超过约 50 KB 时临时启动 Isolate 解码。
+/// 部分教学 JSON 恰好越过该阈值，连续切关时会出现长时间等待；这类小文本
+/// 直接解码字节更稳定，也避免重复点击叠加后台任务。
+Future<String> defaultCurriculumAssetLoader(String assetPath) async {
+  final ByteData data = await rootBundle.load(assetPath);
+  return utf8.decode(
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+  );
+}
 
 /// 课程数据仓库。
 class CurriculumRepository {

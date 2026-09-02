@@ -1,10 +1,11 @@
 /// T-UI-07 · 教学图层 golden 测试（P0-EDU-03 / P0-UI-03/09）。
 ///
-/// 覆盖四类形态（架构 §6.2 十六技巧的典型可视化）：
+/// 覆盖五类形态（架构 §6.2 十六技巧的典型可视化）：
 /// - Fish（X 翼）：pattern 四角 + 虚线矩形 + 删数划除；
 /// - Wing（XY 翼）：pivot + pincer + 连线生长 + 删数划除；
 /// - UR（唯一矩形）：pattern 四格 + 区域 + 删数划除；
 /// - 涂色（简单涂色）：chainStrong / chainWeak 端点 + 连线。
+/// - 隐对：候选加粗着色 + 整列区域 + 候选划除。
 ///
 /// ⚠️ 生成方式：主理人跑 `flutter test --update-goldens test/golden/teaching_overlay_golden_test.dart`
 /// 生成基准图；之后以 `matchesGoldenFile` 断言回归。
@@ -16,6 +17,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sudoku_tutor/core/core.dart';
+import 'package:sudoku_tutor/domain/session/session_rules.dart';
 import 'package:sudoku_tutor/ui/board/board_view_model.dart';
 import 'package:sudoku_tutor/ui/board/sudoku_board_view.dart';
 
@@ -24,8 +26,9 @@ import '../widget/board/board_test_helper.dart';
 void main() {
   Future<void> pumpBoard(
     WidgetTester tester,
-    VisualHint overlay,
-  ) async {
+    VisualHint overlay, {
+    BoardViewModel? viewModel,
+  }) async {
     await tester.binding.setSurfaceSize(const Size(460, 460));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(
@@ -36,10 +39,11 @@ void main() {
             width: 440,
             height: 440,
             child: SudokuBoardView(
-              viewModel: BoardViewModel.fromSession(
-                buildSession(),
-                teachingOverlay: overlay,
-              ),
+              viewModel: viewModel ??
+                  BoardViewModel.fromSession(
+                    buildSession(),
+                    teachingOverlay: overlay,
+                  ),
             ),
           ),
         ),
@@ -130,6 +134,59 @@ void main() {
     await expectLater(
       find.byType(SudokuBoardView),
       matchesGoldenFile('goldens/teaching_overlay_colouring.png'),
+    );
+  });
+
+  testWidgets('教学图层 golden：隐对候选强调与整列区域', (WidgetTester tester) async {
+    final CandidateSet pair = CandidateSet.fromDigits(const <int>[5, 6]);
+    final VisualHint hint = VisualHint.assemble(
+      patternCells: const <int>[40, 49],
+      focusDigits: pair,
+      emphasized: const <MapEntry<int, int>>[
+        MapEntry<int, int>(40, 5),
+        MapEntry<int, int>(40, 6),
+        MapEntry<int, int>(49, 5),
+        MapEntry<int, int>(49, 6),
+      ],
+      eliminated: const <MapEntry<int, int>>[
+        MapEntry<int, int>(40, 3),
+        MapEntry<int, int>(49, 2),
+        MapEntry<int, int>(49, 7),
+      ],
+      regions: <RegionMark>[
+        RegionMark(
+          cornerCells: const <int>[4, 76],
+          role: MarkRole.cover,
+          dashed: true,
+          animated: false,
+        ),
+      ],
+    );
+    final List<int> candidateMasks = List<int>.filled(81, 0);
+    candidateMasks[40] = CandidateSet.fromDigits(const <int>[3, 5, 6]).mask;
+    candidateMasks[49] = CandidateSet.fromDigits(const <int>[2, 5, 6, 7]).mask;
+    final BoardViewModel viewModel = BoardViewModel(
+      values: List<int>.filled(81, 0),
+      givenMask: List<bool>.filled(81, false),
+      candidateMasks: candidateMasks,
+      noteMode: false,
+      selectedIndex: null,
+      selectedValue: null,
+      peerHighlight: const <int>{},
+      sameDigitHighlights: const <int, SameDigitHighlight>{},
+      markErrors: true,
+      errorCells: const <int>{},
+      hintCells: const <CellMark>[],
+      hintRegions: const <RegionMark>[],
+      hintLinks: const <LinkMark>[],
+      hintCandidateMarks: const <CandidateMark>[],
+      teachingOverlay: hint,
+    );
+
+    await pumpBoard(tester, hint, viewModel: viewModel);
+    await expectLater(
+      find.byType(SudokuBoardView),
+      matchesGoldenFile('goldens/teaching_overlay_hidden_pair.png'),
     );
   });
 }

@@ -4,14 +4,16 @@
 /// - 只读盘面（SudokuBoardView 渲染，点击无输入响应）；
 /// - 默认手动「下一步」，进度 `1/2` → `2/2`，看完最后一步写档；
 /// - 自动播放（2s/步）可暂停推进；
-/// - 首次未看完拦截返回（SnackBar）；看完后可返回；
-/// - 旁白卡片 + 步骤控制条渲染。
+/// - 进度条可完整拖动并跳到任意步骤；
+/// - 无须看完即可返回或进入下一关；
+/// - 宽屏双栏与窄屏单栏均无布局溢出。
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sudoku_tutor/core/core.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_providers.dart';
 import 'package:sudoku_tutor/domain/curriculum/curriculum_repository.dart';
 import 'package:sudoku_tutor/domain/session/session_providers.dart';
@@ -55,7 +57,9 @@ void main() {
         GoRoute(
           path: '/demo/:levelId',
           name: 'demo',
-          builder: (_, __) => const DemoPage(),
+          builder: (_, GoRouterState state) => DemoPage(
+            levelId: state.pathParameters['levelId'] ?? '',
+          ),
         ),
         GoRoute(
           path: '/practice/:levelId',
@@ -94,17 +98,18 @@ void main() {
 
     expect(find.byType(SudokuBoardView), findsOneWidget);
     expect(find.byType(DemoTechniqueProgressBar), findsOneWidget);
-    expect(find.byKey(const ValueKey<String>('demo-step-progress')),
-        findsOneWidget);
+    expect(
+        find.byKey(const ValueKey<String>('demo-step-slider')), findsOneWidget);
     expect(find.text('技巧进度'), findsOneWidget);
-    expect(find.text('点击技巧节点快速跳转'), findsOneWidget);
+    expect(find.text('拖动或点击进度条可跳到任意步骤'), findsOneWidget);
     expect(
       find.byKey(const ValueKey<String>('demo-technique-nakedSingle')),
       findsOneWidget,
     );
     expect(
       find.byKey(const ValueKey<String>('demo-technique-hiddenSingle')),
-      findsOneWidget,
+      findsNothing,
+      reason: '关键点区域只展示本关主技巧，不展示辅助技巧',
     );
     expect(find.byType(NarrationCard), findsOneWidget);
     expect(find.byType(StepControlBar), findsOneWidget);
@@ -115,31 +120,43 @@ void main() {
     expect(find.byTooltip('自动播放'), findsOneWidget);
     expect(find.byTooltip('重播'), findsOneWidget);
     expect(find.byTooltip('下一关：实操关'), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey<String>('demo-wide-layout')), findsOneWidget);
   });
 
-  testWidgets('点击技巧进度节点 → 快速跳到该技巧首次出现的步骤', (WidgetTester tester) async {
+  testWidgets('只有一个主技巧关键点：到达后停止且不跳到辅助技巧', (WidgetTester tester) async {
     await pumpDemoPage(tester);
 
-    await tester.tap(
-      find.byKey(const ValueKey<String>('demo-technique-hiddenSingle')),
+    final Finder keyPoint =
+        find.byKey(const ValueKey<String>('demo-technique-nakedSingle'));
+    expect(find.byTooltip('已到本关技巧最后一个关键点'), findsOneWidget);
+    expect(
+      tester.widget<ActionChip>(keyPoint).onPressed,
+      isNull,
+      reason: '本关主技巧没有下一个位置时应停止，不得跳到隐性唯一数',
     );
-    await tester.pump();
+    expect(find.textContaining('1/2'), findsOneWidget);
+  });
+
+  testWidgets('拖动整条进度滑杆 → 可直接跳到目标步骤', (WidgetTester tester) async {
+    await pumpDemoPage(tester);
+
+    final Finder slider =
+        find.byKey(const ValueKey<String>('demo-step-slider'));
+    final Rect rect = tester.getRect(slider);
+    await tester.dragFrom(
+      Offset(rect.left + 24, rect.center.dy),
+      Offset(rect.width - 48, 0),
+    );
+    await tester.pumpAndSettle();
 
     expect(find.textContaining('2/2'), findsOneWidget);
     expect(find.textContaining('测试旁白（第 2 步）'), findsOneWidget);
-    expect(find.text('隐性唯一数'), findsWidgets);
   });
 
-  testWidgets('下一关：首次未看完拦截，看完后跨类型进入实操关', (WidgetTester tester) async {
+  testWidgets('下一关：无需看完即可跨类型进入实操关', (WidgetTester tester) async {
     await pumpDemoPage(tester);
 
-    await tester.tap(find.byTooltip('下一关：实操关'));
-    await tester.pump();
-    expect(find.textContaining('看完最后一步即可进入下一关'), findsOneWidget);
-    expect(find.text('practice-page'), findsNothing);
-
-    await tester.tap(find.byTooltip('下一步'));
-    await tester.pump();
     await tester.tap(find.byTooltip('下一关：实操关'));
     await tester.pumpAndSettle();
     expect(find.text('practice-page'), findsOneWidget);
@@ -205,24 +222,15 @@ void main() {
     expect(find.byTooltip('自动播放'), findsOneWidget, reason: '到结尾自动停止');
   });
 
-  testWidgets('首次未看完拦截返回；看完后可返回（跳过）', (WidgetTester tester) async {
+  testWidgets('无需看完即可直接返回学习地图', (WidgetTester tester) async {
     await pumpDemoPage(tester);
 
-    // 未看完：点返回 → 拦截提示，不跳转。
-    await tester.tap(find.byTooltip('返回'));
-    await tester.pump();
-    expect(find.byType(SnackBar), findsOneWidget, reason: '首次须完整看完');
-    expect(find.text('home-page'), findsNothing);
-
-    // 看完最后一步后再返回 → 放行跳转 home。
-    await tester.tap(find.byTooltip('下一步'));
-    await tester.pump();
     await tester.tap(find.byTooltip('返回'));
     await tester.pumpAndSettle();
     expect(find.text('home-page'), findsOneWidget);
   });
 
-  testWidgets('重播：回到第 1 步并清除完成标记', (WidgetTester tester) async {
+  testWidgets('重播：回到第 1 步且不重复结算', (WidgetTester tester) async {
     await pumpDemoPage(tester);
 
     await tester.tap(find.byTooltip('下一步'));
@@ -232,5 +240,128 @@ void main() {
     await tester.tap(find.byTooltip('重播'));
     await tester.pump();
     expect(find.textContaining('1/2'), findsOneWidget);
+  });
+
+  testWidgets('360×640 窄屏：切换为可滚动单栏且不产生布局异常', (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 640));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await pumpDemoPage(tester);
+
+    expect(find.byKey(const ValueKey<String>('demo-compact-layout')),
+        findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsWidgets);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('只显示本关主技巧，连续点击遍历该技巧的全部关键点', (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(400, 640));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    int currentIndex = 0;
+    final List<int> selectedIndices = <int>[];
+    final List<ScriptStep> steps = <ScriptStep>[
+      ScriptStep(order: 1, techniqueId: TechniqueId.nakedSingle),
+      ScriptStep(order: 2, techniqueId: TechniqueId.hiddenSingle),
+      ScriptStep(order: 3, techniqueId: TechniqueId.nakedSingle),
+      ScriptStep(order: 4, techniqueId: TechniqueId.hiddenSingle),
+      ScriptStep(order: 5, techniqueId: TechniqueId.nakedSingle),
+    ];
+
+    await tester.pumpWidget(
+      StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return MaterialApp(
+            theme: AppTheme.light(),
+            home: Scaffold(
+              body: Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: 360,
+                  child: DemoTechniqueProgressBar(
+                    steps: steps,
+                    currentIndex: currentIndex,
+                    targetTechniques: const <TechniqueId>{
+                      TechniqueId.nakedSingle,
+                      TechniqueId.hiddenSingle,
+                    },
+                    onStepSelected: (int stepIndex) async {
+                      selectedIndices.add(stepIndex);
+                      setState(() => currentIndex = stepIndex);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+    await tester.pump();
+
+    final Finder keyPoint =
+        find.byKey(const ValueKey<String>('demo-current-technique-key-point'));
+    final Finder nakedSingle =
+        find.byKey(const ValueKey<String>('demo-technique-nakedSingle'));
+    final Finder hiddenSingle =
+        find.byKey(const ValueKey<String>('demo-technique-hiddenSingle'));
+
+    expect(keyPoint, findsOneWidget);
+    expect(hiddenSingle, findsOneWidget);
+    expect(nakedSingle, findsNothing);
+    expect(find.byTooltip('跳到本关技巧第一个关键点'), findsOneWidget);
+    expect(
+      find.byKey(
+        const ValueKey<String>('demo-progress-marker-hiddenSingle-1'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(
+        const ValueKey<String>('demo-progress-marker-hiddenSingle-3'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(
+        const ValueKey<String>('demo-progress-marker-nakedSingle-0'),
+      ),
+      findsNothing,
+      reason: '进度条不得标出前置技巧关键点',
+    );
+    expect(
+      find.descendant(of: keyPoint, matching: find.byType(CircleAvatar)),
+      findsNothing,
+      reason: '技巧按钮前不再显示关键点所在步数',
+    );
+
+    // 第一次点击进入本关主技巧第一次出现的位置。
+    await tester.tap(hiddenSingle);
+    await tester.pump();
+    expect(selectedIndices, <int>[1]);
+    expect(
+      tester
+          .widget<Slider>(
+            find.byKey(const ValueKey<String>('demo-step-slider')),
+          )
+          .value,
+      1,
+    );
+    expect(find.byTooltip('跳到本关技巧下一个关键点'), findsOneWidget);
+
+    // 再次点击进入同一技巧的下一个出现位置。
+    await tester.tap(hiddenSingle);
+    await tester.pump();
+    expect(selectedIndices, <int>[1, 3]);
+    expect(hiddenSingle, findsOneWidget);
+    expect(nakedSingle, findsNothing);
+    expect(find.byTooltip('已到本关技巧最后一个关键点'), findsOneWidget);
+    expect(
+      find.byKey(
+        const ValueKey<String>('demo-progress-marker-hiddenSingle-3'),
+      ),
+      findsNothing,
+      reason: '当前关键点由滑块表示，不应再叠加一个圆点',
+    );
+    expect(tester.takeException(), isNull);
   });
 }

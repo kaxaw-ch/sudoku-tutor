@@ -49,7 +49,10 @@ const double kPracticePageCrampedHeight = 620;
 /// 引导实操页。
 class PracticeLevelPage extends ConsumerStatefulWidget {
   /// 构造实操页。
-  const PracticeLevelPage({super.key});
+  const PracticeLevelPage({required this.levelId, super.key});
+
+  /// 当前路由指定的关卡 id。
+  final String levelId;
 
   @override
   ConsumerState<PracticeLevelPage> createState() => _PracticeLevelPageState();
@@ -64,20 +67,38 @@ class _PracticeLevelPageState extends ConsumerState<PracticeLevelPage>
   GameSessionController? _ctrl;
   PracticeController? _practiceCtrl;
   bool _completionCelebrated = false;
+  String? _requestedLevelId;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _scheduleStart(widget.levelId);
+  }
+
+  @override
+  void didUpdateWidget(covariant PracticeLevelPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.levelId == widget.levelId) {
+      return;
+    }
+    _displayedHint = null;
+    _hintHighlightActive = false;
+    _handledMistakeFp = null;
+    _completionCelebrated = false;
+    _scheduleStart(widget.levelId);
+  }
+
+  void _scheduleStart(String levelId) {
+    if (levelId.isEmpty || levelId == _requestedLevelId) {
+      return;
+    }
+    _requestedLevelId = levelId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_disposed) {
+      if (_disposed || _requestedLevelId != levelId) {
         return;
       }
-      final String levelId =
-          GoRouterState.of(context).pathParameters['levelId'] ?? '';
-      if (levelId.isNotEmpty) {
-        ref.read(practiceControllerProvider.notifier).start(levelId);
-      }
+      ref.read(practiceControllerProvider.notifier).start(levelId);
     });
   }
 

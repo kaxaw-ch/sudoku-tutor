@@ -94,6 +94,7 @@ class TeachingOverlayPainter extends CustomPainter {
   // ------------------------------------------------------------ 线宽
 
   static const double _kRegionDashWidth = 1.6;
+  static const double _kRegionInset = 2.5;
   static const double _kLinkWidth = 2.2;
   static const double _kStrikeWidth = 1.6;
 
@@ -123,7 +124,14 @@ class TeachingOverlayPainter extends CustomPainter {
       if (region.cornerCells.isEmpty) {
         continue;
       }
-      final Rect rect = regionRectFor(region.cornerCells);
+      final Rect sourceRect = regionRectFor(region.cornerCells);
+      // 区域边框不能与九宫格线或棋盘外框共线，否则虚线会被粗网格线
+      // 切碎、染黑。按区域短边限制缩进，极小棋盘也不会产生反向矩形。
+      final double inset = math.min(
+        _kRegionInset,
+        math.min(sourceRect.width, sourceRect.height) * 0.08,
+      );
+      final Rect rect = sourceRect.deflate(inset);
       final MarkRoleStyle style = TeachingPalette.styleOf(region.role);
       if (region.dashed) {
         _paintDashedRect(
@@ -221,22 +229,8 @@ class TeachingOverlayPainter extends CustomPainter {
         break;
     }
 
-    // 焦点候选（focusDigits）：在该格对应候选小格加粗着色角标。
-    if (mark.focusDigits.isNotEmpty) {
-      for (final int digit in mark.focusDigits.digits()) {
-        _paintFocusDigit(canvas, mark.index, digit, style.color);
-      }
-    }
-  }
-
-  /// 焦点候选：画一个加粗圆点角标（不重绘数字，仅标记位置）。
-  void _paintFocusDigit(Canvas canvas, int index, int digit, Color color) {
-    final Rect cell = geometry.candidateCellRect(index, digit);
-    canvas.drawCircle(
-      Offset(cell.center.dx, cell.center.dy),
-      1.8,
-      Paint()..color = color,
-    );
+    // focusDigits 的候选字形由底层 BoardPainter 直接加粗着色；这里不再
+    // 叠加圆点或边框，避免遮挡候选数字。
   }
 
   // ------------------------------------------------------------ 连线
@@ -325,12 +319,8 @@ class TeachingOverlayPainter extends CustomPainter {
             );
           }
         case CandidateMarkKind.emphasize:
-          // 强调：候选数字加粗着色（在 board painter 完成），此处画圆点角标。
-          canvas.drawCircle(
-            Offset(cell.right - 1.5, cell.top + 1.5),
-            1.6,
-            Paint()..color = TeachingPalette.pattern,
-          );
+          // 候选字形已由 BoardPainter 加粗着色，上层无需重复绘制。
+          continue;
         case CandidateMarkKind.target:
           // 结论目标：琥珀色圆点角标，与红色划除线区分。
           canvas.drawCircle(

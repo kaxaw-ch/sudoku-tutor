@@ -12,8 +12,12 @@ import 'package:sudoku_tutor/l10n/app_localizations.dart';
 /// 跳转前回调；返回 false 时留在当前关卡。
 typedef BeforeNextLevel = Future<bool> Function();
 
+/// 跨页面共享的目标关卡锁，目标内容真正加载完成前禁止再次切关。
+final StateProvider<String?> _nextLevelNavigationTargetProvider =
+    StateProvider<String?>((Ref ref) => null);
+
 /// 按课程索引顺序跳到下一关，自动处理演示/实操/试炼路由。
-class NextLevelButton extends ConsumerWidget {
+class NextLevelButton extends ConsumerStatefulWidget {
   /// 构造下一关按钮。
   const NextLevelButton({
     required this.currentLevelId,
@@ -28,43 +32,7 @@ class NextLevelButton extends ConsumerWidget {
   final BeforeNextLevel? beforeNavigate;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue<LevelIndex> asyncIndex =
-        ref.watch(curriculumIndexProvider);
-    final LevelEntry? next = switch (asyncIndex) {
-      AsyncData<LevelIndex>(:final value) => nextOf(value, currentLevelId),
-      _ => null,
-    };
-    final String tooltip = asyncIndex.isLoading
-        ? context.l10n.text('正在加载下一关')
-        : next == null
-            ? context.l10n.text('已经是最后一关')
-            : context.l10n.text(
-                '下一关：{title}',
-                <String, Object?>{
-                  'title': context.l10n.lessonTitle(next.id, next.title),
-                },
-              );
-
-    return IconButton(
-      key: const ValueKey<String>('next-level-button'),
-      tooltip: tooltip,
-      onPressed: next == null
-          ? null
-          : () async {
-              final GoRouter router = GoRouter.of(context);
-              final BeforeNextLevel? before = beforeNavigate;
-              if (before != null && !await before()) {
-                return;
-              }
-              router.goNamed(
-                routeNameOf(next.kind),
-                pathParameters: <String, String>{'levelId': next.id},
-              );
-            },
-      icon: const Icon(Icons.skip_next_rounded),
-    );
-  }
+  ConsumerState<NextLevelButton> createState() => _NextLevelButtonState();
 
   /// 取全局课程顺序中的下一关。
   static LevelEntry? nextOf(LevelIndex index, String currentLevelId) {
@@ -83,4 +51,125 @@ class NextLevelButton extends ConsumerWidget {
         LevelKind.guidedPractice => RouteNames.practiceLevel,
         LevelKind.trial => RouteNames.trial,
       };
+}
+
+class _NextLevelButtonState extends ConsumerState<NextLevelButton> {
+  bool _navigating = false;
+  String? _scheduledGuardRelease;
+
+  @override
+  void didUpdateWidget(covariant NextLevelButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentLevelId != widget.currentLevelId) {
+      // 防御：即使上层未来选择复用教学页面，新关卡也必须恢复按钮状态。
+      _navigating = false;
+    }
+  }
+
+  Future<void> _goNext(LevelEntry next) async {
+    // 第一击同步置位；后续点击即使发生在下一帧 rebuild 前也直接返回。
+    final StateController<String?> navigationTarget =
+        ref.read(_nextLevelNavigationTargetProvider.notifier);
+    if (_navigating || navigationTarget.state != null) {
+      return;
+    }
+    navigationTarget.state = next.id;
+    setState(() => _navigating = true);
+
+    try {
+      final BeforeNextLevel? before = widget.beforeNavigate;
+      if (before != null && !await before()) {
+        navigationTarget.state = null;
+        if (mounted) {
+          setState(() => _navigating = false);
+        }
+        return;
+      }
+      if (!mounted) {
+        navigationTarget.state = null;
+        return;
+      }
+      // 声明式替换当前教学路由，不向导航栈继续堆叠页面。
+      GoRouter.of(context).goNamed(
+        NextLevelButton.routeNameOf(next.kind),
+        pathParameters: <String, String>{'levelId': next.id},
+      );
+      // 目标页加载完成并以 next.id 构建按钮后，再由 build 释放全局锁。
+    } on Object {
+      navigationTarget.state = null;
+      if (!mounted) {
+        return;
+      }
+      setState(() => _navigating = false);
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(context.l10n.text('进入下一关失败，请重试'))),
+        );
+    }
+  }
+
+  void _releaseGuardAfterFrame(String targetLevelId) {
+    if (_scheduledGuardRelease == targetLevelId) {
+      return;
+    }
+    _scheduledGuardRelease = targetLevelId;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      final StateController<String?> navigationTarget =
+          ref.read(_nextLevelNavigationTargetProvider.notifier);
+      if (navigationTarget.state == targetLevelId &&
+          widget.currentLevelId == targetLevelId) {
+        navigationTarget.state = null;
+        if (_navigating) {
+          setState(() => _navigating = false);
+        }
+      }
+      _scheduledGuardRelease = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final String? navigationTarget =
+        ref.watch(_nextLevelNavigationTargetProvider);
+    if (navigationTarget == widget.currentLevelId) {
+      _releaseGuardAfterFrame(navigationTarget!);
+    }
+    final AsyncValue<LevelIndex> asyncIndex =
+        ref.watch(curriculumIndexProvider);
+    final LevelEntry? next = switch (asyncIndex) {
+      AsyncData<LevelIndex>(:final value) =>
+        NextLevelButton.nextOf(value, widget.currentLevelId),
+      _ => null,
+    };
+    final bool navigationBusy = _navigating || navigationTarget != null;
+    final String tooltip = navigationBusy
+        ? context.l10n.text('正在进入下一关')
+        : asyncIndex.isLoading
+            ? context.l10n.text('正在加载下一关')
+            : next == null
+                ? context.l10n.text('已经是最后一关')
+                : context.l10n.text(
+                    '下一关：{title}',
+                    <String, Object?>{
+                      'title': context.l10n.lessonTitle(next.id, next.title),
+                    },
+                  );
+    final bool showProgress = navigationBusy || asyncIndex.isLoading;
+
+    return IconButton(
+      key: const ValueKey<String>('next-level-button'),
+      tooltip: tooltip,
+      onPressed: next == null || navigationBusy ? null : () => _goNext(next),
+      icon: showProgress
+          ? const SizedBox.square(
+              dimension: 20,
+              child: CircularProgressIndicator(strokeWidth: 2.25),
+            )
+          : const Icon(Icons.skip_next_rounded),
+    );
+  }
 }

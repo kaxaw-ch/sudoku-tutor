@@ -96,7 +96,9 @@ void main() {
         GoRoute(
           path: '/practice/:levelId',
           name: 'practiceLevel',
-          builder: (_, __) => const PracticeLevelPage(),
+          builder: (_, GoRouterState state) => PracticeLevelPage(
+            levelId: state.pathParameters['levelId'] ?? '',
+          ),
         ),
         GoRoute(
           path: '/trial/:levelId',

@@ -41,12 +41,14 @@ class NarrationCard extends StatelessWidget {
                   color: theme.colorScheme.primary,
                 ),
                 const SizedBox(width: AppSpacing.sm),
-                Text(
-                  context.l10n.text(
-                    '本步技巧：{technique}',
-                    <String, Object?>{'technique': techniqueName},
+                Expanded(
+                  child: Text(
+                    context.l10n.text(
+                      '本步技巧：{technique}',
+                      <String, Object?>{'technique': techniqueName},
+                    ),
+                    style: theme.textTheme.labelLarge,
                   ),
-                  style: theme.textTheme.labelLarge,
                 ),
               ],
             ),

@@ -36,7 +36,10 @@ import 'result_sheet.dart';
 /// 验收试炼页。
 class TrialPage extends ConsumerStatefulWidget {
   /// 构造试炼页。
-  const TrialPage({super.key});
+  const TrialPage({required this.levelId, super.key});
+
+  /// 当前路由指定的关卡 id。
+  final String levelId;
 
   @override
   ConsumerState<TrialPage> createState() => _TrialPageState();
@@ -45,19 +48,32 @@ class TrialPage extends ConsumerStatefulWidget {
 class _TrialPageState extends ConsumerState<TrialPage> {
   bool _disposed = false;
   GameSessionController? _ctrl;
+  String? _requestedLevelId;
 
   @override
   void initState() {
     super.initState();
+    _scheduleStart(widget.levelId);
+  }
+
+  @override
+  void didUpdateWidget(covariant TrialPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.levelId != widget.levelId) {
+      _scheduleStart(widget.levelId);
+    }
+  }
+
+  void _scheduleStart(String levelId) {
+    if (levelId.isEmpty || levelId == _requestedLevelId) {
+      return;
+    }
+    _requestedLevelId = levelId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_disposed) {
+      if (_disposed || _requestedLevelId != levelId) {
         return;
       }
-      final String levelId =
-          GoRouterState.of(context).pathParameters['levelId'] ?? '';
-      if (levelId.isNotEmpty) {
-        ref.read(trialControllerProvider.notifier).start(levelId);
-      }
+      ref.read(trialControllerProvider.notifier).start(levelId);
     });
   }
 

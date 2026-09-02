@@ -119,6 +119,8 @@ class PracticeController extends Notifier<PracticeState?> {
   Future<void> start(String levelId) async {
     await _autosaveChain;
     _gameSubscription?.cancel();
+    // 新关准备完成前不要继续展示上一关的盘面与按钮。
+    state = null;
     _completionRecorded = false;
     ref.read(hintServiceProvider).resetForNewRound();
 

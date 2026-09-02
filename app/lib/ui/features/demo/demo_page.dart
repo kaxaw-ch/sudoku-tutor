@@ -3,9 +3,9 @@
 /// - 盘面**只读不可填数**：`SudokuBoardView` 不挂任何点击回调；
 /// - 教学图层：每步高亮/连线/划除走 `step.visual`（T-UI-07 overlay）；
 /// - 默认手动「下一步」+ 自动播放 2s/步可暂停 + 上一步 + 重播 + 进度 `n/m`；
-/// - 技巧进度条标出本关脚本中的技巧节点，点击可快速跳转；
-/// - **首次进入须完整看完**（`mustWatchToEnd` 时拦截返回），看完最后一步
-///   即算完成并写档（hintUsed=0、errorCount=0）；之后可跳过。
+/// - 进度条可拖动到任意步骤，并只标出本关主技巧的全部关键点；
+/// - 可随时返回或进入下一关；到达最后一步时完成本关并写档；
+/// - 宽屏使用棋盘/讲解双栏，窄屏改为可滚动单栏，避免控件挤压溢出。
 library;
 
 import 'package:flutter/material.dart';
@@ -30,7 +30,10 @@ import 'technique_progress_bar.dart';
 /// 原理演示页。
 class DemoPage extends ConsumerStatefulWidget {
   /// 构造演示页。
-  const DemoPage({super.key});
+  const DemoPage({required this.levelId, super.key});
+
+  /// 当前路由指定的关卡 id。
+  final String levelId;
 
   @override
   ConsumerState<DemoPage> createState() => _DemoPageState();
@@ -38,6 +41,7 @@ class DemoPage extends ConsumerStatefulWidget {
 
 class _DemoPageState extends ConsumerState<DemoPage> {
   bool _disposed = false;
+  String? _requestedLevelId;
   // 缓存控制器引用：dispose() 里不能用 ref（flutter_riverpod 硬规则：
   // element 卸载中 ref 已不可用，会抛 StateError），须用缓存引用停表。
   DemoController? _ctrl;
@@ -45,17 +49,29 @@ class _DemoPageState extends ConsumerState<DemoPage> {
   @override
   void initState() {
     super.initState();
+    _scheduleStart(widget.levelId);
+  }
+
+  @override
+  void didUpdateWidget(covariant DemoPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.levelId != widget.levelId) {
+      _scheduleStart(widget.levelId);
+    }
+  }
+
+  void _scheduleStart(String levelId) {
+    if (levelId.isEmpty || levelId == _requestedLevelId) {
+      return;
+    }
+    _requestedLevelId = levelId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_disposed) {
+      if (_disposed || _requestedLevelId != levelId) {
         return;
       }
-      final String levelId =
-          GoRouterState.of(context).pathParameters['levelId'] ?? '';
-      if (levelId.isNotEmpty) {
-        final DemoController ctrl = ref.read(demoControllerProvider.notifier);
-        _ctrl = ctrl;
-        ctrl.start(levelId);
-      }
+      final DemoController ctrl = ref.read(demoControllerProvider.notifier);
+      _ctrl = ctrl;
+      ctrl.start(levelId);
     });
   }
 
@@ -67,39 +83,14 @@ class _DemoPageState extends ConsumerState<DemoPage> {
     super.dispose();
   }
 
-  /// 退出：首次未看完时拦截提示；否则放行返回学习地图。
+  /// 随时退出并返回学习地图，不设置强制观看门槛。
   void _handleExit() {
-    final DemoState? st = ref.read(demoControllerProvider);
-    if (st != null && st.mustWatchToEnd) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              context.l10n.text('首次进入须完整观看本关（看完最后一步即可退出）'),
-            ),
-          ),
-        );
-      return;
-    }
+    _ctrl?.stopAutoPlay();
     context.goNamed(RouteNames.home);
   }
 
-  /// 下一关同样遵守首次完整观看限制。
+  /// 进入下一关前只需停止自动播放。
   Future<bool> _beforeNextLevel() async {
-    final DemoState? st = ref.read(demoControllerProvider);
-    if (st != null && st.mustWatchToEnd) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              context.l10n.text('首次进入须完整观看本关（看完最后一步即可进入下一关）'),
-            ),
-          ),
-        );
-      return false;
-    }
     _ctrl?.stopAutoPlay();
     return true;
   }
@@ -139,6 +130,63 @@ class _DemoPageState extends ConsumerState<DemoPage> {
       session,
       teachingOverlay: state.currentVisual,
     );
+    final bool showTechniqueChip = MediaQuery.sizeOf(context).width >= 1000;
+
+    // 控制与旁白在窄屏可换行、可滚动；在宽屏放到棋盘右侧，充分利用横向空间。
+    final Widget lessonPanel = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        DemoTechniqueProgressBar(
+          steps: state.steps,
+          currentIndex: state.currentIndex,
+          targetTechniques: state.level.techniqueTags,
+          onStepSelected: controller.jumpTo,
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeOutCubic,
+          transitionBuilder: (
+            Widget child,
+            Animation<double> animation,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.04, 0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+          ),
+          child: NarrationCard(
+            key: ValueKey<int>(state.currentIndex),
+            narration: context.l10n.scriptNarration(
+              state.currentStep,
+              state.narration,
+            ),
+            techniqueName:
+                context.l10n.techniqueName(state.currentStep.techniqueId),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        StepControlBar(
+          progress: state.progress,
+          total: state.stepCount,
+          autoPlaying: state.autoPlaying,
+          autoPlayFast: state.autoPlayFast,
+          onPrevious: controller.previous,
+          onNext: controller.next,
+          onToggleAutoPlay: controller.toggleAutoPlay,
+          onToggleSpeed: controller.toggleSpeed,
+          onReplay: controller.replay,
+          enableNext: !state.atEnd,
+          enableAutoPlay: state.stepCount > 1,
+        ),
+        const SizedBox(height: AppSpacing.md),
+      ],
+    );
 
     return PopScope(
       canPop: false,
@@ -163,86 +211,78 @@ class _DemoPageState extends ConsumerState<DemoPage> {
               currentLevelId: state.level.id,
               beforeNavigate: _beforeNextLevel,
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.md),
-                child: Chip(
-                  label: Text(
-                    context.l10n.techniqueName(state.currentStep.techniqueId),
+            if (showTechniqueChip)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: AppSpacing.md),
+                  child: Chip(
+                    label: Text(
+                      context.l10n.techniqueName(state.currentStep.techniqueId),
+                    ),
+                    visualDensity: VisualDensity.compact,
                   ),
-                  visualDensity: VisualDensity.compact,
                 ),
               ),
-            ),
           ],
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 520,
-                      maxHeight: 520,
-                    ),
-                    // 只读：不传 onCellTap / onCellLongPress → 点击无输入响应。
-                    child: SudokuBoardView(viewModel: viewModel),
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth >= 760) {
+                return Padding(
+                  key: const ValueKey<String>('demo-wide-layout'),
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 560,
+                              maxHeight: 560,
+                            ),
+                            // 只读：不传输入回调。
+                            child: SudokuBoardView(viewModel: viewModel),
+                          ),
+                        ),
+                      ),
+                      const VerticalDivider(width: AppSpacing.xl),
+                      SizedBox(
+                        width: constraints.maxWidth >= 1100 ? 460 : 400,
+                        child: SingleChildScrollView(child: lessonPanel),
+                      ),
+                    ],
                   ),
+                );
+              }
+
+              return SingleChildScrollView(
+                key: const ValueKey<String>('demo-compact-layout'),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                      ),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 520),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            // 只读：不传输入回调。
+                            child: SudokuBoardView(viewModel: viewModel),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    lessonPanel,
+                  ],
                 ),
-              ),
-            ),
-            DemoTechniqueProgressBar(
-              steps: state.steps,
-              currentIndex: state.currentIndex,
-              targetTechniques: state.level.techniqueTags,
-              onStepSelected: controller.jumpTo,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeOutCubic,
-              transitionBuilder: (
-                Widget child,
-                Animation<double> animation,
-              ) =>
-                  FadeTransition(
-                opacity: animation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0.04, 0),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                ),
-              ),
-              child: NarrationCard(
-                key: ValueKey<int>(state.currentIndex),
-                narration: context.l10n.scriptNarration(
-                  state.currentStep,
-                  state.narration,
-                ),
-                techniqueName:
-                    context.l10n.techniqueName(state.currentStep.techniqueId),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            StepControlBar(
-              progress: state.progress,
-              total: state.stepCount,
-              autoPlaying: state.autoPlaying,
-              autoPlayFast: state.autoPlayFast,
-              onPrevious: controller.previous,
-              onNext: controller.next,
-              onToggleAutoPlay: controller.toggleAutoPlay,
-              onToggleSpeed: controller.toggleSpeed,
-              onReplay: controller.replay,
-              enableNext: !state.atEnd,
-              enableAutoPlay: state.stepCount > 1,
-            ),
-            const SizedBox(height: AppSpacing.md),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );

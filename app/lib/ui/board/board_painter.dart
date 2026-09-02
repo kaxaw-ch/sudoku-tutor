@@ -266,9 +266,11 @@ class BoardPainter extends CustomPainter {
       final bool isSelected = viewModel.selectedIndex == index;
       // 提示候选标记：emphasize 加粗着色；strike 划除。
       final CandidateMark? mark = _hintCandidateMark(index, digit);
+      final bool isEmphasized = mark?.kind == CandidateMarkKind.emphasize ||
+          _isTeachingCandidateEmphasized(index, digit);
       final Color color = isSelected
           ? Colors.white
-          : mark?.kind == CandidateMarkKind.emphasize
+          : isEmphasized
               ? TeachingPalette.pattern
               : isWeakCandidate
                   ? palette.sameDigit
@@ -281,9 +283,7 @@ class BoardPainter extends CustomPainter {
           color: color,
           fontSize:
               math.max(0.001, geometry.cellSize * (noteMode ? 0.30 : 0.26)),
-          fontWeight: (isSelected ||
-                  isWeakCandidate ||
-                  mark?.kind == CandidateMarkKind.emphasize)
+          fontWeight: (isSelected || isWeakCandidate || isEmphasized)
               ? FontWeight.w800
               : FontWeight.w400,
           height: 1,
@@ -489,5 +489,26 @@ class BoardPainter extends CustomPainter {
       }
     }
     return null;
+  }
+
+  /// 演示关候选强调：直接把数字加粗着色，避免上层圆点或边框压住字形。
+  bool _isTeachingCandidateEmphasized(int index, int digit) {
+    final VisualHint? overlay = viewModel.teachingOverlay;
+    if (overlay == null) {
+      return false;
+    }
+    for (final CellMark mark in overlay.cells) {
+      if (mark.index == index && mark.focusDigits.contains(digit)) {
+        return true;
+      }
+    }
+    for (final CandidateMark mark in overlay.candidateMarks) {
+      if (mark.cellIndex == index &&
+          mark.digit == digit &&
+          mark.kind == CandidateMarkKind.emphasize) {
+        return true;
+      }
+    }
+    return false;
   }
 }

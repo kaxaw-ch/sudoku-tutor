@@ -118,6 +118,8 @@ class TrialController extends Notifier<TrialState?> {
   /// 开始本关：加载关卡 → 从题池抽题 → 注入对局状态机。
   Future<void> start(String levelId) async {
     _gameSubscription?.cancel();
+    // 新关异步装配期间清除旧状态，避免误操作上一关。
+    state = null;
     _completionRecorded = false;
 
     final CurriculumRepository curriculum =

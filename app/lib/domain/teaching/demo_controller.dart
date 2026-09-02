@@ -3,9 +3,8 @@
 /// 职责：
 /// - 加载 [LessonLevel]（演示关必带 `script.steps`），盘面**只读**逐步播放；
 /// - 默认手动「下一步」；另提供自动播放（2s/步，可暂停）、上一步、重播、进度 `n/m`；
-/// - 技巧进度条可直接跳到某技巧首次出现的步骤；
-/// - **首次进入须完整看完，之后可跳过**：进入时读存档，本关已完成则
-///   [DemoState.seenBefore]=true（UI 据此放行跳过）；首次未看完时 UI 拦截返回；
+/// - 进度条可拖动或点击到任意步骤，技巧节点用于快速定位；
+/// - 玩家可随时退出或进入下一关，不设置强制观看门槛；
 /// - **看完最后一步即算完成**：`next()` 推进到最后一步时调用
 ///   [LevelCompletionService.recordCompletion]（hintUsed=0、errorCount=0，真实写档）。
 ///
@@ -22,10 +21,6 @@ import 'package:sudoku_tutor/core/core.dart';
 import '../curriculum/curriculum_providers.dart';
 import '../curriculum/curriculum_repository.dart';
 import '../curriculum/level_completion_service.dart';
-import '../session/session_providers.dart';
-import '../storage/models/level_progress.dart';
-import '../storage/models/progress_state.dart';
-import '../storage/progress_repository.dart';
 import 'teaching_providers.dart';
 
 /// 自动播放步进间隔（P0-EDU-02：2s/步）。
@@ -42,7 +37,6 @@ class DemoState {
     required this.currentIndex,
     required this.autoPlaying,
     required this.completed,
-    required this.seenBefore,
     required this.elapsedMs,
     this.autoPlayFast = false,
   }) : steps = level.script?.steps ?? const <ScriptStep>[];
@@ -64,9 +58,6 @@ class DemoState {
 
   /// 本次是否已看完最后一步（看完最后一步即算完成，P0-EDU-08）。
   final bool completed;
-
-  /// 存档中该关此前是否已完成（已完成 → 之后可跳过）。
-  final bool seenBefore;
 
   /// 从进入起累计的演示用时（毫秒）。
   final int elapsedMs;
@@ -94,16 +85,12 @@ class DemoState {
   /// 是否已到最后一格（无下一步可走）。
   bool get atEnd => currentIndex >= stepCount - 1;
 
-  /// 当前是否应拦截退出（首次且未看完 → 必须看完）。
-  bool get mustWatchToEnd => !seenBefore && !completed;
-
   /// 返回替换部分字段后的副本。
   DemoState copyWith({
     int? currentIndex,
     bool? autoPlaying,
     bool? autoPlayFast,
     bool? completed,
-    bool? seenBefore,
     int? elapsedMs,
   }) =>
       DemoState(
@@ -112,7 +99,6 @@ class DemoState {
         autoPlaying: autoPlaying ?? this.autoPlaying,
         autoPlayFast: autoPlayFast ?? this.autoPlayFast,
         completed: completed ?? this.completed,
-        seenBefore: seenBefore ?? this.seenBefore,
         elapsedMs: elapsedMs ?? this.elapsedMs,
       );
 }
@@ -137,29 +123,25 @@ class DemoController extends Notifier<DemoState?> {
   /// 加载并开始演示本关。
   Future<void> start(String levelId) async {
     stopAutoPlay();
+    // 切关后立即移除旧关内容，避免异步加载期间继续显示、操作上一关。
+    state = null;
     _completionRecorded = false;
     _startedAt = DateTime.now();
     final CurriculumRepository curriculum =
         ref.read(curriculumRepositoryProvider);
     final LessonLevel level = await curriculum.loadLevel(levelId);
-    final ProgressRepository repo =
-        await ref.read(progressRepositoryProvider.future);
-    final ProgressState progress = await repo.load();
-    final bool seenBefore =
-        progress.levels[levelId]?.status == LevelStatus.completed;
 
     // 进入次数 +1（不改变三态与星数）。
     await ref.read(levelCompletionServiceProvider).recordEntry(levelId);
 
     final List<ScriptStep> steps = level.script?.steps ?? const <ScriptStep>[];
-    // 防御：空脚本直接视为看完（避免死锁于「必须看完」）。
+    // 防御：空脚本直接视为完成，避免显示无内容的演示页。
     final bool emptyFinished = steps.isEmpty;
     state = DemoState(
       level: level,
       currentIndex: 0,
       autoPlaying: false,
       completed: emptyFinished,
-      seenBefore: seenBefore,
       elapsedMs: 0,
     );
     if (emptyFinished) {
@@ -226,19 +208,16 @@ class DemoController extends Notifier<DemoState?> {
     }
   }
 
-  /// 重播：回到第 1 步并停止自动播放（本次重新观看，清除完成标记）。
+  /// 重播：回到第 1 步并停止自动播放。
   void replay() {
     final DemoState? current = state;
     if (current == null || current.stepCount == 0) {
       return;
     }
     stopAutoPlay();
-    // 重播视为重新观看：允许再次看完后写档（否则 _complete 幂等拦截）。
-    _completionRecorded = false;
     state = current.copyWith(
       currentIndex: 0,
       autoPlaying: false,
-      completed: false,
       elapsedMs: _elapsedNow(),
     );
   }
@@ -317,8 +296,7 @@ class DemoController extends Notifier<DemoState?> {
       // 写档后立即标记课程状态失效：返回学习地图时重载最新进度（解锁下一关）。
       ref.invalidate(curriculumStateProvider);
     } on Object {
-      // 写档失败不阻塞演示（玩家不被卡死）：completed 仍置 true，
-      // 但存档未写 → 下次进入仍须看完（seenBefore 读存档判定）。
+      // 写档失败不阻塞演示：completed 仍置 true，玩家仍可自由浏览。
     }
     state = current.copyWith(completed: true);
   }

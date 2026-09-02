@@ -76,12 +76,16 @@ void main() {
         GoRoute(
           path: '/demo/:levelId',
           name: 'demo',
-          builder: (_, __) => const DemoPage(),
+          builder: (_, GoRouterState state) => DemoPage(
+            levelId: state.pathParameters['levelId'] ?? '',
+          ),
         ),
         GoRoute(
           path: '/trial/:levelId',
           name: 'trial',
-          builder: (_, __) => const TrialPage(),
+          builder: (_, GoRouterState state) => TrialPage(
+            levelId: state.pathParameters['levelId'] ?? '',
+          ),
         ),
       ],
     );

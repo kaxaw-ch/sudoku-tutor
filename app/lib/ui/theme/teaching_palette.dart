@@ -42,8 +42,8 @@ abstract final class TeachingPalette {
   /// 鳍格（橙）。
   static const Color fin = Color(0xFFEA580C);
 
-  /// 被覆盖的行/列区域（浅天蓝）。
-  static const Color cover = Color(0xFFE0F2FE);
+  /// 被覆盖的行/列区域（天蓝；需在浅色棋盘上保持清晰描边）。
+  static const Color cover = Color(0xFF0284C7);
 
   /// 枢轴格（品红）。
   static const Color pivot = Color(0xFFC026D3);

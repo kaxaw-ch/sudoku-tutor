@@ -65,47 +65,42 @@ class StepControlBar extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: AppSpacing.sm,
+        runSpacing: AppSpacing.sm,
         children: <Widget>[
           IconButton.filledTonal(
             tooltip: context.l10n.text('上一步'),
             onPressed: progress > 1 ? onPrevious : null,
             icon: const Icon(Icons.skip_previous),
           ),
-          const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
             tooltip: context.l10n.text('下一步'),
             onPressed: enableNext ? onNext : null,
             icon: const Icon(Icons.skip_next),
           ),
-          const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
-            tooltip: context.l10n
-                .text(autoPlaying ? '暂停自动播放' : '自动播放'),
+            tooltip: context.l10n.text(autoPlaying ? '暂停自动播放' : '自动播放'),
             onPressed: enableAutoPlay ? onToggleAutoPlay : null,
             icon: Icon(autoPlaying ? Icons.pause : Icons.play_arrow),
           ),
           if (onToggleSpeed != null) ...<Widget>[
-            const SizedBox(width: AppSpacing.sm),
             // 速度切换：每 2 秒一步 ↔ 每秒两步。
             IconButton.filledTonal(
               tooltip: context.l10n.text(
-                autoPlayFast
-                    ? '速度：每秒两步'
-                    : '速度：每 2 秒一步（点击切换每秒两步）',
+                autoPlayFast ? '速度：每秒两步' : '速度：每 2 秒一步（点击切换每秒两步）',
               ),
               onPressed: enableAutoPlay ? onToggleSpeed : null,
               icon: Icon(autoPlayFast ? Icons.fast_forward : Icons.speed),
             ),
           ],
-          const SizedBox(width: AppSpacing.sm),
           IconButton.filledTonal(
             tooltip: context.l10n.text('重播'),
             onPressed: total > 0 ? onReplay : null,
             icon: const Icon(Icons.replay),
           ),
-          const SizedBox(width: AppSpacing.md),
           Chip(
             label: Text('$progress/$total'),
             visualDensity: VisualDensity.compact,

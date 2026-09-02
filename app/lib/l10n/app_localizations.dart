@@ -772,10 +772,6 @@ const Map<String, String> _englishText = <String, String>{
   '开发者模式已开启': 'Developer mode enabled',
   '设置加载失败：{error}': 'Could not load Settings: {error}',
   '原理演示': 'Tutorial Demo',
-  '首次进入须完整观看本关（看完最后一步即可退出）':
-      'On your first visit, watch the complete lesson before leaving.',
-  '首次进入须完整观看本关（看完最后一步即可进入下一关）':
-      'On your first visit, finish the lesson before continuing to the next one.',
   '本步技巧：{technique}': 'Technique: {technique}',
   '暂停自动播放': 'Pause Autoplay',
   '自动播放': 'Autoplay',
@@ -783,10 +779,15 @@ const Map<String, String> _englishText = <String, String>{
   '速度：每 2 秒一步（点击切换每秒两步）':
       'Speed: 1 step every 2 seconds (select for 2 steps per second)',
   '技巧进度': 'Technique Progress',
-  '点击技巧节点快速跳转': 'Select a technique marker to jump to that step',
+  '拖动或点击进度条可跳到任意步骤': 'Drag or select the timeline to jump to any step',
+  '第 {step} 步，共 {total} 步': 'Step {step} of {total}',
   '{technique}：第 {step} 步': '{technique}: step {step}',
   '{technique} · 重点': '{technique} · Focus',
   '跳到第 {step} 步': 'Jump to step {step}',
+  '跳到本关技巧第一个关键点': 'Jump to the first key point for this lesson technique',
+  '跳到本关技巧下一个关键点': 'Jump to the next key point for this lesson technique',
+  '已到本关技巧最后一个关键点': 'Already at the final key point for this lesson technique',
+  '本关技巧暂无关键点': 'No key points are available for this lesson technique',
   '引导实操': 'Guided Practice',
   '教学进度保存失败，请重试': 'Could not save lesson progress. Please try again.',
   '已恢复上次保存的盘面': 'Your saved grid was restored',
@@ -816,6 +817,8 @@ const Map<String, String> _englishText = <String, String>{
       'Hints are unavailable in trials. Identify and apply the target technique '
           'to solve the full grid yourself.',
   '正在加载下一关': 'Loading the next lesson',
+  '正在进入下一关': 'Opening the next lesson',
+  '进入下一关失败，请重试': 'Could not open the next lesson. Please try again.',
   '已经是最后一关': 'This is the final lesson',
   '下一关：{title}': 'Next: {title}',
   '开发者模式': 'Developer Mode',
