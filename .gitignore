@@ -22,6 +22,24 @@ doc/api/
 *.iws
 .history/
 
+# ---- Secrets / signing credentials ----
+.env*
+!.env.example
+.secrets/
+secrets.*
+credentials*.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.mobileprovision
+**/key.properties
+**/google-services.json
+**/GoogleService-Info.plist
+
 # ---- 平台构建产物 ----
 app/windows/flutter/ephemeral/
 app/android/.gradle/
