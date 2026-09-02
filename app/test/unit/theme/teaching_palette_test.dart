@@ -18,8 +18,8 @@ void main() {
     test('fin 鳍格 = 橙 #EA580C', () {
       expect(TeachingPalette.fin, const Color(0xFFEA580C));
     });
-    test('cover 覆盖区域 = 浅天蓝 #E0F2FE', () {
-      expect(TeachingPalette.cover, const Color(0xFFE0F2FE));
+    test('cover 覆盖区域 = 天蓝 #0284C7', () {
+      expect(TeachingPalette.cover, const Color(0xFF0284C7));
     });
     test('pivot 枢轴格 = 品红 #C026D3', () {
       expect(TeachingPalette.pivot, const Color(0xFFC026D3));
